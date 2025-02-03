@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot the Difference</title>
+    
+    <link rel="stylesheet" href="{{static 'css/SpotTheDifference.css'}}">
+    <script src="{{ static 'js/SpotTheDifference.js' }}"></script>
+
+</head>
+
+<body>
+    <p>Find all the differences between the two images. Mark the differences on the Right image.</p>
+    <p id="circlesCount">Circles placed: 0/10</p>
+    
+    <div id="gameArea">
+        <div class="imageContainer">
+            <!-- TODO: adjust the source -->
+            <img id="image1" src="https://raw.githubusercontent.com/argunaman2022/stereotypes-replication/master/_static/pics/Change_detection/Pic6_left.png" alt="Image 1" width="400px">
+        </div>
+        <div class="imageContainer">
+            <img id="image2" src="https://raw.githubusercontent.com/argunaman2022/stereotypes-replication/master/_static/pics/Change_detection/Pic6_right.png"  alt="Image 2" width="400px">
+            <canvas id="overlayCanvas"></canvas>
+        </div>
+    </div>
+    
+    
+</body>
+    
+    
+    
+    
+</body>
+
+</html>

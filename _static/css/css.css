@@ -1,0 +1,68 @@
+body {
+  font-size: 18px; /* Increase base font size */
+}
+
+
+
+.Continue-button {
+  /* Add your otree next button styles here */
+  background-color: #007BFF;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px;
+  gap: 10px; /* Adjust this value for desired space between buttons */
+}
+
+body {font-family: Arial, Helvetica, sans-serif;}
+
+
+.instructions-box {
+  border: 1px solid #ccc; /* Light gray border */
+  padding: 16px;          /* Adds space inside the box */
+  border-radius: 8px;     /* Rounds the corners */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
+
+.instructions-title {
+  font-weight: bold;
+  margin-bottom: 8px; /* Space between the title and buttons */
+  color: #333; /* Darker color for emphasis */
+}
+
+.Instructions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns items to the start of the container */
+  gap: 8px; /* Adds space between buttons */
+}
+
+.attention-box {
+  border: 2px solid lightblue; /* Light blue border */
+  padding: 12px; /* Space inside the border */
+  border-radius: 5px; /* Optional: rounded corners */
+  background-color: #E0F7FA; /* Even lighter blue background */
+  margin-top: 8px; /* Space above the box */
+}
+
+
+
+#pie_chart {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Take full viewport height */
+}

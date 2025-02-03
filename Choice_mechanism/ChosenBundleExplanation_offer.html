@@ -1,0 +1,62 @@
+{{ block title }}
+    [[TEMPLATE TITLE: Outcome bundle reveal]]
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+    <p>
+       The mechanism outcome is the {{MechanismOutcome}} task. 
+       <br><br>
+       Instead of your assigned bundle we are offering you to take the following bundle instead: <strong>{{Offered_bundle}} task</strong>.
+
+    </p>
+
+
+{% for field in form %}
+    {% if field.name not in hidden_fields %}
+        {{ formfield field.name }}
+    {% endif %}
+{% endfor %}
+
+<div style="display:none">
+    {% for field in form %}
+        {% if field.name in hidden_fields %}
+            {{ formfield field.name }}
+        {% endif %}
+    {% endfor %}
+</div>
+    <br><br>
+
+    <div class="buttons-container">
+        <div class="instructions-box">
+            <p class="instructions-title">Instruction Buttons</p> <!-- Title for the buttons -->
+            <div class="Instructions">
+                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">{{MechanismOutcome}} Instructions</a>
+            </div>
+        </div>         
+        <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+    </div>
+    
+
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h2>Study Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+          <p style="padding: 0px">
+         {{include Game_Instructions_path}}
+          </p>
+        </div>
+    </div>
+
+
+    <br><br>
+{{ endblock }}
+
+
