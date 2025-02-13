@@ -13,7 +13,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 3600 #TODO: adjust round length
+    Round_length = 180 #TODO: adjust round length
     Timer_text = "Time left to complete this round:" 
     
     Instructions_path = "_templates/global/Instructions.html"
