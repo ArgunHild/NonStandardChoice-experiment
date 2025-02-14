@@ -6,7 +6,7 @@ Third app - Exit survey.
 '''
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Exit_Survey'
+    NAME_IN_URL = 'Market_Level_Outcomes'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     

@@ -1,0 +1,171 @@
+{{ block title }}
+    [[TEMPLATE TITLE: Elicitation of preferences]]
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+    <p>
+        Please rank the following five dimensions in terms of their importance to
+        you when deciding which task or bundle to choose, with 1 being the most important
+        and 5 being the least important.:
+       
+    </p>
+
+
+
+
+
+    <h3>Assign an importance score (1-10) to each dimension</h3>
+
+    <table>
+        <tr>
+            <th>Dimension as ranked on the previous page</th>
+            <th>Importance (1-10)</th>
+        </tr>
+        {% for item in ranked_items %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>
+                <select class="likert-scale" name="cardinality_{{ item }}" data-row="{{ forloop.counter0 }}" required>
+                    <option value="">Select</option>
+                    {% for i in range(1, 11) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    var likertDropdowns = document.querySelectorAll(".likert-scale");
+    var submitBtn = document.getElementById("submit-btn");
+
+    // Disable all rows except the first one
+    likertDropdowns.forEach((dropdown, index) => {
+        if (index > 0) {
+            dropdown.disabled = true;
+        }
+    });
+
+    function updateLikertOptions() {
+        let maxAllowed = 10; // Maximum possible score
+
+        likertDropdowns.forEach((dropdown, index) => {
+            let prevValue = index > 0 ? parseInt(likertDropdowns[index - 1].value) || maxAllowed : maxAllowed;
+
+            // Restrict available choices based on the previous row’s selection
+            dropdown.querySelectorAll("option").forEach(option => {
+                if (option.value !== "" && parseInt(option.value) > prevValue) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+
+            // Enable the next row only if the current one is selected
+            if (dropdown.value) {
+                if (index + 1 < likertDropdowns.length) {
+                    likertDropdowns[index + 1].disabled = false;
+                }
+            } else {
+                // If a row is unselected, disable all rows below it
+                for (let i = index + 1; i < likertDropdowns.length; i++) {
+                    likertDropdowns[i].disabled = true;
+                    likertDropdowns[i].value = ""; // Reset lower selections
+                }
+            }
+        });
+
+        checkIfAllSelected();
+    }
+
+    function checkIfAllSelected() {
+        let allFilled = [...likertDropdowns].every(dropdown => dropdown.value !== "");
+        submitBtn.disabled = !allFilled;
+    }
+
+    // Attach event listener to each dropdown
+    likertDropdowns.forEach(dropdown => {
+        dropdown.addEventListener("change", updateLikertOptions);
+    });
+
+    updateLikertOptions(); // Initialize correct state
+});
+
+    </script>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+        }
+
+        #submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <br><br>
+
+    <div class="buttons-container">
+            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
+            <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+    </div>
+    
+    
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h2>Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+          <p style="padding: 0px">
+         {{include C.Instructions_path}}
+          </p>
+        </div>
+    </div>
+
+    <br><br>
+{{ endblock }}
+
+

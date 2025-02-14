@@ -1,11 +1,9 @@
 from otree.api import *
 import random
+import json
 
 doc = '''
-This is the main survey app. It contains
-1. Main survey 
-2. One attention check.
-- You can additionally calculate payoffs and save them at a participant field.
+
 '''
 
 class C(BaseConstants):
@@ -60,6 +58,14 @@ class Player(BasePlayer):
     Performance_final_task = models.IntegerField(min=0, max=100)
     Performance_final_task_Attempts = models.IntegerField(blank=True, min=0, max=100)
     
+    
+    ranking_order = models.StringField() 
+    cardinality_Dimension_1 = models.IntegerField()
+    cardinality_Dimension_2 = models.IntegerField()
+    cardinality_Dimension_3 = models.IntegerField()
+    cardinality_Dimension_4 = models.IntegerField()
+    cardinality_Dimension_5 = models.IntegerField()
+    
 
  
  #%% Base Pages
@@ -79,7 +85,34 @@ class MyBasePage(Page):
                 'Instructions': C.Instructions_path} 
   
 # Pages
-class Attributes(MyBasePage):
+class Attributes_rank(MyBasePage):
+    extra_fields = ['ranking_order'] 
+    form_fields = MyBasePage.form_fields + extra_fields
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['Treatment'] = player.participant.Treatment
+        variables['items'] = ["Dimension 1", "Dimension 2", "Dimension 3", "Dimension 4", "Dimension 5"]
+        return variables
+    
+class Attributes_rank_cardinality(MyBasePage):
+    extra_fields = ['cardinality_Dimension_1', 'cardinality_Dimension_2', 'cardinality_Dimension_3',
+                    'cardinality_Dimension_4', 'cardinality_Dimension_5'] 
+    form_fields = MyBasePage.form_fields + extra_fields
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['Treatment'] = player.participant.Treatment
+        variables['ranked_items'] = json.loads(player.ranking_order)
+        return variables
+
+class Attributes_tasks(MyBasePage):
     extra_fields = ['Favorite_task'] 
     form_fields = MyBasePage.form_fields + extra_fields
     
@@ -90,7 +123,17 @@ class Attributes(MyBasePage):
         # Add or modify variables specific to ExtendedPage
         variables['Treatment'] = player.participant.Treatment
         return variables
+class Attributes_tasks_cardinality(MyBasePage):
+    extra_fields = ['Favorite_task'] 
+    form_fields = MyBasePage.form_fields + extra_fields
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
 
+        # Add or modify variables specific to ExtendedPage
+        variables['Treatment'] = player.participant.Treatment
+        return variables
 
 
 
@@ -189,12 +232,13 @@ class Attention_check_2(MyBasePage):
             player.participant.vars['Allowed'] = False
             player.participant.vars['Attention_passed'] = False
   
-page_sequence = [
-    Attributes,
-    Mechanism,
-    ChosenBundleExplanation_offer,
-    ChosenBundleExplanation,
-    ChosenBundlePlay,
-    Results,
-    Attention_check_2,
-    ]
+pages_Attributes = [Attributes_rank, Attributes_rank_cardinality, Attributes_tasks, Attributes_tasks_cardinality, ]
+pages_mechanism = [Mechanism]
+pages_rest = [ChosenBundleExplanation_offer,
+                 ChosenBundleExplanation,
+                 ChosenBundlePlay,
+                 Results,
+                 Attention_check_2,
+                 ]
+page_sequence = pages_Attributes + pages_mechanism + pages_rest
+                

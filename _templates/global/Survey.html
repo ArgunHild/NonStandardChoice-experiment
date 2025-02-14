@@ -1,0 +1,123 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Preference Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+        input, select {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Task Preference Survey</h2>
+        
+        <!-- Rank Dimensions -->
+        <div class="section">
+            <h3>Rank the Dimensions</h3>
+            <label>Rank the following dimensions from 1 (most important) to 7 (least important).</label>
+            <form id="dimensionRanking">
+                <select name="payoff" required>
+                    <option value="">Payoff & Expected Value</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+                <select name="cognitiveLoad" required>
+                    <option value="">Cognitive Load</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+                <select name="intrinsicMotivation" required>
+                    <option value="">Intrinsic Motivation</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Assign Scores to Dimensions -->
+        <div class="section">
+            <h3>Assign Scores to Dimensions</h3>
+            <label>Assign a score from 1 to 10 to each dimension, respecting the ranking above.</label>
+            <input type="number" min="1" max="10" placeholder="Payoff Score">
+            <input type="number" min="1" max="10" placeholder="Cognitive Load Score">
+            <input type="number" min="1" max="10" placeholder="Intrinsic Motivation Score">
+        </div>
+
+        <!-- Rank Tasks for Each Dimension -->
+        <div class="section">
+            <h3>Rank Tasks for a Dimension</h3>
+            <label>Select a dimension and rank the tasks from 1 (best) to 4 (worst).</label>
+            <select>
+                <option value="">Select Dimension</option>
+                <option value="payoff">Payoff</option>
+                <option value="cognitiveLoad">Cognitive Load</option>
+                <option value="intrinsicMotivation">Intrinsic Motivation</option>
+            </select>
+            <select>
+                <option value="">Task 1</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <select>
+                <option value="">Task 2</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+
+        <!-- Assign Scores to Tasks -->
+        <div class="section">
+            <h3>Assign Scores to Tasks</h3>
+            <label>Assign scores from 1 to 10 to each task, ensuring consistency with rankings.</label>
+            <input type="number" min="1" max="10" placeholder="Task 1 Score">
+            <input type="number" min="1" max="10" placeholder="Task 2 Score">
+            <input type="number" min="1" max="10" placeholder="Task 3 Score">
+            <input type="number" min="1" max="10" placeholder="Task 4 Score">
+        </div>
+
+        <button type="submit">Submit</button>
+    </div>
+</body>
+</html>

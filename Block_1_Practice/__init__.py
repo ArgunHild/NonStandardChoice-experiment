@@ -6,13 +6,17 @@ doc = """
 Your app description
 """
 
+#TODO: create two rounds of trial stages each 180 seconds
+#TODO: create more games for the emotion recognition
+#TODO randomize the order of mechanism and attribute-survey.
+# TODO: market level outcomes app: Add WTA questions for 1 out of 15 outcomes (for now)
 
 class C(BaseConstants):
     NAME_IN_URL = 'Learning_stage'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 60 
+    Round_length = 120 
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
@@ -168,5 +172,8 @@ class Results(Page):
 
 # Page sequence
 #TODO: to randomize need to redo the pages to page 1 page 2 etc and choose the instructions and games within those pages
+
+
+
 page_sequence = [Quiz_instructions, Quiz, Emotion_instructions, Emotion, Math_instructions, Math, Spot_instructions, Spot, Results] 
 

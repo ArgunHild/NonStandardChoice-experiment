@@ -1,0 +1,188 @@
+{% block content %}
+    <link rel="stylesheet" href="{{static 'css/css.css'}}">
+    <link rel="stylesheet" href="{{static 'css/modal.css'}}">
+    <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+    <p>
+        We are interested in learning your preferences over a set of dimensions that are relevant
+        for comparing tasks and bundles. [TEMPLATE SENTENCE TO EXPLAIN WHY THIS IS IN THEIR INTEREST]
+        <br><br>
+        Please rank the following five dimensions in terms of their importance to 
+        you when deciding which task or bundle to choose, with <strong>Rank 1 being the most important</strong>
+        and <strong>Rank 5 being the least important</strong>. Drag each item from the left into a slot on the right.
+    </p>
+
+    <div class="boxes-container">
+        <!-- Left List (Unsorted Items) -->
+        <div class="box">
+            <h4>Available Items</h4>
+            <ul id="left-list" class="sortable">
+                {% for item in items %}
+                    <li class="sortable-item" data-value="{{ item }}">{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Right Box (Ranked Items with Fixed Slots) -->
+        <div class="box">
+            <h4>Rank the Items Here</h4>
+            <ul id="right-list">
+                {% for i in range(1, 6) %}
+                    <li class="sortable-slot" data-rank="{{ i }}">Rank {{ i }}: <span class="placeholder">[Drag here]</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <br><br>
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>
+        <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_path }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Hidden input to store the ranking order -->
+    <input type="hidden" name="ranking_order" id="ranking_order">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <script>
+            document.addEventListener("DOMContentLoaded", function () {
+    var leftList = document.getElementById("left-list");
+    var rightSlots = document.querySelectorAll(".sortable-slot");
+    var hiddenInput = document.getElementById("ranking_order");
+    var submitBtn = document.getElementById("submit-btn");
+
+    // Initialize sortable for left list (unranked items)
+    new Sortable(leftList, {
+        group: "shared",
+        animation: 150,
+    });
+
+    // Initialize sortable for each ranking slot (only one item per slot)
+    rightSlots.forEach(slot => {
+        new Sortable(slot, {
+            group: "shared",
+            animation: 150,
+            swapThreshold: 1,
+            onAdd: function (evt) {
+                let item = evt.item;
+                
+                // Remove placeholder when an item is added
+                let placeholder = slot.querySelector(".placeholder");
+                if (placeholder) {
+                    placeholder.remove();
+                }
+
+                // Move previous item back to left list if slot already had an item
+                if (slot.children.length > 1) {
+                    leftList.appendChild(slot.children[0]);  // Move first item back (originally in slot)
+                }
+
+                updateRankingOrder();
+            },
+            onRemove: function (evt) {
+                // Restore placeholder if slot becomes empty
+                if (slot.children.length === 0) {
+                    let placeholderSpan = document.createElement("span");
+                    placeholderSpan.classList.add("placeholder");
+                    placeholderSpan.textContent = "[Drag here]";
+                    slot.appendChild(placeholderSpan);
+                }
+                updateRankingOrder();
+            }
+        });
+    });
+
+    function updateRankingOrder() {
+        var order = [];
+        rightSlots.forEach(slot => {
+            let item = slot.querySelector(".sortable-item");
+            order.push(item ? item.dataset.value : null);
+        });
+
+        hiddenInput.value = JSON.stringify(order);
+
+        // Enable submit button only if all slots are filled
+        submitBtn.disabled = order.includes(null);
+    }
+
+    submitBtn.addEventListener("click", function () {
+        updateRankingOrder();
+        document.forms[0].submit();
+    });
+});
+
+
+    </script>
+
+    <style>
+        .boxes-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .box {
+            width: 45%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            background: #f8f8f8;
+            min-height: 200px;
+        }
+
+        .sortable {
+            list-style: none;
+            padding: 0;
+            min-height: 100px;
+        }
+
+        .sortable-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f4f4f4;
+            border: 1px solid #ccc;
+            cursor: grab;
+        }
+
+        .sortable-item:hover {
+            background: #ddd;
+        }
+
+        .sortable-slot {
+            padding: 10px;
+            margin: 5px 0;
+            background: #e0f7fa;
+            border: 1px dashed #007bff;
+            text-align: center;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .placeholder {
+            color: #aaa;
+        }
+
+        #submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+
+
+    <br><br>
+{% endblock %}

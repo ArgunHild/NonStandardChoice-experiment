@@ -2,34 +2,19 @@ from os import environ
 
 SESSION_CONFIGS = [
     
-    # dict(
-    #     name='SpotTheDifference',
-    #     app_sequence=['Task_Spot_the_difference'],
-    #     num_demo_participants=3,
-    # ),
-    # dict(
-    #     name='Emotion_recognition',
-    #     app_sequence=['Task_Emotion_recognition'],
-    #     num_demo_participants=3,
-    # ),
-    # dict(
-    #     name='Quiz',
-    #     app_sequence=['Task_Quiz'],
-    #     num_demo_participants=3,
-    # ),
-    # dict(
-    #     name='Math_memory',
-    #     app_sequence=['Task_Math_memory'],
-    #     num_demo_participants=3,
-    # ),
-
     dict(name='Skeleton', 
-         app_sequence=['Introduction',
-                       'Task_Learning_stage',
-                       'Choice_mechanism', 
-                       'Exit_Survey', 'Results'],
+         app_sequence=[
+             'Block_0_Introduction', 
+            #  'Block_1_Practice', 
+             'Block_2_Mechanism_Attributes', 'Block_3_Revisit_choice',
+             'Block_4_MarketLevelOutcomes', 'Block_99_Results'],
          num_demo_participants=1,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
+    dict(name='Mechanism', 
+         app_sequence=['Block_2_Mechanism_Attributes'],
+         num_demo_participants=1,
+         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
+
     
 ]
 

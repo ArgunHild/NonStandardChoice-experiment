@@ -2,15 +2,7 @@ from otree.api import *
 import random
 
 doc = '''
-This is the first app - the Introduction app. It contains
-1. Demgraphics page
-2. Instructions that participants can always access
-3. Comprehension checks 
-4. and the first attention checks
-Following are saved to the participant level
-- Allowed: if they didnt fail the comprehension checks
-- Comprehension_passed: whether they passed the comprehension checks
-- Attention_1: whether they passed the first attention check
+n check
 - Treatment: which treatment they are assigned to
 '''
 
