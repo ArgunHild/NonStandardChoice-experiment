@@ -8,11 +8,11 @@ SESSION_CONFIGS = [
             #  'Block_1_Practice', 
              'Block_2_Mechanism_Attributes', 'Block_3_Revisit_choice',
              'Block_4_MarketLevelOutcomes', 'Block_99_Results'],
-         num_demo_participants=1,
+         num_demo_participants=10,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
     dict(name='Mechanism', 
-         app_sequence=['Block_2_Mechanism_Attributes'],
-         num_demo_participants=1,
+         app_sequence=['Block_0_Introduction', 'Block_2_Mechanism_Attributes'],
+         num_demo_participants=10,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
 
     

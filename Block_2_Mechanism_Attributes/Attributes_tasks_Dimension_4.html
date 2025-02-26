@@ -1,26 +1,26 @@
 {{ block title }}
-    [[TEMPLATE TITLE: RANKING ATTRIBUTES]]
+    [[TEMPLATE TITLE: RANKING TASKS PER ATTRIBUTE. DIMENSION 1]]
 {{ endblock }}
 
 {% block content %}
     <link rel="stylesheet" href="{{static 'css/css.css'}}">
     <link rel="stylesheet" href="{{static 'css/modal.css'}}">
     <link rel="stylesheet" href="{{static 'css/cardinality_page.css'}}">
-
+    
     <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
     <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 
     <p>
-        We are interested in learning your preferences over a set of dimensions that are relevant
-        for comparing tasks and bundles. [TEMPLATE SENTENCE TO EXPLAIN WHY THIS IS IN THEIR INTEREST]
-        <br><br>
-        Please rank the following five dimensions in terms of their importance to 
-        you when deciding which task or bundle to choose, with <strong>Rank 1 being the most important</strong>
-        and <strong>Rank 5 being the least important</strong>. Drag each item from the left into a slot on the right.
+        Please rank the 4 tasks based on how well they align with the
+        dimension of {{DimensionAtHand}}. 
 
         <br><br>
-        You may continue to the next page once you have ranked all dimensions.
+
+        {{DimensionText}}
+
+        <br><br>
+        You may continue to the next page once you have ranked all tasks.
     </p>
 
     <div class="boxes-container">
@@ -38,7 +38,7 @@
         <div class="box">
             <h4>To rank, drag and drop here</h4>
             <ul id="right-list">
-                {% for i in range(1, 6) %}
+                {% for i in range(1, 5) %}
                     <li class="sortable-slot" data-rank="{{ i }}">Rank {{ i }}: <span class="placeholder">[Drag&Drop here]</span></li>
                 {% endfor %}
             </ul>
@@ -49,8 +49,12 @@
     
     <br><br>
 
+    <!-- Hidden input to store the ranking order -->
+    <input type='hidden' name=ranking_order_TimeEfficiency id=ranking_order_TimeEfficiency>
+
+
     <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>       
+        <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>
         <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
     </div>
 
@@ -66,9 +70,10 @@
         </div>
     </div>
 
-    <!-- Hidden input to store the ranking order -->
-    <input type="hidden" name="ranking_order" id="ranking_order">
+    
+    
 
+   
 
 
     <br><br>

@@ -6,6 +6,35 @@ n check
 - Treatment: which treatment they are assigned to
 '''
 
+#%% Functions
+def treatment_assignment(player):
+    session=player.subsession.session
+
+    # TODO: fix treatment assignment, for now it randomly picks 1 or 2. Ensure that equal number of treatments in each session.
+    player.participant.Treatment = random.choice(['Binary', 'Sequential'])
+    
+    
+    # #the line below does: splits the Quotas into two halves, picks one of them randomly from the bottom half.
+    # '''
+    # Quota/Treatment assignment works as follows:
+    # 1. get the current quotas
+    # 2. assign a random treatment from the bottom half of the quotas (i.e. the treatment with the lowest quota)
+    # 3. update quotas accordingly.
+    # '''
+    # treatment = random.choice([key for key, value in Quotas.items() if value in sorted(Quotas.values())[:1]])
+    # # print('Treatment:', treatment)
+    # player.participant.Treatment = treatment
+    # player.treatment = treatment
+    # if player.gender == 'Male':
+    #     Quotas.update({treatment: Quotas[treatment]+1})
+    #     session.Male_quotas = Quotas
+    #     # print('incrementing male quotas: ', Quotas)
+    # elif player.gender == 'Female':
+    #     Quotas.update({treatment: Quotas[treatment]+1})
+    #     # print('incrementing female quotas: ', Quotas)
+    #     session.Female_quotas = Quotas
+
+
 class C(BaseConstants):
     NAME_IN_URL = 'Introduction'
     PLAYERS_PER_GROUP = None
@@ -20,17 +49,17 @@ class C(BaseConstants):
     # Treatment quotas. This will be copied to the session variable.
     #TODO: if you have multiple treatments and want to gender balance it use this. if not you can delete this. Make sure these exist in session fields
     # If instead you want a non-gender balanced treatment assignment with quotas remove one of these and use it for both genders.
-    Female_quotas = {
-    'Treatment1': 0,
-    'Treatment2': 0,
-    'Control': 0,
-    }
+    # Female_quotas = {
+    # 'Treatment1': 0,
+    # 'Treatment2': 0,
+    # 'Control': 0,
+    # }
     
-    Male_quotas = {
-    'Treatment1': 0,
-    'Treatment2': 0,
-    'Control': 0,
-    }
+    # Male_quotas = {
+    # 'Treatment1': 0,
+    # 'Treatment2': 0,
+    # 'Control': 0,
+    # }
 class Subsession(BaseSubsession):
     pass
 
@@ -42,17 +71,19 @@ def creating_session(subsession):
     - It is important to note that although prolific ensures gender balanced sample,
         we need this balancing to be within treatment level also
     '''
-    # people in v_1_first see the first version of the vignettes first.
-        
-    subsession.session.Male_quotas = C.Male_quotas.copy()
-    subsession.session.Female_quotas = C.Female_quotas.copy()
     
     for player in subsession.get_players():
         player.participant.Allowed = True
         player.participant.Comprehension_passed = False 
         player.participant.Attention_passed= True
         
-            
+    
+    # GROUP ASSIGNMENT
+    #TODO: finish group assignment, for now it is empty
+    
+    
+
+    
 
 class Group(BaseGroup):
     pass
@@ -132,37 +163,6 @@ class Player(BasePlayer):
     
     
     
-#%% Functions
-def treatment_assignment(player):
-    session=player.subsession.session
-    
-    #TODO: make sure gender is Male, Female and Other/Prefer not to say
-    if player.gender == 'Male':
-        Quotas = session.Male_quotas
-    elif player.gender == 'Female':
-        Quotas = session.Female_quotas
-    elif player.gender == 'Other/Prefer not to say':
-        Quotas = session.Male_quotas
-    
-    #the line below does: splits the Quotas into two halves, picks one of them randomly from the bottom half.
-    '''
-    Quota/Treatment assignment works as follows:
-    1. get the current quotas
-    2. assign a random treatment from the bottom half of the quotas (i.e. the treatment with the lowest quota)
-    3. update quotas accordingly.
-    '''
-    treatment = random.choice([key for key, value in Quotas.items() if value in sorted(Quotas.values())[:1]])
-    # print('Treatment:', treatment)
-    player.participant.Treatment = treatment
-    player.treatment = treatment
-    if player.gender == 'Male':
-        Quotas.update({treatment: Quotas[treatment]+1})
-        session.Male_quotas = Quotas
-        # print('incrementing male quotas: ', Quotas)
-    elif player.gender == 'Female':
-        Quotas.update({treatment: Quotas[treatment]+1})
-        # print('incrementing female quotas: ', Quotas)
-        session.Female_quotas = Quotas
 
             
 # PAGES
@@ -185,7 +185,6 @@ class MyBasePage(Page):
 #%% Pages
 
 #Consent, Demographics, Introduction, Comprehension checks and attention check 1
-#TODO: add quit study button to all pages
 class Consent(Page):   
     @staticmethod
     def before_next_page(player: Player, timeout_happened=False):

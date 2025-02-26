@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE: CARDINALITY OVER DIMENSIONS]]
+    [[TEMPLATE TITLE: Elicitation of preferences]]
 {{ endblock }}
 
 {{ block content }}
@@ -10,15 +10,19 @@
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 <script type="text/javascript" src="{{ static 'js/Script_cardinality.js' }}"></script>
 
+<p>
+    Now assign a score from 1 to 10 for the 4 tasks based on how well they would align with the dimension of {{DimensionAtHand}}.
+    <br><br>
+    {{DimensionText}}   
+    <br><br>
+    To continue, please assign an importance score (1-10) to each dimension.
+</p>
 
-    <p>
-        Please rank the following five dimensions in terms of their importance to
-        you when deciding which task or bundle to choose, with 1 being the most important
-        and 5 being the least important:
-       
-        <br><br>
-        To continue, please assign an importance score (1-10) to each dimension.
-    </p>
+
+
+
+    <br><br>
+
 
 
 
@@ -35,7 +39,7 @@
         <tr>
             <td>{{ item }}</td>
             <td>
-                <select class="likert-scale" name="cardinality_Dimension_{{ forloop.counter }}" required>
+                <select class="likert-scale" name="cardinality_Dimension_ProbSuccess_{{ item }}" required>
                     <option value="">Select</option>
                     {% for i in range(1, 11) %}
                         <option value="{{ i }}">{{ i }}</option>
@@ -49,12 +53,19 @@
 
 
 
-    <br><br>
+
+
+
+
+
+
+
 
     <div class="buttons-container">
-            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
-            <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+        <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
+        <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
     </div>
+
     
     
 
@@ -72,6 +83,18 @@
     </div>
 
     <br><br>
+
+
+
+    <div style="display:none">
+        {% for field in form %}
+            {% if field.name in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
 {{ endblock }}
 
 
