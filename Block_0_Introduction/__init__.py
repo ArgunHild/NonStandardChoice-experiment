@@ -1,38 +1,13 @@
 from otree.api import *
 import random
-
+#TODO: where to put the wait pages?
 doc = '''
 n check
 - Treatment: which treatment they are assigned to
 '''
 
 #%% Functions
-def treatment_assignment(player):
-    session=player.subsession.session
 
-    # TODO: fix treatment assignment, for now it randomly picks 1 or 2. Ensure that equal number of treatments in each session.
-    player.participant.Treatment = random.choice(['Binary', 'Sequential'])
-    
-    
-    # #the line below does: splits the Quotas into two halves, picks one of them randomly from the bottom half.
-    # '''
-    # Quota/Treatment assignment works as follows:
-    # 1. get the current quotas
-    # 2. assign a random treatment from the bottom half of the quotas (i.e. the treatment with the lowest quota)
-    # 3. update quotas accordingly.
-    # '''
-    # treatment = random.choice([key for key, value in Quotas.items() if value in sorted(Quotas.values())[:1]])
-    # # print('Treatment:', treatment)
-    # player.participant.Treatment = treatment
-    # player.treatment = treatment
-    # if player.gender == 'Male':
-    #     Quotas.update({treatment: Quotas[treatment]+1})
-    #     session.Male_quotas = Quotas
-    #     # print('incrementing male quotas: ', Quotas)
-    # elif player.gender == 'Female':
-    #     Quotas.update({treatment: Quotas[treatment]+1})
-    #     # print('incrementing female quotas: ', Quotas)
-    #     session.Female_quotas = Quotas
 
 
 class C(BaseConstants):
@@ -64,22 +39,55 @@ class Subsession(BaseSubsession):
     pass
 
 def creating_session(subsession):
-    '''
-    1. create the quotas for each treatment to be saved to the session variable
-        - make sure that in the settings.py file the SESSION_FIELDS has initialized the session variables
-    2. These quotas are initially zero but as participants are assigned they are incremented. 
-    - It is important to note that although prolific ensures gender balanced sample,
-        we need this balancing to be within treatment level also
-    '''
+    players = subsession.get_players()
     
+    # Treatments
+    for i, player in enumerate(players):
+        if i < len(players)//2:
+            player.participant.Treatment = 'Binary'
+            # player.participant.Treatment = 'Binary'
+        else:
+            player.participant.Treatment = 'Sequential'
+            player.participant.Treatment = 'Sequential'
+    
+    # GROUP ASSIGNMENT
+    treatment1_players = [p for p in players if p.participant.Treatment == 'Binary']
+    treatment2_players = [p for p in players if p.participant.Treatment == 'Sequential']
+    
+    def assign_groups(player_list):
+        #TODO: check that treatment assignment works well
+        
+        '''
+        Group assignment works as follows:
+        - for each player in the particular mechanism, pick 4 other random players 
+            - (if there's less than 4, pick all) and assign them to the group.
+        - for example for Player 4 Group: [3, 5, 2, 1].
+           - This means player with id 3 will be rank 1, player with id 5 will be rank 5 and so forth
+           - in the mechanism when player 4 is 
+                - rank 1 he chooses from all bundles
+                - rank 2 he chooses from all bundles - what player 3 has chosen and so forth. 
+        '''
+        
+        random.shuffle(player_list)
+        for player in player_list:
+            # Select 4 random player IDs from the same treatment
+            player.participant.Group = [
+                p.participant.id_in_session for p in random.sample(
+                    [p for p in player_list if p != player], 
+                    min(4, len(player_list) - 1)
+                )]
+            print(player.participant.Group)
+
+    # Assign groups within each treatment
+    assign_groups(treatment1_players)
+    assign_groups(treatment2_players)
+    
+    # Initializing statuses
     for player in subsession.get_players():
         player.participant.Allowed = True
         player.participant.Comprehension_passed = False 
         player.participant.Attention_passed= True
         
-    
-    # GROUP ASSIGNMENT
-    #TODO: finish group assignment, for now it is empty
     
     
 
@@ -195,9 +203,6 @@ class Demographics(MyBasePage):
     extra_fields = ['age', 'gender', 'education', 'employment', 'income','browser'] 
     form_fields = MyBasePage.form_fields + extra_fields
 
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened=False):
-        treatment_assignment(player) #assign treatment and update quotas 
         
     @staticmethod
     def vars_for_template(player: Player):

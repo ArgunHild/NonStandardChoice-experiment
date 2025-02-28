@@ -8,11 +8,11 @@ SESSION_CONFIGS = [
             #  'Block_1_Practice', 
              'Block_2_Mechanism_Attributes', 'Block_3_Revisit_choice',
              'Block_4_MarketLevelOutcomes', 'Block_99_Results'],
-         num_demo_participants=10,
+         num_demo_participants=4,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
     dict(name='Mechanism', 
          app_sequence=['Block_0_Introduction', 'Block_2_Mechanism_Attributes'],
-         num_demo_participants=10,
+         num_demo_participants=4,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
 
     
@@ -34,7 +34,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 #TODO: add the relevant participant fields if you wanna pass them thourgh apps
 PARTICIPANT_FIELDS = [
     'Allowed','Comprehension_passed', 'Attention_passed',
-    'Treatment',
+    'Treatment', 'Group',
     'Final_bundle'
 ]
 #TODO: add the treatments here
