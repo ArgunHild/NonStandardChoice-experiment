@@ -41,6 +41,12 @@ class Subsession(BaseSubsession):
 def creating_session(subsession):
     players = subsession.get_players()
     
+    #TODO: remove this code below. FOr now this is there to allow me to bypass comprehension
+    for p in players:
+        p.participant.vars['Comprehension_passed'] = True
+        p.participant.vars['Allowed'] = True   
+    
+    
     # Treatments
     for i, player in enumerate(players):
         if i < len(players)//2:
@@ -69,6 +75,7 @@ def creating_session(subsession):
         '''
         
         random.shuffle(player_list)
+        group_id_counter = 1
         for player in player_list:
             # Select 4 random player IDs from the same treatment
             player.participant.Group = [
@@ -76,7 +83,10 @@ def creating_session(subsession):
                     [p for p in player_list if p != player], 
                     min(4, len(player_list) - 1)
                 )]
-            print(player.participant.Group)
+            player.participant.Group_id_counter = group_id_counter
+            group_id_counter += 1
+            print('players groupmembers:', player.participant.Group)
+            print('id in group', player.participant.Group_id_counter)
 
     # Assign groups within each treatment
     assign_groups(treatment1_players)
@@ -242,6 +252,7 @@ class Comprehension_check_1(MyBasePage):
         if player_passed_comprehension:
             player.participant.vars['Comprehension_passed'] = True
 
+            
         
 class Comprehension_check_2(MyBasePage):
     extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
@@ -285,5 +296,5 @@ class Attention_check_1(MyBasePage):
 
 
 page_sequence = [Consent, Demographics, Instructions,
-                 Comprehension_check_1, Comprehension_check_2,
+                 #Comprehension_check_1, Comprehension_check_2, #TODO: uncomment comprehension checks
                  Attention_check_1]

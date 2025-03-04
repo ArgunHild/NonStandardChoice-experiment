@@ -56,6 +56,23 @@
 }
 
 
+/* progress bar for binary */
+#progressContainer {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#progressBar {
+    height: 10px;
+    width: 0%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease-in-out;
+}
+
+
 /* Bundle emojis */
 
 .bundle-option {

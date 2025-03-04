@@ -6,22 +6,61 @@ doc = '''
 
 '''
 # Functions
-def return_available_bundles(player, howmany, difficulty):
+def get_bundle_icons(player, rank, difficulty):
+    
+    bundles = list(return_available_bundles(player, rank, difficulty).keys())
+    
+    bundle_icons = C.Bundle_icons
+    result = {}
+    
+    for bundle in bundles:
+        parts = bundle.split('_')
+        if '+' in bundle:
+            sub_bundles = bundle.split('+')
+            icons = []
+            for sub_bundle in sub_bundles:
+                task, difficulty = sub_bundle.split('_')
+                icons.append(f"{bundle_icons[task]}<sub>{difficulty}</sub>")
+            result[bundle] = ' + '.join(icons)
+        else:
+            task, difficulty = parts[0], parts[1]
+            result[bundle] = f"{bundle_icons[task]}<sub>{difficulty}</sub>"
+    # print(result)
+    return result
+
+def return_available_bundles(player, rank, difficulty):
     """
-    Returns a list of unavailable bundles for a player based on the specified difficulty and number of bundles.
+    Returns a dictionary of available bundles for a player based on the specified difficulty and rank.
+    
     Args:
         player (object): The player object containing participant information.
-        howmany (int): The number of unavailable bundles to return. Must be one of [1, 2, 3, 4].
+        rank (int): The rank of the bundle selection. Must be one of [1, 2, 3, 4, 5].
         difficulty (str): The difficulty level of the bundles. Must be one of ['Easy', 'Medium', 'Difficult'].
+    
     Returns:
-        list: A list of unavailable bundles based on the specified difficulty and number.
+        dict: A dictionary of available bundles (keys & values), excluding those in unavailable_bundles.
     """
     
-    assert difficulty in ['Easy', 'Medium', 'Difficult']
-    assert howmany in [1, 2, 3, 4]
+    assert difficulty in ['Easy', 'Medium', 'Difficult'], "Invalid difficulty level."
+    assert rank in [1, 2, 3, 4, 5], "Rank must be between 1 and 5."
+
+    player_id_group = player.participant.Group_id_counter
+
+    # Selecting the correct bundle dictionary
+    bundle_dict = {
+        'Easy': C.BUNDLES_EASY,
+        'Medium': C.BUNDLES_MEDIUM,
+        'Difficult': C.BUNDLES_HIGH
+    }[difficulty]
+
+    # If rank is 1, return initial bundles instead of filtering
+    if rank == 1:
+        'if player is rank 1 he gets menu#Group_id_counter e.g. if hes the second player he gets the second menu'
+        return bundle_dict.get(f"{player_id_group}", {})  # Return full dictionary for rank 1
+
     
-    group_ids = player.participant.Group  # This contains IDs, not objects
-    players_dict = {p.participant.id_in_session: p for p in player.subsession.get_players()}  # Create a lookup dict
+    players_dict = {p.participant.Group_id_counter: p for p in player.subsession.get_players()
+                    if p.participant.id_in_session in player.participant.Group}  # Lookup dict for players
         
     unavailable_bundles = []
 
@@ -35,19 +74,25 @@ def return_available_bundles(player, howmany, difficulty):
     # Get the correct list of attributes based on difficulty
     chosen_ranks = rank_attributes[difficulty]
 
-    # Loop over the range of `howmany` and extract values dynamically
-    for x in range(howmany):
-        player_obj = players_dict[group_ids[x]]
-        unavailable_bundles.append(getattr(player_obj, chosen_ranks[x]))
-
-    if difficulty == 'Easy':
-        available = list(C.BUNDLES_EASY.keys())
-    elif difficulty == 'Medium':
-        available = list(C.BUNDLES_MEDIUM.keys())
-    else:
-        available = list(C.BUNDLES_DIFFICULT.keys())     
+    # Extract unavailable bundles dynamically
+    next_guy = player_id_group  
+    for x in range(1, rank): #range (0,rank): 1, 2, ... rank-1
+        next_guy += 1 #initially the next guy is the participant himself but then we increment it by one
+        if next_guy not in players_dict:
+            next_guy = 1 
+        # get the player whose Group_id_counter == x - 1, this person has picked, in the previous round, from the relevant bundle.
+        player_object = players_dict[next_guy]
         
-    return [x for x in available if x not in unavailable_bundles]
+        # remove what player x-1 (group_id) what he picked in his choice x-1 (e.g. if group_id = 2, then what he picked when he was rank 1)
+        unavailable_bundles.append(getattr(player_object, chosen_ranks[x-1]))
+        print(f'Rank of curr. player: {rank}, player with group id {x} had picked {getattr(player_object, chosen_ranks[x-1])}')
+        print('unavailable:', unavailable_bundles)
+    # Return dictionary without unavailable bundles
+    # returnable = {k: v for k, v in bundle_dict.get(f"{player_id_group + rank - 1}", {}).items() if k not in unavailable_bundles}
+    returnable = {k: v for k, v in bundle_dict.get(f"{player_id_group + rank - 1}", {}).items() if v not in unavailable_bundles}
+
+    return returnable
+
 
     
 class C(BaseConstants):
@@ -71,7 +116,14 @@ class C(BaseConstants):
     Bonus_max = 'XXX'
     
     
-
+    # bundle icons
+    Bundle_icons = {
+            "Math": "🔢",
+            "Spot": "🔍",
+            "Quiz": "📚",
+            "Emotion": "😃",
+    }
+    
     #TODO: have MICHI double check these
     BUNDLES_EASY = {
         "1": {
@@ -220,20 +272,15 @@ class C(BaseConstants):
     }
 
     
-    
-
-
-    
-    
     # texts
     CognitiveLoad_text = "<strong>Place the task that is least mentally exhausting at the top. </strong>"
     Engagement_text = "<strong>Place the task that you find most engaging at the top.</strong>"
-    ProbSuccess_text = "<strong>Place the task that you find yourself most confident with at the top.</strong>"
+    Confidence_text = "<strong>Place the task that you find yourself most confident with at the top.</strong>"
     TimeEfficiency_text = "<strong>Place the task that you think takes fewest amount of mouse-clicks at the top.</strong>"
     
     CognitiveLoad_text_2 = "<strong>If a task is mentally exhausting, assign it a lower score. </strong>"
     Engagement_text_2 = "<strong>If a task is engaging, assign it a higher score.</strong>"
-    ProbSuccess_text_2 = "<strong>If you feel confident in your ability in the task, assign it a higher score.</strong>"
+    Confidence_text_2 = "<strong>If you feel confident in your ability in the task, assign it a higher score.</strong>"
     TimeEfficiency_text_2 = "<strong>If a task takes few amount of mouse-clicks, assign it a higher score.</strong>"
     
     Rank_sentence ={
@@ -277,7 +324,7 @@ class Player(BasePlayer):
     
     
     ranking_order = models.StringField() 
-    cardinality_Dimension_1 = models.IntegerField()
+    cardinality_Dimension_1 = models.IntegerField() 
     cardinality_Dimension_2 = models.IntegerField()
     cardinality_Dimension_3 = models.IntegerField()
     cardinality_Dimension_4 = models.IntegerField()
@@ -286,27 +333,27 @@ class Player(BasePlayer):
     
     ranking_order_CognitiveLoad = models.StringField()
     ranking_order_Engagement = models.StringField()
-    ranking_order_ProbSuccess = models.StringField()
+    ranking_order_Confidence = models.StringField()
     ranking_order_TimeEfficiency = models.StringField()
     
     cardinality_Dimension_CognitiveLoad_SpotTheDifference =  models.IntegerField()
     cardinality_Dimension_Engagement_SpotTheDifference =      models.IntegerField()
-    cardinality_Dimension_ProbSuccess_SpotTheDifference =    models.IntegerField()
+    cardinality_Dimension_Confidence_SpotTheDifference =    models.IntegerField()
     cardinality_Dimension_TimeEfficiency_SpotTheDifference = models.IntegerField()
     
     cardinality_Dimension_CognitiveLoad_Quiz =  models.IntegerField()
     cardinality_Dimension_Engagement_Quiz =      models.IntegerField()
-    cardinality_Dimension_ProbSuccess_Quiz =    models.IntegerField()
+    cardinality_Dimension_Confidence_Quiz =    models.IntegerField()
     cardinality_Dimension_TimeEfficiency_Quiz = models.IntegerField()
     
     cardinality_Dimension_CognitiveLoad_MathMemory =  models.IntegerField()
     cardinality_Dimension_Engagement_MathMemory =      models.IntegerField()
-    cardinality_Dimension_ProbSuccess_MathMemory =    models.IntegerField()
+    cardinality_Dimension_Confidence_MathMemory =    models.IntegerField()
     cardinality_Dimension_TimeEfficiency_MathMemory = models.IntegerField()
     
     cardinality_Dimension_CognitiveLoad_EmotionRecognition =  models.IntegerField()
     cardinality_Dimension_Engagement_EmotionRecognition =      models.IntegerField()
-    cardinality_Dimension_ProbSuccess_EmotionRecognition =    models.IntegerField()
+    cardinality_Dimension_Confidence_EmotionRecognition =    models.IntegerField()
     cardinality_Dimension_TimeEfficiency_EmotionRecognition = models.IntegerField()
     
     ## Mechanism
@@ -327,6 +374,10 @@ class Player(BasePlayer):
     Difficult_rank3_choice = models.StringField()
     Difficult_rank4_choice = models.StringField()
     Difficult_rank5_choice = models.StringField()
+    
+    Available_bundles_Easy = models.StringField(initial='')
+    Available_bundles_Medium = models.StringField(initial='')
+    Available_bundles_Difficult = models.StringField(initial='')
     
     
  
@@ -362,7 +413,8 @@ class Attributes_rank(MyBasePage):
 
         # Add or modify variables specific to ExtendedPage
         
-        variables['items'] = ["Dimension 1", "Dimension 2", "Dimension 3", "Dimension 4", "Dimension 5"]
+        # variables['items'] = ["Dimension 1", "Dimension 2", "Dimension 3", "Dimension 4", "Dimension 5"]
+        variables['items'] = ["Cognitive Load", "Engagement", "Confidence", "Time Efficiency", "Variety"]
         return variables
     
     @staticmethod
@@ -478,7 +530,7 @@ class Attributes_tasks_Dimension_2_cardinality(MyBasePage):
     
 ## Probability of success
 class Attributes_tasks_Dimension_3(MyBasePage):
-    extra_fields = ['ranking_order_ProbSuccess'] 
+    extra_fields = ['ranking_order_Confidence'] 
     form_fields = MyBasePage.form_fields + extra_fields
 
     @staticmethod
@@ -488,35 +540,35 @@ class Attributes_tasks_Dimension_3(MyBasePage):
         # Add or modify variables specific to ExtendedPage
         
         variables['items'] = ["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"]
-        variables['DimensionAtHand'] = "ProbSuccess"
-        variables['DimensionText'] = C.ProbSuccess_text
+        variables['DimensionAtHand'] = "Confidence"
+        variables['DimensionText'] = C.Confidence_text
         
-        variables['field_name'] = "ranking_order_ProbSuccess"
+        variables['field_name'] = "ranking_order_Confidence"
         return variables
     
     @staticmethod
     def js_vars(player: Player):
         return dict(
-            field_name = 'ranking_order_ProbSuccess',
+            field_name = 'ranking_order_Confidence',
         )
     
 class Attributes_tasks_Dimension_3_cardinality(MyBasePage):
     extra_fields = [
-        'cardinality_Dimension_ProbSuccess_SpotTheDifference', 
-        'cardinality_Dimension_ProbSuccess_Quiz',
-        'cardinality_Dimension_ProbSuccess_MathMemory',
-        'cardinality_Dimension_ProbSuccess_EmotionRecognition',
+        'cardinality_Dimension_Confidence_SpotTheDifference', 
+        'cardinality_Dimension_Confidence_Quiz',
+        'cardinality_Dimension_Confidence_MathMemory',
+        'cardinality_Dimension_Confidence_EmotionRecognition',
     ] 
     form_fields = MyBasePage.form_fields + extra_fields
     
     @staticmethod
     def vars_for_template(player: Player):
-        ranking_order = player.ranking_order_ProbSuccess #TODO: make this dynamic for randomizing pages
+        ranking_order = player.ranking_order_Confidence #TODO: make this dynamic for randomizing pages
         
         variables = MyBasePage.vars_for_template(player)
         
         variables['DimensionAtHand'] = "TimeFfiency"
-        variables['DimensionText'] = C.ProbSuccess_text
+        variables['DimensionText'] = C.Confidence_text
         
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -584,8 +636,9 @@ Pseudo code:
 
 '''
 
-#TODO: clarify. The order of ranks is not random
+#TODO: clarify. The order of ranks is not random 1,2,3,4,5
 #TODO: clarify. The order of difficulty levels is not random first easy then medium then hard.
+
 class Mechanism_Easy_rank1(MyBasePage):
     form_fields = MyBasePage.form_fields + ['Easy_rank1_choice'] 
     
@@ -593,7 +646,8 @@ class Mechanism_Easy_rank1(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = list(C.BUNDLES_EASY["1"].values())
+        variables['player_Group_id'] = player.participant.Group_id_counter
+        variables['AvailableBundles'] = list(return_available_bundles(player, 1, 'Easy').values())
         variables['rank_sentence'] = C.Rank_sentence[1]       
         return variables
     
@@ -602,14 +656,44 @@ class Mechanism_Easy_rank1(MyBasePage):
         return dict(
             Mechanism = player.participant.Treatment,
             Field_name = 'Easy_rank1_choice',
-            AvailableBundles = list(C.BUNDLES_EASY["1"].keys()),
-            BundleIcons = C.BUNDLES_EASY
+            AvailableBundles = list(return_available_bundles(player, 1, 'Easy').values()),
+            BundleIcons = get_bundle_icons(player, 1, 'Easy')
         )
-    
-    
-class Mechanism_Easy_rank2_WaitPage(WaitPage):
-    pass                    
-    
+        
+# Function to update available bundles after each rank
+def update_available_bundles(player: Player, rank: int, bundle_key: str, difficulty = 'EASY'):
+    assert difficulty in ['Easy', 'Medium', 'Hard'], "Difficulty must be one of 'Easy', 'Medium', or 'Hard'."
+    """
+    Updates the player's Available_bundles_Easy field with a specified bundle key.
+
+    Args:
+        player (Player): The oTree player instance.
+        rank (int): The rank key to update in the dictionary.
+        bundle_key (str): The key to fetch from C.BUNDLES_EASY.
+        difficulty (str): The difficulty level to update. Must be one of 'Easy', 'Medium', or 'Hard'.
+    """
+    # Retrieve the current available bundles or initialize an empty dictionary
+    available_bundles_str = player.field_maybe_none(f'Available_bundles_{difficulty}')
+    available_bundles = json.loads(available_bundles_str) if available_bundles_str else {}
+
+    available_bundles = list(return_available_bundles(player, 1, 'Easy').keys())
+
+    # Store the updated bundles back in the player field
+    if difficulty == 'Easy':
+        player.Available_bundles_Easy = json.dumps(available_bundles)
+    elif difficulty == 'Medium':
+        player.Available_bundles_Medium = json.dumps(available_bundles)
+    elif difficulty == 'Hard':
+        player.Available_bundles_Difficult = json.dumps(available_bundles)
+
+
+        
+class Mechanism_Easy_rank2_WaitPage(WaitPage):       
+    @staticmethod
+    def after_all_players_arrive(group: Group):
+        for player in group.get_players():
+            update_available_bundles(player, 1, player.Easy_rank1_choice, 'Easy')
+        
 class Mechanism_Easy_rank2(MyBasePage):
     form_fields = MyBasePage.form_fields + ['Easy_rank2_choice']
     
@@ -617,8 +701,9 @@ class Mechanism_Easy_rank2(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
+        variables['player_Group_id'] = player.participant.Group_id_counter
         
-        variables['AvailableBundles'] = return_available_bundles(player, 1, 'Easy')
+        variables['AvailableBundles'] = list(return_available_bundles(player, 2, 'Easy').values())
         
         variables['Group'] = player.participant.Group
         variables['rank_sentence'] = C.Rank_sentence[2]
@@ -629,7 +714,8 @@ class Mechanism_Easy_rank2(MyBasePage):
         return dict(
             Mechanism = player.participant.Treatment,
             Field_name = 'Easy_rank2_choice',
-            AvailableBundles = return_available_bundles(player, 1, 'Easy')
+            AvailableBundles = list(return_available_bundles(player, 2, 'Easy').keys()),
+            BundleIcons = get_bundle_icons(player, 2, 'Easy')
         )
         
 class Mechanism_Easy_rank3_WaitPage(WaitPage):
@@ -642,7 +728,7 @@ class Mechanism_Easy_rank3(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 2, 'Easy')
+        variables['AvailableBundles'] = return_available_bundles(player,3, 'Easy')
         variables['rank_sentence'] = C.Rank_sentence[3]
         return variables
 
@@ -651,7 +737,7 @@ class Mechanism_Easy_rank3(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Easy_rank3_choice',
-            AvailableBundles=return_available_bundles(player, 2, 'Easy')
+            AvailableBundles=return_available_bundles(player, 3, 'Easy')
         )
 
 class Mechanism_Easy_rank4_WaitPage(WaitPage):
@@ -664,7 +750,7 @@ class Mechanism_Easy_rank4(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 3, 'Easy')
+        variables['AvailableBundles'] = return_available_bundles(player, 4, 'Easy')
         variables['rank_sentence'] = C.Rank_sentence[4]
         return variables
 
@@ -673,7 +759,7 @@ class Mechanism_Easy_rank4(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Easy_rank4_choice',
-            AvailableBundles=return_available_bundles(player, 3, 'Easy')
+            AvailableBundles=return_available_bundles(player, 4, 'Easy')
         )
 
 class Mechanism_Easy_rank5_WaitPage(WaitPage):
@@ -686,7 +772,7 @@ class Mechanism_Easy_rank5(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 4, 'Easy')
+        variables['AvailableBundles'] = return_available_bundles(player, 5, 'Easy')
         variables['rank_sentence'] = C.Rank_sentence[5]
         return variables
 
@@ -695,7 +781,7 @@ class Mechanism_Easy_rank5(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Easy_rank5_choice',
-            AvailableBundles=return_available_bundles(player, 4, 'Easy')
+            AvailableBundles=return_available_bundles(player, 5, 'Easy')
         )
 
 class Mechanism_Medium_rank1_WaitPage(WaitPage):
@@ -730,7 +816,7 @@ class Mechanism_Medium_rank2(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 1, 'Medium')
+        variables['AvailableBundles'] = return_available_bundles(player, 2, 'Medium')
         variables['rank_sentence'] = C.Rank_sentence[2]
         return variables
 
@@ -739,7 +825,7 @@ class Mechanism_Medium_rank2(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Medium_rank2_choice',
-            AvailableBundles=return_available_bundles(player, 1, 'Medium')
+            AvailableBundles=return_available_bundles(player, 2, 'Medium')
         )
 
 class Mechanism_Medium_rank3_WaitPage(WaitPage):
@@ -752,7 +838,7 @@ class Mechanism_Medium_rank3(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 2, 'Medium')
+        variables['AvailableBundles'] = return_available_bundles(player, 3, 'Medium')
         variables['rank_sentence'] = C.Rank_sentence[3]
         return variables
 
@@ -761,7 +847,7 @@ class Mechanism_Medium_rank3(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Medium_rank3_choice',
-            AvailableBundles=return_available_bundles(player, 2, 'Medium')
+            AvailableBundles=return_available_bundles(player, 3, 'Medium')
         )
 
 class Mechanism_Medium_rank4_WaitPage(WaitPage):
@@ -774,7 +860,7 @@ class Mechanism_Medium_rank4(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 3, 'Medium')
+        variables['AvailableBundles'] = return_available_bundles(player, 4, 'Medium')
         variables['rank_sentence'] = C.Rank_sentence[4]
         return variables
 
@@ -783,7 +869,7 @@ class Mechanism_Medium_rank4(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Medium_rank4_choice',
-            AvailableBundles=return_available_bundles(player, 3, 'Medium')
+            AvailableBundles=return_available_bundles(player, 4, 'Medium')
         )
 
 class Mechanism_Medium_rank5_WaitPage(WaitPage):
@@ -796,7 +882,7 @@ class Mechanism_Medium_rank5(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 4, 'Medium')
+        variables['AvailableBundles'] = return_available_bundles(player, 5, 'Medium')
         variables['rank_sentence'] = C.Rank_sentence[5]
         return variables
 
@@ -805,7 +891,7 @@ class Mechanism_Medium_rank5(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Medium_rank5_choice',
-            AvailableBundles=return_available_bundles(player, 4, 'Medium')
+            AvailableBundles=return_available_bundles(player, 5, 'Medium')
         )
 
 class Mechanism_Difficult_rank1_WaitPage(WaitPage):
@@ -840,7 +926,7 @@ class Mechanism_Difficult_rank2(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 1, 'Difficult')
+        variables['AvailableBundles'] = return_available_bundles(player, 2, 'Difficult')
         variables['rank_sentence'] = C.Rank_sentence[2]
         return variables
 
@@ -849,7 +935,7 @@ class Mechanism_Difficult_rank2(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Difficult_rank2_choice',
-            AvailableBundles=return_available_bundles(player, 1, 'Difficult')
+            AvailableBundles=return_available_bundles(player, 2, 'Difficult')
         )
 
 class Mechanism_Difficult_rank3_WaitPage(WaitPage):
@@ -862,7 +948,7 @@ class Mechanism_Difficult_rank3(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 2, 'Difficult')
+        variables['AvailableBundles'] = return_available_bundles(player, 3, 'Difficult')
         variables['rank_sentence'] = C.Rank_sentence[3]
         return variables
 
@@ -871,7 +957,7 @@ class Mechanism_Difficult_rank3(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Difficult_rank3_choice',
-            AvailableBundles=return_available_bundles(player, 2, 'Difficult')
+            AvailableBundles=return_available_bundles(player, 3, 'Difficult')
         )
 
 class Mechanism_Difficult_rank4_WaitPage(WaitPage):
@@ -884,7 +970,7 @@ class Mechanism_Difficult_rank4(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 3, 'Difficult')
+        variables['AvailableBundles'] = return_available_bundles(player, 4, 'Difficult')
         variables['rank_sentence'] = C.Rank_sentence[4]
         return variables
 
@@ -893,7 +979,7 @@ class Mechanism_Difficult_rank4(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Difficult_rank4_choice',
-            AvailableBundles=return_available_bundles(player, 3, 'Difficult')
+            AvailableBundles=return_available_bundles(player, 4, 'Difficult')
         )
 
 class Mechanism_Difficult_rank5_WaitPage(WaitPage):
@@ -906,7 +992,7 @@ class Mechanism_Difficult_rank5(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         variables['Mechanism'] = player.participant.Treatment
-        variables['AvailableBundles'] = return_available_bundles(player, 4, 'Difficult')
+        variables['AvailableBundles'] = return_available_bundles(player, 5, 'Difficult')
         variables['rank_sentence'] = C.Rank_sentence[5]
         return variables
 
@@ -915,12 +1001,18 @@ class Mechanism_Difficult_rank5(MyBasePage):
         return dict(
             Mechanism=player.participant.Treatment,
             Field_name='Difficult_rank5_choice',
-            AvailableBundles=return_available_bundles(player, 4, 'Difficult')
+            AvailableBundles=return_available_bundles(player, 5, 'Difficult')
         )
     
     
     
 #%%    
+class MechanismCompletePage(MyBasePage):
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        #TODO: finish coding calculating scores of each task and each bundle.
+        pass
+
 class ChosenBundleExplanation_offer(MyBasePage):
     extra_fields = ['Switch'] 
     form_fields = MyBasePage.form_fields + extra_fields
@@ -1030,13 +1122,14 @@ pages_mechanism = [
     Mechanism_Difficult_rank5_WaitPage, Mechanism_Difficult_rank5
     ]
 
-pages_rest = [ChosenBundleExplanation_offer,
+pages_rest = [MechanismCompletePage, 
+              ChosenBundleExplanation_offer,
                  ChosenBundleExplanation,
                  ChosenBundlePlay,
                  Results,
                  Attention_check_2,]
 #TODO: make sure to add the TreatmentWaitPage to the page_sequence
 #TODO: make sure to add Attributes and randomize order with pages_mechanism
-page_sequence = pages_mechanism + pages_rest
+page_sequence =  pages_mechanism + pages_rest
 
                 
