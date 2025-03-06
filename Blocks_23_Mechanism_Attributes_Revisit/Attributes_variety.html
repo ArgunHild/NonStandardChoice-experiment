@@ -1,0 +1,51 @@
+{{ block title }}
+    [[TEMPLATE TITLE: RANKING TASKS PER ATTRIBUTE. DIMENSION 1]]
+{{ endblock }}
+
+{% block content %}
+    <link rel="stylesheet" href="{{static 'css/css.css'}}">
+    <link rel="stylesheet" href="{{static 'css/modal.css'}}">
+    
+    <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+    <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
+
+    <br>
+    <br>
+    <p>
+        Would you prefer a bundle with different tasks or a bundle with the same tasks?
+        <ul>
+            <li>Example bundle with different tasks: 🔢<sub>3</sub> + 😃<sub>3</sub></li>
+            <li>Example bundle with the same tasks: 😃<sub>3</sub> + 😃<sub>3</sub></li>
+        </ul>
+    </p>
+    {{formfields}}
+
+    <br>
+    <br>
+
+    
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>
+        <button id="submit-btn" class="otree-btn-next btn btn-primary">Submit</button>
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_path }}
+            </p>
+        </div>
+    </div>
+
+    
+    
+
+   
+
+
+    <br><br>
+{% endblock %}

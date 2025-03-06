@@ -8,9 +8,8 @@
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
     <p>
-       The mechanism outcome is the {{MechanismOutcome}} task. 
-       <br><br>
-       Instead of your assigned bundle we are offering you to take the following bundle instead: <strong>{{Offered_bundle}} task</strong>.
+       Here we explain how the revisit choices will work in the next pages
+
 
     </p>
 
@@ -34,7 +33,7 @@
         <div class="instructions-box">
             <p class="instructions-title">Instruction Buttons</p> <!-- Title for the buttons -->
             <div class="Instructions">
-                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">{{MechanismOutcome}} Instructions</a>
+                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary"> Instructions</a>
             </div>
         </div>         
         <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
@@ -50,7 +49,7 @@
               <span class="close" onclick="span_click(1)">&times;</span>
             </div>
           <p style="padding: 0px">
-         {{include Game_Instructions_path}}
+         {{include Instructions}}
           </p>
         </div>
     </div>

@@ -38,11 +38,18 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+
 def creating_session(subsession):
     players = subsession.get_players()
     
     #TODO: remove this code below. FOr now this is there to allow me to bypass comprehension
     for p in players:
+        
+        # randomly select one of the 15 bundles to be relevant
+        selected_rank = random.randint(1, 2) #TODO: change 2 to 5  
+        selected_difficulty = random.choice(['Easy']) #TODO: add , 'Medium', 'Difficult'
+        p.participant.Random_bundle = f'{selected_difficulty}_{selected_rank}'  
+        
         p.participant.vars['Comprehension_passed'] = True
         p.participant.vars['Allowed'] = True   
     
@@ -59,6 +66,7 @@ def creating_session(subsession):
     # GROUP ASSIGNMENT
     treatment1_players = [p for p in players if p.participant.Treatment == 'Binary']
     treatment2_players = [p for p in players if p.participant.Treatment == 'Sequential']
+    
     
     def assign_groups(player_list):
         #TODO: check that treatment assignment works well

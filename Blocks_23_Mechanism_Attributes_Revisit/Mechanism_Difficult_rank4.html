@@ -1,0 +1,56 @@
+{{ block title }}
+    [[TEMPLATE TITLE: Mechanism app]]
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<link rel="stylesheet" href="{{static 'css/Mechanism.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+<script type="text/javascript" src="{{ static 'js/Mechanism.js' }}"></script>
+
+{{include MechanismPage}}
+
+
+
+<div style="display:none">
+    {% for field in form %}
+        {% if field.name not in hidden_fields %}
+            {{ formfield field.name }}
+        {% endif %}
+    {% endfor %}
+</div>
+<div style="display:none">
+    {% for field in form %}
+        {% if field.name in hidden_fields %}
+            {{ formfield field.name }}
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+    <br><br>
+
+    <div class="buttons-container">
+            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
+    </div>
+    
+    
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h2>Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+          <p style="padding: 0px">
+         {{include C.Instructions_path}}
+          </p>
+        </div>
+    </div>
+
+    <br><br>
+{{ endblock }}
+
+
