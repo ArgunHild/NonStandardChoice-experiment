@@ -97,7 +97,7 @@ class MarketLevel_1(MyBasePage):
         
         round_number = Random_bundle
         
-        variables['round_number'] = round_number[1]
+        variables['round_number'] = int(round_number[1])
         
         if round_number[0] == 'Difficult':
             variables['round_number'] += 10

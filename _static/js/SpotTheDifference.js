@@ -53,11 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { x: 340, y: 58 }  ,
     ];
 
-    if (game_field_name == 'id_Spot') {
-        var actual_differences = actual_differences_elephant;
+    const trial = js_vars.trial;
+    if (trial == 'trial') {
+        console.log('trial')
+        var actual_differences = actual_differences_farm;
     }
     else {
-        var actual_differences = actual_differences_farm;
+        var actual_differences = actual_differences_elephant;
     }
 
     // Displayng maximum size to console to make it easy to select the correct coordinates

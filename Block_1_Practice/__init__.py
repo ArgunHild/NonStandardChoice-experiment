@@ -26,7 +26,7 @@ class C(BaseConstants):
     Emotion_recognition_template = "_templates/global/Task_templates/Emotion.html"
     Quiz_temlpate_path = "_templates/global/Task_templates/Quiz.html"
     Math_template_path = "_templates/global/Task_templates/Math.html"
-    Spot_the_difference_template_path = "_templates/global/Task_templates/Spot_2.html"
+    Spot_the_difference_template_path = "_templates/global/Task_templates/Spot.html"
     
     
     # Task instruction paths
@@ -120,7 +120,7 @@ class Emotion(Page):
     @staticmethod
     def js_vars(player: Player):
         return {'field_name': 'Emotion',
-                'type': 'trial'} 
+                'trial': 'trial'} 
         
 class Math(Page):
     form_model = 'player'
@@ -165,7 +165,7 @@ class Spot(Page):
     @staticmethod
     def js_vars(player: Player):
         return {'field_name': 'Spot',
-                } 
+                'trial': 'trial'}  
 
 
 class Practice_Results(Page):

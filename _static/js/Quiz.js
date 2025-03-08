@@ -94,9 +94,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let timer = 10;
     let interval;
     var questions = questions1
+    
+    const trial = js_vars.type
 
-    if (js_vars.field_name == 'Performance_final_task') {
-        questions = question2;
+    if (trial == 'trial'){
+        // console.log('trial')
+        questions = question2
     }
 
     function setChoiceButtonsDisabled(state) {
@@ -127,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentQuestion_idx = currentQuestion+1;
             MaxQuestions_idx = questions.length-1;
             document.getElementById('question').textContent = 'Question ' + currentQuestion_idx + '. '  + questions[currentQuestion].q;
-            console.log('Question ' + currentQuestion_idx + 'of max ' + MaxQuestions_idx + '. '  + questions[currentQuestion].q)
+            // console.log('Question ' + currentQuestion_idx + 'of max ' + MaxQuestions_idx + '. '  + questions[currentQuestion].q)
             const choicesContainer = document.getElementById('choices');
             choicesContainer.innerHTML = ''; // Clear previous choices
             questions[currentQuestion].choices.forEach(function(choice) {
@@ -154,10 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedAnswer = event.target.textContent;
         const correctAnswer = questions[currentQuestion].answer;
         if (selectedAnswer === correctAnswer) {
-            console.log(currentQuestion,  'is Correct!');
+            // console.log(currentQuestion,  'is Correct!');
             document.getElementById(game_field_name).value ++;
         } else {
-            console.log(currentQuestion, 'is Wrong!');
+            // console.log(currentQuestion, 'is Wrong!');
         }
         moveToNextQuestion();
         setChoiceButtonsDisabled(true);

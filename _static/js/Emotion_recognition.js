@@ -31,13 +31,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // localStorage.removeItem("timer"); // TODO: uncomment to have a timer
 
     const game_field_name = 'id_'+js_vars.field_name;
+    const round = js_vars.round;
     let currentQuestion = 0;
+    const trial = js_vars.trial;
+    var questions = questions1
+    
+    if (trial == 'trial'){
+        console.log('trial')
+        questions = question2
+    }
+
     // TODO: uncomment to have a timer
     // let timer = 10;
     // let interval;
-    var questions = questions1
-
-    const Learning_stage = js_vars.Learning_stage
 
         
 
