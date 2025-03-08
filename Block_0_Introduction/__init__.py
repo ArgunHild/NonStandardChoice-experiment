@@ -21,20 +21,10 @@ class C(BaseConstants):
     Return_redirect = "https://www.wikipedia.org/" #TODO: adjust return redirect
     
     Instructions_path = "_templates/global/Instructions.html"
-    # Treatment quotas. This will be copied to the session variable.
-    #TODO: if you have multiple treatments and want to gender balance it use this. if not you can delete this. Make sure these exist in session fields
-    # If instead you want a non-gender balanced treatment assignment with quotas remove one of these and use it for both genders.
-    # Female_quotas = {
-    # 'Treatment1': 0,
-    # 'Treatment2': 0,
-    # 'Control': 0,
-    # }
     
-    # Male_quotas = {
-    # 'Treatment1': 0,
-    # 'Treatment2': 0,
-    # 'Control': 0,
-    # }
+    Comprehension_password = 'MARGUN'
+
+    
 class Subsession(BaseSubsession):
     pass
 
@@ -46,8 +36,8 @@ def creating_session(subsession):
     for p in players:
         
         # randomly select one of the 15 bundles to be relevant
-        selected_rank = random.randint(1, 2) #TODO: change 2 to 5  
-        selected_difficulty = random.choice(['Easy']) #TODO: add , 'Medium', 'Difficult'
+        selected_rank = random.randint(1, 5) 
+        selected_difficulty = random.choice(['Easy', 'Medium', 'Difficult']) 
         p.participant.Random_bundle = f'{selected_difficulty}_{selected_rank}'  
         
         p.participant.vars['Comprehension_passed'] = True
@@ -93,8 +83,8 @@ def creating_session(subsession):
                 )]
             player.participant.Group_id_counter = group_id_counter
             group_id_counter += 1
-            print('players groupmembers:', player.participant.Group)
-            print('id in group', player.participant.Group_id_counter)
+            # # print('players groupmembers:', player.participant.Group)
+            # # print('id in group', player.participant.Group_id_counter)
 
     # Assign groups within each treatment
     assign_groups(treatment1_players)
@@ -114,13 +104,15 @@ def creating_session(subsession):
 class Group(BaseGroup):
     pass
 
-class Player(BasePlayer):
-    treatment = models.StringField()
+class Player(BasePlayer):   
+    Comprehension_password = models.StringField(blank=False,
+                                            label='Password')
+    
     # Demographics
     prolific_id = models.StringField(default=str("None")) #prolific id, will be fetched automatically.
     age = models.IntegerField(blank=True, #TODO: remove blank=True
                                 label="Age", min=18, max=100)
-    gender = models.StringField(blank=False, #TODO: remove blank=True
+    gender = models.StringField(blank=True, #TODO: remove blank=True
                                 label='Gender at birth',
                                 choices=['Male', 'Female', 'Other/Prefer not to say'], widget=widgets.RadioSelect)
     education = models.StringField(blank=True, #TODO: remove blank=True
@@ -150,6 +142,7 @@ class Player(BasePlayer):
     Comprehension_1 = models.BooleanField(initial=True) 
     #In the first comprehension check, the questions the player has answered wrong are stored as a string below.
     Comprehension_wrong_answers = models.StringField(initial='') 
+    Comprehension_wrong_answers_2 = models.StringField(initial='') 
     Comprehension_2 = models.BooleanField(initial=True) 
     
     Comprehension_question_1 = models.BooleanField(choices=[
@@ -199,9 +192,7 @@ class MyBasePage(Page):
     form_fields = ['blur_event_counts']
     
     
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.participant.Allowed 
+
     
     @staticmethod
     def vars_for_template(player: Player):
@@ -218,6 +209,7 @@ class Consent(Page):
         player.prolific_id = player.participant.label #save prolific id
 
 class Demographics(MyBasePage):
+    # TODO: move demographics to the end of the experiment
     extra_fields = ['age', 'gender', 'education', 'employment', 'income','browser'] 
     form_fields = MyBasePage.form_fields + extra_fields
 
@@ -232,7 +224,6 @@ class Demographics(MyBasePage):
 class Instructions(MyBasePage):
     pass        
 
-            
 class Comprehension_check_1(MyBasePage):
     extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
     form_fields = MyBasePage.form_fields + extra_fields    
@@ -260,7 +251,6 @@ class Comprehension_check_1(MyBasePage):
         if player_passed_comprehension:
             player.participant.vars['Comprehension_passed'] = True
 
-            
         
 class Comprehension_check_2(MyBasePage):
     extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
@@ -268,8 +258,46 @@ class Comprehension_check_2(MyBasePage):
 
     @staticmethod
     def is_displayed(player: Player):
-        condition = MyBasePage.is_displayed(player) and not player.Comprehension_1
-        return condition
+        return not player.Comprehension_1
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        return variables
+
+    @staticmethod   
+    def before_next_page(player: Player, timeout_happened=False):
+        player_passed_comprehension = player.Comprehension_question_1 and player.Comprehension_question_2 and player.Comprehension_question_3
+        # if player has answered a question wrong then I save it in a string
+        wrong_answers = ''
+        if not player.Comprehension_question_1:
+            player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
+            wrong_answers+= 'first question'
+        if not player.Comprehension_question_2:
+            if not wrong_answers =='': wrong_answers += ', '
+            player.Comprehension_question_2 = None
+            wrong_answers+= 'second question'
+        if not player.Comprehension_question_3:
+            if not wrong_answers =='': wrong_answers += ', '
+            player.Comprehension_question_3 = None
+            wrong_answers+= 'third question'
+        
+        player.Comprehension_wrong_answers_2 = wrong_answers
+        player.Comprehension_1 = player_passed_comprehension
+        # save at the participant level
+        if player_passed_comprehension:
+            player.participant.vars['Comprehension_passed'] = True
+            
+class Comprehension_check_3(MyBasePage):
+    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3', 'Comprehension_password']
+    form_fields = MyBasePage.form_fields + extra_fields    
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return not player.Comprehension_1
     
     @staticmethod
     def vars_for_template(player: Player):
@@ -291,8 +319,10 @@ class Comprehension_check_2(MyBasePage):
             player.participant.vars['Comprehension_passed'] = True
             player.participant.vars['Allowed']=True
         else:
-            player.participant.vars['Allowed']=False
+            player.participant.vars['Allowed']=True # we wont kick anyone
             player.participant.vars['Comprehension_passed'] = False
+            
+
 
 class Attention_check_1(MyBasePage):
     extra_fields = ['Attention_1']
@@ -303,6 +333,6 @@ class Attention_check_1(MyBasePage):
         player.participant.vars['Attention_1'] = player.Attention_1
 
 
-page_sequence = [Consent, Demographics, Instructions,
-                 #Comprehension_check_1, Comprehension_check_2, #TODO: uncomment comprehension checks
+page_sequence = [Consent, Instructions,
+                 Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
                  Attention_check_1]

@@ -1,52 +1,11 @@
 {{ block title }}
-    [[TEMPLATE TITLE: Results of the assigned bundle]]
+[[Template name: Game 1]]
 {{ endblock }}
+
 {{ block content }}
-<!-- TODO: make sure all fields are filled. -->
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
-
-you scored {{Result}} in the previous page. [[success or failure reg. bonus earned will be calculated once we have figured out the bundles and success tresholds ]]
-
-{% for field in form %}
-    {% if field.name not in hidden_fields %}
-        {{ formfield field.name }}
-    {% endif %}
-{% endfor %}
-
-<div style="display:none">
-    {% for field in form %}
-        {% if field.name in hidden_fields %}
-            {{ formfield field.name }}
-        {% endif %}
-    {% endfor %}
-</div>
-    <br><br>
-
-    <div class="buttons-container">
-            <!-- <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a> -->
-        <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
-    </div>
-    
-    
-
-    
-    <div id="myModal1" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h2>Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
-            </div>
-          <p style="padding: 0px">
-         {{include C.Instructions_path}}
-          </p>
-        </div>
-    </div>
-
-    <br><br>
-
-
 <script>
     let ImgSource1 = [
         "{{static 'mathmemory/Box1/3black_part_1.png' }}",
@@ -170,8 +129,53 @@ you scored {{Result}} in the previous page. [[success or failure reg. bonus earn
         "{{ static 'mathmemory/Box6/3red_part_2.png' }}",
         "{{ static 'mathmemory/Box6/3black_part_2.png' }}"];
 </script> 
+    <p>
+       <strong>Please do not refresh your browser. Doing so will not stop the timer but will reset your score.</strong>
+    </p>
+    {{include GameTemplate}}
 
 
+    {% for field in form %}
+    {% if field.name not in hidden_fields %}
+    <!-- TODO: hide this field -->
+     <strong>debug only</strong>
+    <div style="display: inline;"> 
+    {{ formfield field.name }}
+    </div>    
+    {% endif %}
+{% endfor %}
+
+<div style="display:none">
+    {% for field in form %}
+        {% if field.name in hidden_fields %}
+            {{ formfield field.name }}
+        {% endif %}
+    {% endfor %}
+</div>
+    <br><br>
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
+        <!-- TODO: disable the button below by adding disabled after primary" -->
+        <button id="NextButton" class="otree-btn-next btn btn-primary">Continue (skips page; only for debug)</button>
+    </div>
+    
+    
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h2>Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+          <p style="padding: 0px">
+         {{include C.Instructions_path}}
+          </p>
+        </div>
+    </div>
+
+    <br><br>
 {{ endblock }}
 
 

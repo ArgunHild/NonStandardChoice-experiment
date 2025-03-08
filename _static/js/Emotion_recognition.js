@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
             buttons.forEach(button => {
                 button.disabled = false;
             });
-        }, 1000); 
-        //TODO: set the number above to 3000 for 3 seconds of button disabling
+        }, 3000); 
+     
     }
 
 

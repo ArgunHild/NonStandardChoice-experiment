@@ -2,19 +2,25 @@ from os import environ
 
 SESSION_CONFIGS = [
     
-    dict(name='Skeleton', 
+    dict(name='Experiment', 
          app_sequence=[
              'Block_0_Introduction', 
-            #  'Block_1_Practice', 
+             'Block_1_Practice', 
              'Blocks_23_Mechanism_Attributes_Revisit',
-             'Block_4_MarketLevelOutcomes', 'Block_99_Results'],
+             'Block_4_MarketLevelOutcomes', 
+             'Block_98_Play',
+             'Block_99_Results'],
          num_demo_participants=10,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
-    dict(name='Mechanism', 
+    dict(name='MechanismAttributesRevisit', 
          app_sequence=['Block_0_Introduction', 'Blocks_23_Mechanism_Attributes_Revisit'],
-         num_demo_participants=4,
+         num_demo_participants=10,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
 
+    dict(name='FinalPlayStage', 
+         app_sequence=['Block_98_Play'],
+         num_demo_participants=2,
+         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
     
 ]
 
@@ -35,7 +41,8 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = [
     'Allowed','Comprehension_passed', 'Attention_passed',
     'Treatment', 'Group', 'Group_id_counter',
-    'Random_bundle', 'Final_bundle'
+    'Random_bundle', 'Final_bundle',
+    'Bonus_1', 'Bonus_2'
 ]
 #TODO: add the treatments here
 SESSION_FIELDS = {

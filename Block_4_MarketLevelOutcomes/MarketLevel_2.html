@@ -1,18 +1,11 @@
 {{ block title }}
-    [[TEMPLATE TITLE: Elicitation of preferences]]
+    [[TEMPLATE: Market level outcomes]]
 {{ endblock }}
 
 {{ block content }}
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
-
-    <p>
-       [[On this app we will elicit participant preferences over task attributes. 
-       Based on these preferences and on an algorithm we have not yet decided, we will offer the participant a bundle in the very last step.
-       For now, choose a task that should be offered to you in this last step.
-       ]]
-    </p>
 
 {% for field in form %}
     {% if field.name not in hidden_fields %}
@@ -27,6 +20,9 @@
         {% endif %}
     {% endfor %}
 </div>
+
+
+
     <br><br>
 
     <div class="buttons-container">

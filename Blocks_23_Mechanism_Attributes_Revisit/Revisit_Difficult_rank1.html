@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE: Outcome bundle reveal]]
+    [[TEMPLATE TITLE:revisit ]]
 {{ endblock }}
 
 {{ block content }}
@@ -8,33 +8,34 @@
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
     <p>
-       The mechanism outcome is the {{MechanismOutcome}} task. 
-       <br><br>
-       Instead of your assigned bundle we are offering you to take the following bundle instead: <strong>{{Offered_bundle}} task</strong>.
+        <strong>FOR DEBUG</strong>
+        <br>
+        Rank:{{rank}}; Difficulty:{{difficulty}} <br>
+        Mechanism outcome: {{MechanismOutcome}} <br>
+        Scores: {{Scores_bundles}} <br>
+        Offered bundle: {{OfferedBundle}} <br>
+
+
+        <br>
+        <br>
+        
+        In round {{rank}} of the {{difficulty}} difficulty, you had chosen the bundle {{MechanismOutcome}}. <br>
+        If this round is randomly selected by the computer, this will be your assigned bundle. <br>
+        However, we offer you an option to switch to the following bundle: {{OfferedBundle}}. <br>
 
     </p>
 
 
-{% for field in form %}
-    {% if field.name not in hidden_fields %}
-        {{ formfield field.name }}
-    {% endif %}
-{% endfor %}
+{{formfields}}
 
-<div style="display:none">
-    {% for field in form %}
-        {% if field.name in hidden_fields %}
-            {{ formfield field.name }}
-        {% endif %}
-    {% endfor %}
-</div>
+
     <br><br>
 
     <div class="buttons-container">
         <div class="instructions-box">
             <p class="instructions-title">Instruction Buttons</p> <!-- Title for the buttons -->
             <div class="Instructions">
-                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">{{MechanismOutcome}} Instructions</a>
+                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary"> Instructions</a>
             </div>
         </div>         
         <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
@@ -50,7 +51,7 @@
               <span class="close" onclick="span_click(1)">&times;</span>
             </div>
           <p style="padding: 0px">
-         {{include Game_Instructions_path}}
+         {{include Instructions}}
           </p>
         </div>
     </div>

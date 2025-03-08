@@ -4,12 +4,22 @@
 {{ block content }}
 <p>
 Your results
+Performance in each game:
 <ul>
     <li>MathMemory  {{ Math }} points</li>
     <li>Quiz {{ Quiz }} points</li>
     <li>Spot the difference game {{ Spot }} points</li>
     <li>Emotion recognition {{ Emotion }} points</li>
 </ul>
+<br>
+Bonuses earned: {{Bonus_1}} EUR
+<ul>
+    <li>MathMemory {{ MathBonus }} EUR</li>
+    <li>Quiz {{ QuizBonus }} EUR</li>
+    <li>Spot the difference game {{ SpotBonus }} EUR</li>
+    <li>Emotion recognition {{ EmotionBonus }} EUR</li>
+
+
 </p>
     {{ next_button }}
 {{ endblock }}

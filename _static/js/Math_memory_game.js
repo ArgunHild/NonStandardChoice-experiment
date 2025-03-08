@@ -10,18 +10,18 @@ let game_field_name ='id_' + js_vars.field_name; // Name of the hidden input fie
 
 
 // create a locally stored variable Attempts and set it to 0
-localStorage.setItem('Attempts', '0');
+// localStorage.setItem('Attempts', '0');
 
 // Function to increment the counter
-function incrementAttempts() {
-  // Retrieve the current value of the counter from localStorage
-  let Attempts = parseInt(localStorage.getItem('Attempts'), 0);
-  Attempts++;
-  localStorage.setItem('Attempts', Attempts.toString());
-  console.log( document.getElementById(game_field_name+'_Attempts').value,  document.getElementById(game_field_name+'_Attempts'))
-  document.getElementById(game_field_name+'_Attempts').value=Attempts;
+// function incrementAttempts() {
+//   // Retrieve the current value of the counter from localStorage
+//   let Attempts = parseInt(localStorage.getItem('Attempts'), 0);
+//   Attempts++;
+//   localStorage.setItem('Attempts', Attempts.toString());
+//   console.log( document.getElementById(game_field_name+'_Attempts').value,  document.getElementById(game_field_name+'_Attempts'))
+//   document.getElementById(game_field_name+'_Attempts').value=Attempts;
   
-}
+// }
 
 
 var Source = "#boxcard"; // Selector for the card container element
@@ -143,7 +143,7 @@ function OpenCard() {
     } else { 
       // Second card of a turn
       // Increment false attempts
-      incrementAttempts();
+      // incrementAttempts();
       // Second card opened
       CurrentOpened = $("#" + id + " img").attr("src");
 

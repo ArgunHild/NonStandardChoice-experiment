@@ -1,0 +1,51 @@
+{{ block title }}
+    [[TEMPLATE TITLE: RANKING ATTRIBUTES]]
+{{ endblock }}
+
+{% block content %}
+    <link rel="stylesheet" href="{{static 'css/css.css'}}">
+    <link rel="stylesheet" href="{{static 'css/modal.css'}}">
+    <link rel="stylesheet" href="{{static 'css/cardinality_page.css'}}">
+
+    <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+    <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <p>
+        Explanation of what will happen in the next few pages regarding dimensions/attributes etc.
+    </p>
+
+    <p>
+        <strong>Table here to explain each dimension</strong>
+    </p>
+
+
+
+
+    
+    <br><br>
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>       
+        <button id="submit-btn" class="otree-btn-next btn btn-primary">Next</button>
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_path }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Hidden input to store the ranking order -->
+    <input type="hidden" name="ranking_order" id="ranking_order">
+
+
+
+    <br><br>
+{% endblock %}

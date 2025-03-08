@@ -16,7 +16,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 120 
+    Round_length = 60 
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
@@ -34,7 +34,15 @@ class C(BaseConstants):
     Emotion_instructions = "_templates/global/Task_instructions/Emotion.html"
     Quiz_instructions = "_templates/global/Task_instructions/Quiz.html"
     Spot_the_difference_instructions = "_templates/global/Task_instructions/Spot.html"
-
+        
+    Bonus_1 = 0.5 #TODO: adjust the bonus for practice stage. Make sure participant knows about the bonus in the instructions.
+    
+    Bonus_cutoffs = {
+        'Quiz': 1, #TODO: adjust these
+        'Emotion': 1,
+        'Math': 1,
+        'Spot': 1,
+    }
 
 class Subsession(BaseSubsession):
     pass
@@ -50,6 +58,11 @@ class Player(BasePlayer):
     Math = models.IntegerField(initial=0) #correct answers
     Math_Attempts = models.IntegerField(initial=0) #correct answers
     Spot = models.IntegerField(initial=0) #correct answers
+    
+    Bonus_Quiz = models.FloatField(initial=0)
+    Bonus_Emotion = models.FloatField(initial=0)
+    Bonus_Math = models.FloatField(initial=0)
+    Bonus_Spot = models.FloatField(initial=0)
 
 
 # PAGES
@@ -155,25 +168,36 @@ class Spot(Page):
                 } 
 
 
-class Results(Page):
+class Practice_Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
+        'calculate bonuses'
+        for game in ['Quiz', 'Emotion', 'Math', 'Spot']:
+            if getattr(player, game) >= C.Bonus_cutoffs[game]:
+                setattr(player, f'Bonus_{game}', C.Bonus_1)
+            else:
+                setattr(player, f'Bonus_{game}', 0)
+        
+        player.participant.Bonus_1 = sum([getattr(player, f'Bonus_{game}') for game in ['Quiz', 'Emotion', 'Math', 'Spot']])
+        
         variables = {
             'hidden_fields': [],
             'Quiz': player.Quiz,
             'Emotion': player.Emotion,
             'Math': player.Math,
             'Spot': player.Spot,
+            'QuizBonus': player.Bonus_Quiz,
+            'EmotionBonus': player.Bonus_Emotion,
+            'MathBonus': player.Bonus_Math,
+            'SpotBonus': player.Bonus_Spot,
+            'Bonus_1': player.participant.Bonus_1
         }
-        
 
         return variables
     
 
+
 # Page sequence
-#TODO: to randomize need to redo the pages to page 1 page 2 etc and choose the instructions and games within those pages
 
-
-
-page_sequence = [Quiz_instructions, Quiz, Emotion_instructions, Emotion, Math_instructions, Math, Spot_instructions, Spot, Results] 
+page_sequence = [Quiz_instructions, Quiz, Emotion_instructions, Emotion, Math_instructions, Math, Spot_instructions, Spot, Practice_Results] 
 

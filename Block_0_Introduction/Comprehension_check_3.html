@@ -1,16 +1,26 @@
 {{ block title }}
-    Another question
+    Raise your hand to get the experimenter's attention.
 {{ endblock }}
-
 {{ block content }}
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+    
+
+    
 
     <p>
-       It is important to us that you are paying attention to the questions. We do so with what is called an attention check.
-       To what extend do you agree with the following statement?
+        You have answered the following question(s) incorrectly:
+        <strong>{{Comprehension_wrong_answers}}</strong>. 
+        <br>
+        You have failed the comprehension questions twice. 
+        <br>
+        Please raise your hand to get the experimenter's attention.
     </p>
+
+    <div id="alert-move-sliders" class="alert-move-sliders" style="display: none;">
+        You are unable to continue at this point. Please raise your hand to get the experimenter's attention.
+    </div>
 
 {% for field in form %}
     {% if field.name not in hidden_fields %}
@@ -25,15 +35,18 @@
         {% endif %}
     {% endfor %}
 </div>
+
     <br><br>
 
     <div class="buttons-container">
-            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
-        <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+        <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">General Instructions</a>
+        <a id="myBtn"  onclick="next_button_comprehension()"  class="otree-btn-next btn btn-primary">Next</a>
+        <button id="submit_button" style="display: none"></button>
     </div>
     
     
 
+    
     <div id="myModal1" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -47,6 +60,5 @@
     </div>
 
     <br><br>
+
 {{ endblock }}
-
-

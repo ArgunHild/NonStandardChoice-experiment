@@ -1,7 +1,7 @@
 from otree.api import *
 import random
 import json
-# TODO: at the end. Currently the choices are saved as emojis, write a function to turn these emojis back into strings in Easy_rank_1_choice, etc.
+
 doc = '''
 
 '''
@@ -27,7 +27,7 @@ def get_icon(task, level):
 
 def get_bundle_icons(player, rank, difficulty):
     
-    bundles = list(return_available_bundles(player, rank, difficulty).keys())
+    bundles = list(return_available_bundles(player, rank, difficulty)[0].keys())
     
     bundle_icons = C.Bundle_icons
     result = {}
@@ -78,7 +78,7 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False):
         if save_to_player:
             setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(returnable.keys())))
                 
-        return returnable  # Return full dictionary for rank 1
+        return returnable, 1  # Return full dictionary for rank 1
 
     
     players_dict = {p.participant.Group_id_counter: p for p in player.subsession.get_players()
@@ -119,19 +119,19 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False):
         next_guy += 1 #initially the next guy is the participant himself but then we increment it by one
         if next_guy >min(5, len(players_dict)+1): #if next guy is greater than 5, then we start from 1 again
             next_guy = 1 
-        # print('players in this group',   players_dict.keys())
-        # print('current guys id:', player_id_group,'next guy is:', next_guy)
+        # # print('players in this group',   players_dict.keys())
+        # # print('current guys id:', player_id_group,'next guy is:', next_guy)
         # get the player whose Group_id_counter == x - 1, this person has picked, in the previous round, from the relevant bundle.
-        # print('playersdict' ,players_dict)
+        # # print('playersdict' ,players_dict)
         player_object = players_dict[next_guy]
         
         # remove what player x-opponent_rank (group_id) what he picked in his choice x-opponent_rank 
         # (e.g. if group_id = 3 and rank 4,
         #   then we remove what player 4 picked in his choice 3, 
         #   + what player 5 picked in his choice 4, etc. 
-        #TODO: ask guys to check if this works as intended.
+        #TODO: MICHI: check if the person is assigned proper menu and check if the remaining bundles are proper. Check for the case where there are more than 5 players
         unavailable_bundles.append(getattr(player_object, chosen_ranks[x-opponent_rank]))
-        # print(f'Rank: {rank}, player with group id {next_guy} had picked {getattr(player_object, chosen_ranks[x-opponent_rank])}')
+        # # print(f'Rank: {rank}, player with group id {next_guy} had picked {getattr(player_object, chosen_ranks[x-opponent_rank])}')
     # Return dictionary without unavailable bundles
     menu_current = player_id_group + rank - 1 # e.g. if player is 2nd in group and rank 3, then he gets menu 4
     if player_id_group + rank - 1 > min(5, len(players_dict)+1): #but if there is no player 4 or he is 5th player then he gets menu 4
@@ -139,13 +139,13 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False):
     
     # returnable = {k: v for k, v in bundle_dict.get(f"{player_id_group + rank - 1}", {}).items() if k not in unavailable_bundles}
     returnable = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items() if k not in unavailable_bundles}
-    # print('returnable', returnable, 'unavailable', unavailable_bundles)
-    # print('\n\n')
+    # # print('returnable', returnable, 'unavailable', unavailable_bundles)
+    # # print('\n\n')
     
     if save_to_player:
         setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(returnable.keys())))
     
-    return returnable
+    return returnable, menu_current
 
 def calculate_task_scores(player):
     '''
@@ -185,7 +185,7 @@ def calculate_task_scores(player):
     player.score_EmotionRecognition = sum(EmotionRecognition_scores)
     player.score_SpotTheDifference = sum(SpotTheDifference_scores)
     
-    print('SCORES. Quiz:', player.score_Quiz, 'MathMemory:', player.score_MathMemory, 'EmotionRecognition:', player.score_EmotionRecognition, 'SpotTheDifference:', player.score_SpotTheDifference)
+    # print('SCORES. Quiz:', player.score_Quiz, 'MathMemory:', player.score_MathMemory, 'EmotionRecognition:', player.score_EmotionRecognition, 'SpotTheDifference:', player.score_SpotTheDifference)
  
  
 def calculate_bundle_scores(player, difficulty, rank):
@@ -209,7 +209,7 @@ def calculate_bundle_scores(player, difficulty, rank):
         "EmotionRecognition": player.score_EmotionRecognition,
         "SpotTheDifference": player.score_SpotTheDifference
     }
-    print(f"\n task_scores: {task_scores}")
+    # print(f"\n task_scores: {task_scores}")
     score_variety = player.taste_variety  # Player's preference for variety
 
     # Initialize nested dictionary
@@ -223,7 +223,7 @@ def calculate_bundle_scores(player, difficulty, rank):
         # Compute bundle score
         total_score = 0
         task_types = set()  # To track unique task types
-        # print('tasks', tasks)
+        # # print('tasks', tasks)
         for task in tasks:
             base_task = task.split("_")[0]  # Extract task type (e.g., "Math" from "Math_3")
             task_types.add(base_task)
@@ -231,15 +231,15 @@ def calculate_bundle_scores(player, difficulty, rank):
             # Get task score from the dictionary
             task_score = task_scores.get(base_task, 0)  # Default to 0 if task not found
             total_score += task_score
-        # print('total score before variety', total_score)
-        # print('variety', score_variety)
+        # # print('total score before variety', total_score)
+        # # print('variety', score_variety)
         # Apply variety modifier
         if len(tasks)>1:
             if len(task_types) > 1:  # Tasks are different
                 total_score *= score_variety
             else:  # Tasks are the same
                 total_score *= (1 - score_variety)
-            # print('total score after variety', total_score)
+            # # print('total score after variety', total_score)
 
         # Store score in rank dictionary
         Available_bundles_scores[bundle] = total_score
@@ -255,23 +255,9 @@ def calculate_bundle_scores(player, difficulty, rank):
 class C(BaseConstants):
     NAME_IN_URL = 'Mechanism'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 1
-    
-    Round_length = 180 #TODO: adjust round length
-    Timer_text = "Time left to complete this round:" 
+    NUM_ROUNDS = 1    
     
     Instructions_path = "_templates/global/Instructions.html"
-
-    Return_redirect = "https://www.wikipedia.org/" #TODO: adjust redirect
-    
-    # Task instruction paths
-    Math_instructions = "_templates/global/Task_instructions/Math.html"
-    Emotion_instructions = "_templates/global/Task_instructions/Emotion.html"
-    Quiz_instructions = "_templates/global/Task_instructions/Quiz.html"
-    Spot_instructions = "_templates/global/Task_instructions/Spot.html"
-
-    Bonus_max = 'XXX'
-    
     
     # bundle icons
     Bundle_icons = {
@@ -281,55 +267,55 @@ class C(BaseConstants):
             "Emotion": "😃",
     }
     
-    #TODO: have MICHI double check these
+    #TODO: MICHI, double check pls.
     BUNDLES_EASY = {
         "1": {
-            "Math_3": "🔢<sub>3</sub>",  # Calculator with 3
+            "Math_2": "🔢<sub>2</sub>",  # Calculator with 3
             "Spot_1": "🔍<sub>1</sub>",  # Magnifying glass with 1
             "Quiz_1": "📚<sub>1</sub>",  # Books with 1
             "Emotion_1": "😃<sub>1</sub>",  # Smiley face with 1
             "Math_1": "🔢<sub>1</sub>",  # Calculator with 1
             "Emotion_2": "😃<sub>2</sub>",  # Smiley face with 2
-            "Quiz_3": "🔍<sub>3</sub>"  # Magnifying glass with 3
+            "Quiz_2": "🔍<sub>2</sub>"  # Magnifying glass with 3
         },
         "2": {
-            "Math_3": "🔢<sub>3</sub>",
+            "Math_2": "🔢<sub>2</sub>",
             "Spot_2": "🔍<sub>2</sub>",
             "Quiz_2": "📚<sub>2</sub>",
             "Emotion_2": "😃<sub>2</sub>",
-            "Math_2": "🔢<sub>2</sub>",
-            "Emotion_3": "😃<sub>3</sub>",
-            "Quiz_1": "🔍<sub>1</sub>"
+            "Math_1": "🔢<sub>1</sub>",
+            "Quiz_1": "😃<sub>1</sub>",
+            "Spot_1": "🔍<sub>1</sub>"
         },
         "3": {
-            "Math_3": "🔢<sub>3</sub>",
+            "Math_2": "🔢<sub>2</sub>",
             "Spot_3": "🔍<sub>3</sub>",
             "Quiz_3": "📚<sub>3</sub>",
             "Emotion_3": "😃<sub>3</sub>",
             "Quiz_2": "📚<sub>2</sub>",
             "Emotion_2": "😃<sub>2</sub>",
-            "Spot_1": "🔍<sub>1</sub>"
+            "Spot_2": "🔍<sub>2</sub>"
         },
         "4": {
-            "Math_3": "🔢<sub>3</sub>",
+            "Math_2": "🔢<sub>2</sub>",
             "Spot_2": "🔍<sub>2</sub>",
             "Quiz_2": "📚<sub>2</sub>",
             "Emotion_3": "😃<sub>3</sub>",
-            "Math_2": "🔢<sub>2</sub>",
+            "Math_3": "🔢<sub>3</sub>",
             "Emotion_2": "😃<sub>2</sub>",
             "Spot_3": "📚<sub>3</sub>"
         },
         "5": {
-            "Math_3": "🔢<sub>3</sub>",
+            "Math_2": "🔢<sub>2</sub>",
             "Spot_3": "🔍<sub>3</sub>",
             "Quiz_3": "📚<sub>3</sub>",
             "Emotion_2": "😃<sub>2</sub>",
-            "Math_1": "🔢<sub>1</sub>",
-            "Emotion_2": "😃<sub>2</sub>",
+            "Math_3": "🔢<sub>3</sub>",
+            "Emotion_3": "😃<sub>3</sub>",
             "Quiz_2": "📚<sub>2</sub>"
         }
     }
-        
+    #TODO: MICHI double check pls
     BUNDLES_MEDIUM = {
         "1": {
             "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
@@ -379,52 +365,52 @@ class C(BaseConstants):
     }
 
 
-    
+    #TODO: MICHI double check pls
     BUNDLES_HIGH = {
         "1": {
-            "Emotion_2_Math_2": "😃<sub>2</sub> + 🔢<sub>2</sub>",
-            "Spot_2_Emotion_2": "🔍<sub>2</sub> + 😃<sub>2</sub>",
-            "Quiz_1_Emotion_2": "📚<sub>1</sub> + 😃<sub>2</sub>",
-            "Emotion_1_Quiz_2": "😃<sub>1</sub> + 📚<sub>2</sub>",
-            "Math_1_Emotion_3": "🔢<sub>1</sub> + 😃<sub>3</sub>",
-            "Quiz_2_Emotion_3": "📚<sub>2</sub> + 😃<sub>3</sub>",
-            "Spot_1_Emotion_2": "🔍<sub>1</sub> + 😃<sub>2</sub>"
+            "Math_2_Emotion_2_Spot_2": "🔢<sub>2</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub>",
+            "Spot_1_Quiz_2_Spot_2": "🔍<sub>1</sub> + 📚<sub>2</sub> + 🔍<sub>2</sub>",
+            "Quiz_2_Emotion_1_Quiz_2": "📚<sub>2</sub> + 😃<sub>1</sub> + 📚<sub>2</sub>",
+            "Emotion_2_Quiz_1_Spot_2": "😃<sub>2</sub> + 📚<sub>1</sub> + 🔍<sub>2</sub>",
+            "Math_1_Emotion_2_Quiz_2": "🔢<sub>1</sub> + 😃<sub>2</sub> + 📚<sub>2</sub>",
+            "Quiz_1_Emotion_1_Spot_2": "📚<sub>1</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub>",
+            "Spot_1_Quiz_1_Spot_2": "🔍<sub>1</sub> + 📚<sub>1</sub> + 🔍<sub>2</sub>"
         },
         "2": {
-            "Math_2_Emotion_2": "🔢<sub>2</sub> + 😃<sub>2</sub>",
-            "Spot_2_Emotion_2": "🔍<sub>2</sub> + 😃<sub>2</sub>",
-            "Quiz_1_Emotion_2": "📚<sub>1</sub> + 😃<sub>2</sub>",
-            "Emotion_1_Quiz_2": "😃<sub>1</sub> + 📚<sub>2</sub>",
-            "Math_1_Emotion_3": "🔢<sub>1</sub> + 😃<sub>3</sub>",
-            "Quiz_2_Emotion_3": "📚<sub>2</sub> + 😃<sub>3</sub>",
-            "Spot_1_Emotion_2": "🔍<sub>1</sub> + 😃<sub>2</sub>"
+            "Math_2_Spot_2_Emotion_1": "🔢<sub>2</sub> + 🔍<sub>2</sub> + 😃<sub>1</sub>",
+            "Spot_1_Math_2_Emotion_1": "🔍<sub>1</sub> + 🔢<sub>2</sub> + 😃<sub>1</sub>",
+            "Quiz_2_Spot_1_Emotion_1": "📚<sub>2</sub> + 🔍<sub>1</sub> + 😃<sub>1</sub>",
+            "Emotion_2_Math_1_Emotion_1": "😃<sub>2</sub> + 🔢<sub>1</sub> + 😃<sub>1</sub>",
+            "Math_1_Spot_2_Emotion_1": "🔢<sub>1</sub> + 🔍<sub>2</sub> + 😃<sub>1</sub>",
+            "Quiz_1_Spot_1_Emotion_1": "📚<sub>1</sub> + 🔍<sub>1</sub> + 😃<sub>1</sub>",
+            "Spot_1_Math_1_Emotion_1": "🔍<sub>1</sub> + 🔢<sub>1</sub> + 😃<sub>1</sub>"
         },
         "3": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_2_Emotion_3": "🔍<sub>2</sub> + 😃<sub>3</sub>",
-            "Quiz_1_Emotion_3": "📚<sub>1</sub> + 😃<sub>3</sub>",
-            "Emotion_1_Quiz_3": "😃<sub>1</sub> + 📚<sub>3</sub>",
-            "Math_1_Emotion_2": "🔢<sub>1</sub> + 😃<sub>2</sub>",
-            "Quiz_2_Emotion_2": "📚<sub>2</sub> + 😃<sub>2</sub>",
-            "Spot_1_Emotion_3": "🔍<sub>1</sub> + 😃<sub>3</sub>"
+            "Math_2_Emotion_3_Math_3": "🔢<sub>2</sub> + 😃<sub>3</sub> + 🔢<sub>3</sub>",
+            "Spot_1_Quiz_3_Math_3": "🔍<sub>1</sub> + 📚<sub>3</sub> + 🔢<sub>3</sub>",
+            "Quiz_2_Emotion_2_Math_3": "📚<sub>2</sub> + 😃<sub>2</sub> + 🔢<sub>3</sub>",
+            "Spot_2_Quiz_2_Math_3": "🔍<sub>2</sub> + 📚<sub>2</sub> + 🔢<sub>3</sub>",
+            "Math_1_Emotion_3_Math_3": "🔢<sub>1</sub> + 😃<sub>3</sub> + 🔢<sub>3</sub>",
+            "Quiz_1_Emotion_2_Math_3": "📚<sub>1</sub> + 😃<sub>2</sub> + 🔢<sub>3</sub>",
+            "Spot_1_Quiz_2_Math_3": "🔍<sub>1</sub> + 📚<sub>2</sub> + 🔢<sub>3</sub>"
         },
         "4": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_2_Emotion_3": "🔍<sub>2</sub> + 😃<sub>3</sub>",
-            "Quiz_1_Emotion_3": "📚<sub>1</sub> + 😃<sub>3</sub>",
-            "Emotion_1_Quiz_3": "😃<sub>1</sub> + 📚<sub>3</sub>",
-            "Math_1_Emotion_2": "🔢<sub>1</sub> + 😃<sub>2</sub>",
-            "Quiz_2_Emotion_2": "📚<sub>2</sub> + 😃<sub>2</sub>",
-            "Spot_1_Emotion_3": "🔍<sub>1</sub> + 😃<sub>3</sub>"
+            "Math_2_Spot_3_Quiz_2": "🔢<sub>2</sub> + 🔍<sub>3</sub> + 📚<sub>2</sub>",
+            "Spot_1_Math_3_Quiz_2": "🔍<sub>1</sub> + 🔢<sub>3</sub> + 📚<sub>2</sub>",
+            "Quiz_2_Spot_2_Quiz_2": "📚<sub>2</sub> + 🔍<sub>2</sub> + 📚<sub>2</sub>",
+            "Emotion_2_Math_2_Quiz_2": "😃<sub>2</sub> + 🔢<sub>2</sub> + 📚<sub>2</sub>",
+            "Math_1_Spot_3_Quiz_2": "🔢<sub>1</sub> + 🔍<sub>3</sub> + 📚<sub>2</sub>",
+            "Quiz_1_Spot_2_Quiz_2": "📚<sub>1</sub> + 🔍<sub>2</sub> + 📚<sub>2</sub>",
+            "Spot_1_Math_2_Quiz_2": "🔍<sub>1</sub> + 🔢<sub>2</sub> + 📚<sub>2</sub>"
         },
         "5": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_2_Emotion_3": "🔍<sub>2</sub> + 😃<sub>3</sub>",
-            "Quiz_1_Emotion_3": "📚<sub>1</sub> + 😃<sub>3</sub>",
-            "Emotion_1_Quiz_3": "😃<sub>1</sub> + 📚<sub>3</sub>",
-            "Math_1_Emotion_2": "🔢<sub>1</sub> + 😃<sub>2</sub>",
-            "Quiz_2_Emotion_2": "📚<sub>2</sub> + 😃<sub>2</sub>",
-            "Spot_1_Emotion_3": "🔍<sub>1</sub> + 😃<sub>3</sub>"
+            "Math_2_Emotion_2_Spot_3": "🔢<sub>2</sub> + 😃<sub>2</sub> + 🔍<sub>3</sub>",
+            "Spot_1_Quiz_2_Spot_3": "🔍<sub>1</sub> + 📚<sub>2</sub> + 🔍<sub>3</sub>",
+            "Quiz_2_Emotion_1_Spot_3": "📚<sub>2</sub> + 😃<sub>1</sub> + 🔍<sub>3</sub>",
+            "Emotion_2_Quiz_1_Spot_3": "😃<sub>2</sub> + 📚<sub>1</sub> + 🔍<sub>3</sub>",
+            "Math_1_Emotion_2_Spot_2": "🔢<sub>1</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub>",
+            "Quiz_1_Emotion_1_Spot_2": "📚<sub>1</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub>",
+            "Spot_1_Quiz_1_Spot_2": "🔍<sub>1</sub> + 📚<sub>1</sub> + 🔍<sub>2</sub>"
         }
     }
 
@@ -441,11 +427,11 @@ class C(BaseConstants):
     TimeEfficiency_text_2 = "<strong>If a task takes few amount of mouse-clicks, assign it a higher score.</strong>"
     
     Rank_sentence ={
-        1: "You are now rank 1. This means that for this round, you get to choose from the set of all available bundles.",
-        2: "You are now rank 2. This means that for this round, the set of bundles available in this round is all the bundles minus the bundle the rank 1 player chose.",
-        3: "You are now rank 3. This means that for this round, the set of bundles available in this round is all the bundles minus the bundles the rank 1 and rank 2 players chose.",
-        4: "You are now rank 4.  This means that for this round, the set of bundles available in this round is all the bundles minus the bundles the ranks 1, 2 and 3 players chose.",
-        5: "You are now rank 5.  This means that for this round, the set of bundles available in this round is all the bundles minus the bundles the ranks 1, 2, 3, and 3 players chose.",
+        1: "You are now rank 1. This means, you are the first one to make a choice. Choose from the set of all available bundles.",
+        2: "You are now rank 2. This means, you are the second one to make a choice. Choose from the set of all remaining bundles.",
+        3: "You are now rank 3. This means, you are the third one to make a choice. Choose from the set of all remaining bundles.",
+        4: "You are now rank 4.  This means, you are the fourth one to make a choice. Choose from the set of all remaining bundles.",
+        5: "You are now rank 5.  This means, you are the fifth one to make a choice. Choose from the set of all remaining bundles.",
     }
     
 class Subsession(BaseSubsession):
@@ -502,9 +488,7 @@ class Player(BasePlayer):
     Difficult_rank_3_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
     Difficult_rank_4_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
     Difficult_rank_5_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    
-    #TODO: do the same for medium and difficult
-    
+        
     ### Outcome of the random choice
     Outcome_bundle = models.StringField()
     Performance_final_task = models.IntegerField(min=0, max=100)
@@ -512,13 +496,14 @@ class Player(BasePlayer):
     Earnings_final_task = models.FloatField()
     
     ## Dimension scores
-    ranking_order = models.StringField() 
-    cardinality_Dimension_1 = models.IntegerField()  #cognitive load 
-    cardinality_Dimension_2 = models.IntegerField() # engagement 
-    cardinality_Dimension_3 = models.IntegerField() # confidence
-    cardinality_Dimension_4 = models.IntegerField() # time efficiency
+    ranking_order = models.StringField(blank=True)  #TODO: remove blank 
+    cardinality_Dimension_1 = models.IntegerField(blank=True)  #cognitive load  #TODO: remove blank 
+    cardinality_Dimension_2 = models.IntegerField(blank=True) # engagement  #TODO: remove blank 
+    cardinality_Dimension_3 = models.IntegerField(blank=True) # confidence #TODO: remove blank 
+    cardinality_Dimension_4 = models.IntegerField(blank=True) # time efficiency #TODO: remove blank 
     
     taste_variety = models.FloatField(
+        initial=1,
         label = '',
         choices = [[1.2, 'I strongly prefer a bundle with different tasks'],
                    [1.1, 'I mildly prefer a bundle with different tasks'],  
@@ -530,30 +515,30 @@ class Player(BasePlayer):
     )
     
     ## Task_dimension scores
-    ranking_order_CognitiveLoad = models.StringField()
-    ranking_order_Engagement = models.StringField()
-    ranking_order_Confidence = models.StringField()
-    ranking_order_TimeEfficiency = models.StringField()
+    ranking_order_CognitiveLoad = models.StringField(blank=True) # TODO: remove all blank trues
+    ranking_order_Engagement = models.StringField(blank=True) #
+    ranking_order_Confidence = models.StringField(blank=True) #
+    ranking_order_TimeEfficiency = models.StringField(blank=True) #
     
-    cardinality_Dimension_CognitiveLoad_SpotTheDifference =  models.IntegerField()
-    cardinality_Dimension_Engagement_SpotTheDifference =      models.IntegerField()
-    cardinality_Dimension_Confidence_SpotTheDifference =    models.IntegerField()
-    cardinality_Dimension_TimeEfficiency_SpotTheDifference = models.IntegerField()
+    cardinality_Dimension_CognitiveLoad_SpotTheDifference =  models.IntegerField(blank=True)   #TODO: remove all blank true
+    cardinality_Dimension_Engagement_SpotTheDifference =      models.IntegerField(blank=True) 
+    cardinality_Dimension_Confidence_SpotTheDifference =    models.IntegerField(blank=True) 
+    cardinality_Dimension_TimeEfficiency_SpotTheDifference = models.IntegerField(blank=True) 
+     
+    cardinality_Dimension_CognitiveLoad_Quiz =  models.IntegerField(blank=True)    #TODO: remove all blank true
+    cardinality_Dimension_Engagement_Quiz =      models.IntegerField(blank=True)
+    cardinality_Dimension_Confidence_Quiz =    models.IntegerField(blank=True)
+    cardinality_Dimension_TimeEfficiency_Quiz = models.IntegerField(blank=True)
     
-    cardinality_Dimension_CognitiveLoad_Quiz =  models.IntegerField()
-    cardinality_Dimension_Engagement_Quiz =      models.IntegerField()
-    cardinality_Dimension_Confidence_Quiz =    models.IntegerField()
-    cardinality_Dimension_TimeEfficiency_Quiz = models.IntegerField()
+    cardinality_Dimension_CognitiveLoad_MathMemory =  models.IntegerField(blank=True)   #TODO: remove all blank true
+    cardinality_Dimension_Engagement_MathMemory =      models.IntegerField(blank=True)
+    cardinality_Dimension_Confidence_MathMemory =    models.IntegerField(blank=True)
+    cardinality_Dimension_TimeEfficiency_MathMemory = models.IntegerField(blank=True)
     
-    cardinality_Dimension_CognitiveLoad_MathMemory =  models.IntegerField()
-    cardinality_Dimension_Engagement_MathMemory =      models.IntegerField()
-    cardinality_Dimension_Confidence_MathMemory =    models.IntegerField()
-    cardinality_Dimension_TimeEfficiency_MathMemory = models.IntegerField()
-    
-    cardinality_Dimension_CognitiveLoad_EmotionRecognition =  models.IntegerField()
-    cardinality_Dimension_Engagement_EmotionRecognition =      models.IntegerField()
-    cardinality_Dimension_Confidence_EmotionRecognition =    models.IntegerField()
-    cardinality_Dimension_TimeEfficiency_EmotionRecognition = models.IntegerField()
+    cardinality_Dimension_CognitiveLoad_EmotionRecognition =  models.IntegerField(blank=True)  #TODO: remove all blank true
+    cardinality_Dimension_Engagement_EmotionRecognition =      models.IntegerField(blank=True)
+    cardinality_Dimension_Confidence_EmotionRecognition =    models.IntegerField(blank=True)
+    cardinality_Dimension_TimeEfficiency_EmotionRecognition = models.IntegerField(blank=True)
     
     ## Task scores
     score_Quiz = models.FloatField()
@@ -563,23 +548,23 @@ class Player(BasePlayer):
     
     
     ## Mechanism
-    Easy_rank1_choice = models.StringField()
-    Easy_rank2_choice = models.StringField()
-    Easy_rank3_choice = models.StringField()
-    Easy_rank4_choice = models.StringField()
-    Easy_rank5_choice = models.StringField()
+    Easy_rank1_choice = models.StringField(blank=True) #TODO: remove all blank true
+    Easy_rank2_choice = models.StringField(blank=True)
+    Easy_rank3_choice = models.StringField(blank=True)
+    Easy_rank4_choice = models.StringField(blank=True)
+    Easy_rank5_choice = models.StringField(blank=True)
     
-    Medium_rank1_choice = models.StringField()
-    Medium_rank2_choice = models.StringField()
-    Medium_rank3_choice = models.StringField()
-    Medium_rank4_choice = models.StringField()
-    Medium_rank5_choice = models.StringField()
+    Medium_rank1_choice = models.StringField(blank=True)
+    Medium_rank2_choice = models.StringField(blank=True)
+    Medium_rank3_choice = models.StringField(blank=True)
+    Medium_rank4_choice = models.StringField(blank=True)
+    Medium_rank5_choice = models.StringField(blank=True)
     
-    Difficult_rank1_choice = models.StringField()
-    Difficult_rank2_choice = models.StringField()
-    Difficult_rank3_choice = models.StringField()
-    Difficult_rank4_choice = models.StringField()
-    Difficult_rank5_choice = models.StringField()
+    Difficult_rank1_choice = models.StringField(blank=True)
+    Difficult_rank2_choice = models.StringField(blank=True)
+    Difficult_rank3_choice = models.StringField(blank=True)
+    Difficult_rank4_choice = models.StringField(blank=True)
+    Difficult_rank5_choice = models.StringField(blank=True)
     
     # these are the bundles that are available to the player. it is a dictionary i.e. rank_1: bundles, etc
     Available_bundles_Easy_rank1 = models.StringField(initial='')
@@ -625,9 +610,7 @@ class MyBasePage(Page):
     form_model = 'player'
     form_fields = []
     
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.participant.Allowed 
+
     
     @staticmethod
     def vars_for_template(player: Player):
@@ -636,10 +619,24 @@ class MyBasePage(Page):
                 'MechanismPage': "_templates/global/Mechanism.html",} 
   
 #%% Pages
-class TreatmentWaitPage(WaitPage):
-    pass
 
 
+class Attributes_explanation(MyBasePage):
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        '''
+        for each player and each choice, we check if it is empty,
+            if empty we assign a random available bundle.
+        This is for debug only!
+        # TODO: remove these codes, replace with pass
+        '''
+        for rank in range(1, 6):
+            for difficulty in ['Easy', 'Medium', 'Difficult']:
+                choice_field = f"{difficulty}_rank{rank}_choice"
+                if not getattr(player, choice_field):
+                    available_bundles = return_available_bundles(player, rank, difficulty)[0]
+                    random_choice = random.choice(list(available_bundles.keys()))
+                    setattr(player, choice_field, random_choice)
 
 class Attributes_rank(MyBasePage):
     extra_fields = ['ranking_order'] 
@@ -660,6 +657,12 @@ class Attributes_rank(MyBasePage):
         return dict(
             field_name = 'ranking_order',
         )
+        
+    @staticmethod   
+    def before_next_page(player: Player, timeout_happened):
+        'FOR DEBUG ONLY: choose a random ranking order'
+        pass
+        player.ranking_order = json.dumps(["Cognitive Load", "Engagement", "Confidence", "Time Efficiency"])
     
 class Attributes_rank_cardinality(MyBasePage):
     extra_fields = ['cardinality_Dimension_1', 'cardinality_Dimension_2', 
@@ -711,14 +714,18 @@ class Attributes_tasks_Dimension_1_cardinality(MyBasePage):
     
     @staticmethod
     def vars_for_template(player: Player):
-        ranking_order = player.ranking_order_CognitiveLoad #TODO: make this dynamic for randomizing pages
+        ranking_order = player.ranking_order_CognitiveLoad 
         
         variables = MyBasePage.vars_for_template(player)
         
         variables['DimensionAtHand'] = "CognitiveLoad"
         variables['DimensionText'] = C.CognitiveLoad_text_2
         
-        variables['ranked_items'] = json.loads(ranking_order)
+        # TODO: remove the next 2 lines (DEBUG ONLY)
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+    
+        variables['ranked_items'] = json.loads(ranking_order) 
         return variables
     
 ## Enjoyment
@@ -756,13 +763,16 @@ class Attributes_tasks_Dimension_2_cardinality(MyBasePage):
     
     @staticmethod
     def vars_for_template(player: Player):
-        ranking_order = player.ranking_order_Engagement #TODO: make this dynamic for randomizing pages
+        ranking_order = player.ranking_order_Engagement 
         
         variables = MyBasePage.vars_for_template(player)
         
         variables['DimensionAtHand'] = "Engagement"
         variables['DimensionText'] = C.Engagement_text_2
-        
+        # TODO: remove the next 2 lines (DEBUG ONLY)
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+    
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
     
@@ -801,13 +811,16 @@ class Attributes_tasks_Dimension_3_cardinality(MyBasePage):
     
     @staticmethod
     def vars_for_template(player: Player):
-        ranking_order = player.ranking_order_Confidence #TODO: make this dynamic for randomizing pages
+        ranking_order = player.ranking_order_Confidence 
         
         variables = MyBasePage.vars_for_template(player)
         
         variables['DimensionAtHand'] = "TimeFfiency"
         variables['DimensionText'] = C.Confidence_text
-        
+                # TODO: remove the next 2 lines (DEBUG ONLY)
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+    
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
     
@@ -846,13 +859,16 @@ class Attributes_tasks_Dimension_4_cardinality(MyBasePage):
     
     @staticmethod
     def vars_for_template(player: Player):
-        ranking_order = player.ranking_order_TimeEfficiency #TODO: make this dynamic for randomizing pages
+        ranking_order = player.ranking_order_TimeEfficiency 
         
         variables = MyBasePage.vars_for_template(player)
         
         variables['DimensionAtHand'] = "TimeEfficiency"
         variables['DimensionText'] = C.TimeEfficiency_text_2
-        
+        # TODO: remove the next 2 lines (DEBUG ONLY)
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+    
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
     
@@ -867,6 +883,20 @@ class Attributes_variety(MyBasePage):
         variables = MyBasePage.vars_for_template(player)
             
         return variables
+    
+    'this is for debug TODO: delete the following lines'
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        for dimension_field in ['cardinality_Dimension_1', 'cardinality_Dimension_2', 'cardinality_Dimension_3', 'cardinality_Dimension_4']:
+            if not player.field_maybe_none(dimension_field):
+                setattr(player, dimension_field, random.randint(1, 10))
+                
+        for attribute in ['cardinality_Dimension_CognitiveLoad_Quiz', 'cardinality_Dimension_CognitiveLoad_SpotTheDifference', 'cardinality_Dimension_CognitiveLoad_MathMemory', 'cardinality_Dimension_CognitiveLoad_EmotionRecognition',
+                  'cardinality_Dimension_Engagement_Quiz', 'cardinality_Dimension_Engagement_SpotTheDifference', 'cardinality_Dimension_Engagement_MathMemory', 'cardinality_Dimension_Engagement_EmotionRecognition',
+                  'cardinality_Dimension_Confidence_Quiz', 'cardinality_Dimension_Confidence_SpotTheDifference', 'cardinality_Dimension_Confidence_MathMemory', 'cardinality_Dimension_Confidence_EmotionRecognition',
+                  'cardinality_Dimension_TimeEfficiency_Quiz', 'cardinality_Dimension_TimeEfficiency_SpotTheDifference', 'cardinality_Dimension_TimeEfficiency_MathMemory', 'cardinality_Dimension_TimeEfficiency_EmotionRecognition']:
+            if not player.field_maybe_none(attribute):
+                setattr(player, attribute, random.randint(1, 10))
 
 
 #%% # Mechanism pages
@@ -886,14 +916,15 @@ Pseudo code:
 
 '''
 
-#TODO: clarify. The order of ranks is not random 1,2,3,4,5
-#TODO: clarify. The order of difficulty levels is not random first easy then medium then hard.
+
+
 
 def get_variables_for_template(player: Player, rank: int, difficulty: str):
     variables = MyBasePage.vars_for_template(player)
     variables['Mechanism'] = player.participant.Treatment
     variables['player_Group_id'] = player.participant.Group_id_counter
-    variables['AvailableBundles'] = list(return_available_bundles(player, rank, difficulty).values())
+    variables['AvailableBundles'] = list(return_available_bundles(player, rank, difficulty)[0].values())
+    variables['Menu'] = return_available_bundles(player, rank, difficulty)[1]
     variables['rank_sentence'] = C.Rank_sentence[rank]
     return variables
 
@@ -901,7 +932,7 @@ def get_js_vars(player: Player, rank: int, difficulty: str):
     return dict(
         Mechanism = player.participant.Treatment,
         Field_name = f'{difficulty}_rank{rank}_choice',
-        AvailableBundles = list(return_available_bundles(player, rank, difficulty).values()),
+        AvailableBundles = list(return_available_bundles(player, rank, difficulty)[0].keys()),
         BundleIcons = get_bundle_icons(player, rank, difficulty)
     )
   
@@ -1005,6 +1036,68 @@ class Mechanism_Medium_rank1(MyBasePage):
 
         return_available_bundles(player, 1,  'Medium', save_to_player=True)
 
+class Mechanism_Medium_rank2(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Medium_rank2_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 2, 'Medium')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 2, 'Medium')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 2, 'Medium', save_to_player=True)
+
+
+class Mechanism_Medium_rank3(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Medium_rank3_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 3, 'Medium')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 3, 'Medium')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 3, 'Medium', save_to_player=True)
+
+
+class Mechanism_Medium_rank4(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Medium_rank4_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 4, 'Medium')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 4, 'Medium')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 4, 'Medium', save_to_player=True)
+
+class Mechanism_Medium_rank5(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Medium_rank5_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 5, 'Medium')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 5, 'Medium')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 5, 'Medium', save_to_player=True)
+        
 class Mechanism_Difficult_rank1(MyBasePage):
     form_fields = MyBasePage.form_fields + ['Difficult_rank1_choice']
     
@@ -1021,8 +1114,71 @@ class Mechanism_Difficult_rank1(MyBasePage):
 
         return_available_bundles(player, 1,  'Difficult', save_to_player=True)
 
-## Wait pages
+class Mechanism_Difficult_rank2(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Difficult_rank2_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 2, 'Difficult')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 2, 'Difficult')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
 
+        return_available_bundles(player, 2,  'Difficult', save_to_player=True)
+        
+class Mechanism_Difficult_rank3(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Difficult_rank3_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 3, 'Difficult')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 3, 'Difficult')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 3, 'Difficult', save_to_player=True)
+
+
+class Mechanism_Difficult_rank4(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Difficult_rank4_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 4, 'Difficult')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 4, 'Difficult')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 4, 'Difficult', save_to_player=True)
+
+
+class Mechanism_Difficult_rank5(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['Difficult_rank5_choice']
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        return get_variables_for_template(player, 5, 'Difficult')
+    
+    @staticmethod
+    def js_vars(player: Player):
+        return get_js_vars(player, 5, 'Difficult')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        return_available_bundles(player, 5, 'Difficult', save_to_player=True)
+
+
+## Wait pages
 class Mechanism_Easy_rank2_WaitPage(WaitPage):   
     pass    
 class Mechanism_Easy_rank3_WaitPage(WaitPage):   
@@ -1054,7 +1210,6 @@ class Mechanism_Difficult_rank4_WaitPage(WaitPage):
 class Mechanism_Difficult_rank5_WaitPage(WaitPage):
     pass 
 
-#TODO: do the pages for medium and difficult
     
 #%% Revisit pages
 class Revisit_WaitPage(WaitPage):
@@ -1064,9 +1219,11 @@ class Revisit_explanation(MyBasePage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         calculate_task_scores(player)
-        for rank in range(1, 2): #TODO: change range to 1,6
-            for difficulty in ['Easy',]: #TODO: add back#  'Medium', 'Difficult']
+        for rank in range(1, 6): 
+            for difficulty in ['Easy', 'Medium', 'Difficult']:
                 calculate_bundle_scores(player, difficulty, rank)
+                
+
 
 def get_variables_for_template_revisit(player: Player, rank: int, difficulty: str):
     variables = MyBasePage.vars_for_template(player)
@@ -1203,10 +1360,10 @@ class Revisit_complete(MyBasePage):
         
         random_bundle = player.participant.Random_bundle
         
-        MechanismOutcome = getattr(player, f'{selected_difficulty}_rank{selected_rank}_choice')
         # check if player switched in Random_bundle[0] difficulty, Random_bundle[1] rank
         selected_difficulty = random_bundle.split('_')[0]
         selected_rank = int(random_bundle.split('_')[1])
+        MechanismOutcome = getattr(player, f'{selected_difficulty}_rank{selected_rank}_choice')
         
         switched = getattr(player, f'{selected_difficulty}_rank_{selected_rank}_revisit_choice_switch')
         available_bundles_scores = getattr(player, f"Available_bundles_{selected_difficulty}_rank{selected_rank}_score")
@@ -1220,7 +1377,7 @@ class Revisit_complete(MyBasePage):
         else:
             player.participant.Final_bundle = offered_bundle
             
-        print(f'Player {player.participant.id_in_session} has been randomly selected to choose bundle {offered_bundle}')
+        # print(f'Player {player.participant.id_in_session} has been randomly selected to choose bundle {offered_bundle}')
         variables['RandomDifficulty'] = selected_difficulty
         variables['RandomRank'] = selected_rank
         
@@ -1231,107 +1388,51 @@ class Revisit_complete(MyBasePage):
 
 
 #%% Outcome pages  
-    
-class ChosenBundleExplanation(MyBasePage):
-    extra_fields = [] 
-    form_fields = MyBasePage.form_fields + extra_fields
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
+  
 
-        # Add or modify variables specific to ExtendedPage
-        variables['Final_bundle'] = player.participant.Final_bundle
-        variables['Game_Instructions_path'] = f'_templates/global/Task_instructions/{player.participant.Final_bundle}.html'
-        return variables
-    
-class ChosenBundlePlay(MyBasePage):
-    extra_fields = ['Performance_final_task', 'Performance_final_task_Attempts'] 
-    form_fields = MyBasePage.form_fields + extra_fields
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
-
-        # Add or modify variables specific to ExtendedPage
-        variables['MechanismOutcome'] = player.participant.Final_bundle
-        
-        variables['MechanismOutcome_Template'] = f'_templates/global/Task_templates/{player.participant.Final_bundle}.html'
-        return variables
-    
-    @staticmethod
-    def js_vars(player):
-        return dict(
-            field_name = 'Performance_final_task',
-            
-        )
-        
-class Results(MyBasePage):
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
-        variables['Result'] = player.Performance_final_task
-        
-        return variables
-
-
-class Attention_check_2(MyBasePage):         
-    extra_fields = ['Attention_2']
-    form_fields = MyBasePage.form_fields + extra_fields
-    
-    def before_next_page(player: Player, timeout_happened=False):
-        if (not player.Attention_2 and not player.participant.vars['Attention_1']):
-            player.participant.vars['Allowed'] = False
-            player.participant.vars['Attention_passed'] = False
 
 
 # TODO: randomize whether mechanism or attributes comes first  
 #TODO: discuss. I really dont like the ordinality pages. I think they are unnecessary and unintuitive. 
-pages_Attributes = [Attributes_rank, Attributes_rank_cardinality, 
-                    Attributes_tasks_Dimension_1, Attributes_tasks_Dimension_1_cardinality,
-                    Attributes_tasks_Dimension_2, Attributes_tasks_Dimension_2_cardinality,
-                    Attributes_tasks_Dimension_3, Attributes_tasks_Dimension_3_cardinality,
-                    Attributes_tasks_Dimension_4, Attributes_tasks_Dimension_4_cardinality,
-                    Attributes_variety
+pages_Attributes = [
+    Attributes_explanation,
+    Attributes_rank, Attributes_rank_cardinality, 
+    Attributes_tasks_Dimension_1, Attributes_tasks_Dimension_1_cardinality,
+    Attributes_tasks_Dimension_2, Attributes_tasks_Dimension_2_cardinality,
+    Attributes_tasks_Dimension_3, Attributes_tasks_Dimension_3_cardinality,
+    Attributes_tasks_Dimension_4, Attributes_tasks_Dimension_4_cardinality,
+    Attributes_variety
                     ]
 
 pages_mechanism = [
     Mechanism_Easy_rank1, 
-    Mechanism_Easy_rank2_WaitPage,# Mechanism_Easy_rank2, 
-    # Mechanism_Easy_rank3_WaitPage, Mechanism_Easy_rank3,
-    # Mechanism_Easy_rank4_WaitPage, Mechanism_Easy_rank4,
-    # Mechanism_Easy_rank5_WaitPage, Mechanism_Easy_rank5,
+    Mechanism_Easy_rank2_WaitPage, Mechanism_Easy_rank2, 
+    Mechanism_Easy_rank3_WaitPage, Mechanism_Easy_rank3,
+    Mechanism_Easy_rank4_WaitPage, Mechanism_Easy_rank4,
+    Mechanism_Easy_rank5_WaitPage, Mechanism_Easy_rank5,
     Mechanism_Medium_rank1,
-    Mechanism_Medium_rank2_WaitPage, #Mechanism_Medium_rank2,
-    # Mechanism_Medium_rank3_WaitPage, Mechanism_Medium_rank3,
-    # Mechanism_Medium_rank4_WaitPage, Mechanism_Medium_rank4,
-    # Mechanism_Medium_rank5_WaitPage, Mechanism_Medium_rank5,
+    Mechanism_Medium_rank2_WaitPage, Mechanism_Medium_rank2,
+    Mechanism_Medium_rank3_WaitPage, Mechanism_Medium_rank3,
+    Mechanism_Medium_rank4_WaitPage, Mechanism_Medium_rank4,
+    Mechanism_Medium_rank5_WaitPage, Mechanism_Medium_rank5,
     Mechanism_Difficult_rank1,
-    Mechanism_Difficult_rank2_WaitPage, #Mechanism_Difficult_rank2,
-    # Mechanism_Difficult_rank3_WaitPage, Mechanism_Difficult_rank3,
-    # Mechanism_Difficult_rank4_WaitPage, Mechanism_Difficult_rank4,
-    # Mechanism_Difficult_rank5_WaitPage, Mechanism_Difficult_rank5
+    Mechanism_Difficult_rank2_WaitPage, Mechanism_Difficult_rank2,
+    Mechanism_Difficult_rank3_WaitPage, Mechanism_Difficult_rank3,
+    Mechanism_Difficult_rank4_WaitPage, Mechanism_Difficult_rank4,
+    Mechanism_Difficult_rank5_WaitPage, Mechanism_Difficult_rank5
     ]
 
 pages_revisit = [
-    # Revisit_WaitPage,
+    Revisit_WaitPage,
     Revisit_explanation,
-    Revisit_Easy_rank1, #Revisit_Easy_rank2, Revisit_Easy_rank3, Revisit_Easy_rank4, Revisit_Easy_rank5,
-    Revisit_Medium_rank1, #Revisit_Medium_rank2, Revisit_Medium_rank3, Revisit_Medium_rank4, Revisit_Medium_rank5,
-    Revisit_Difficult_rank1, #Revisit_Difficult_rank2, Revisit_Difficult_rank3, Revisit_Difficult_rank4, Revisit_Difficult_rank5,
+    Revisit_Easy_rank1, Revisit_Easy_rank2, Revisit_Easy_rank3, Revisit_Easy_rank4, Revisit_Easy_rank5,
+    Revisit_Medium_rank1, Revisit_Medium_rank2, Revisit_Medium_rank3, Revisit_Medium_rank4, Revisit_Medium_rank5,
+    Revisit_Difficult_rank1, Revisit_Difficult_rank2, Revisit_Difficult_rank3, Revisit_Difficult_rank4, Revisit_Difficult_rank5,
     Revisit_complete
 ]
 
-pages_outcomeplay = [ChosenBundleExplanation,
-                 ChosenBundlePlay,
-                 Results,
-                 Attention_check_2,]
-#TODO: make sure to add the TreatmentWaitPage to the page_sequence
+
 #TODO: make sure to add Attributes and randomize order with pages_mechanism
-page_sequence =  pages_mechanism +  pages_Attributes + pages_revisit + pages_outcomeplay
+page_sequence =  pages_mechanism +  pages_Attributes + pages_revisit
 
                 

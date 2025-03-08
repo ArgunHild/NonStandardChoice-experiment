@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE: Results of the assigned bundle]]
+    [[TEMPLATE TITLE: Results]]
 {{ endblock }}
 {{ block content }}
 <!-- TODO: make sure all fields are filled. -->
@@ -7,7 +7,9 @@
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
-you scored {{Result}} in the previous page. [[success or failure reg. bonus earned will be calculated once we have figured out the bundles and success tresholds ]]
+<p>
+    {{ResultsText}}
+</p>
 
 {% for field in form %}
     {% if field.name not in hidden_fields %}
