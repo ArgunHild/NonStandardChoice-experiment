@@ -1,5 +1,4 @@
 {{ block title }}
-    Consent Form
 {{ endblock }}
 {{ block content }}
 
@@ -8,24 +7,24 @@
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
 
-
-<p> 
-  Welcome and thank you for your participation in this study. This study is offered by the University of Mannheim, Germany.
- 
-  <br><br>
-  Your responses will be treated with absolute confidentiality.
-   The data will be anonymized which implies that no conclusions about individuals can be drawn from this survey.
-   Moreover, the responses will be used exclusively for research purposes. 
+<div class="content-box box-neutral">
+    <h2 class="section-title">Consent Form</h2>
+    <hr class="section-divider">
+    <p> 
+        Welcome, and thank you for participating in this study. This research is conducted by Humboldt University Berlin (Germany), Peking University HSBC Business School (China), and the University of Mannheim (Germany).
+    <br><br>
+    Your responses will be treated with strict confidentiality. 
+    All data will be anonymized, ensuring that no individual can be identified. The information you provide will be used exclusively for research purposes.
+        
+    <br><br>
+    If you agree to participate, please click “Next” to continue. 
     
-   <br><br>
-  If you want to participate in this study, use the "Next" button to proceed. 
- 
- </p>
+    </p>
 
-<div class="buttons-container">
-    <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+    </div>
 </div>
-
 
 
 {{ endblock }}

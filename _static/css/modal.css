@@ -1,72 +1,62 @@
-/* The Modal (background) */
+/* === Modal Base === */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 60px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* The Close Button */
-.close {
-  color: red;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
- /* Modal Header */
-.modal-header {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
-}
-
-/* Modal Body */
-.modal-body {padding: 2px 16px;}
-
-
-/* Modal Content */
+/* === Modal Content === */
 .modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 75%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  animation-name: animatetop;
-  animation-duration: 0.4s
+  background-color: var(--neutral);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 30px;
+  width: 80%;
+  max-width: 800px;
+  margin: 100px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  color: var(--text-dark);
 }
 
-/* Add Animation */
-@keyframes animatetop {
-  from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
+/* === Modal Header === */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 15px;
 }
 
-.myBtn{
-    color: red;
-    cursor: pointer;
+.modal-header h2 {
+  font-size: 1.5rem;
+  margin: 0;
 }
 
+/* === Modal Body === */
+.modal-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-height: 60vh;
+  overflow-y: auto;
+}
 
+/* === Close Button === */
+.modal-header .close {
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 10px;
+  color: #555;
+}
 
-/* Small Modal Content */
-.quit-modal .modal-content {
-  width: 50%; /* Adjust the width as needed */
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19); /* Adjust the box shadow if necessary */
+.modal-header .close:hover {
+  color: black;
 }

@@ -1,49 +1,50 @@
-{{ block title }}
-    Instructions
-{{ endblock }}
+{{ block title }}{{ endblock }}
+
 {{ block content }}
-{{ include C.Instructions_path}}
-<link rel="stylesheet" href="{{static 'css/css.css'}}">
-<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
-{% for field in form %}
-    {% if field.name not in hidden_fields %}
-        {{ formfield field.name }}
-    {% endif %}
-{% endfor %}
+<div class="content-box box-info">
+    <h2 class="section-title">Instructions</h2>
+    <hr class="section-divider">
 
-<div style="display:none">
+    {{ include C.Instructions_path }}
+
     {% for field in form %}
-        {% if field.name in hidden_fields %}
+        {% if field.name not in hidden_fields %}
             {{ formfield field.name }}
         {% endif %}
     {% endfor %}
+
+    <div style="display:none">
+        {% for field in form %}
+            {% if field.name in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
+        <button id="NextButton" class="btn btn-primary">Next</button>
+    </div>
 </div>
 
-<div class="buttons-container">
-    <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
-    <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
-</div>
-
-
-
-
+<!-- Modal popup -->
 <div id="myModal1" class="modal">
   <div class="modal-content">
       <div class="modal-header">
         <h2>Instructions</h2>
         <span class="close" onclick="span_click(1)">&times;</span>
       </div>
-    <p style="padding: 0px">
-   {{include C.Instructions_path}}
-    </p>
+      <div class="modal-body">
+        <p>
+          {{ include C.Instructions_path }}
+        </p>
+      </div>
   </div>
-</div>
-
-<br><br>
-<div style="display: none;">
-    {{formfields}}
 </div>
 
 {{ endblock }}

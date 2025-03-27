@@ -1,8 +1,145 @@
-body {
-  font-size: 18px; /* Increase base font size */
+:root {
+  /* === Core Color Palette === */
+  --primary: #4CAF50;       /* Strong green (main accent) */
+  --secondary: #81C784;     /* Soft green */
+  --calm: #e6ffe6;          /* Light green background */
+  --info: #e6f7ff;          /* Soft blue background */
+  --warn: #fff3cd;          /* Light yellow for alerts */
+  --neutral: #f9f9f9;       /* Default light background */
+  --text-dark: #212121;     /* Standard dark text */
+  --text-light: #ffffff;    /* Light text for dark buttons */
 }
 
 
+/* BOXES */
+
+.attention-box {
+  border: 2px solid lightblue; /* Light blue border */
+  padding: 12px; /* Space inside the border */
+  border-radius: 5px; /* Optional: rounded corners */
+  background-color: #E0F7FA; /* Even lighter blue background */
+  margin-top: 8px; /* Space above the box */
+}
+
+
+
+/* === Standard content box === */
+.content-box {
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 900px;
+  border: 1px solid #ddd;  /* light neutral fallback */
+  border-radius: 12px;
+  background-color: var(--neutral);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* === Box Variants === */
+.box-calm {
+  background-color: var(--calm);
+  border-color: #b3e6b3; /* soft green border */
+}
+
+.box-contrast {
+  background-color: #d6f0ff; /* Slightly darker blue than --info */
+  border-color: #aadcee;
+}
+
+.box-info {
+  background-color: var(--info);
+  border-color: #99d6f2; /* soft blue border */
+}
+
+.box-neutral {
+  background-color: var(--neutral);
+  border-color: #ddd;
+}
+
+.box-warn {
+  background-color: var(--warn);
+  border-color: #ffe6a1; /* soft orange/yellow */
+}
+
+
+
+.instructions-box {
+  border: 1px solid #ccc; /* Light gray border */
+  padding: 16px;          /* Adds space inside the box */
+  border-radius: 8px;     /* Rounds the corners */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
+
+.section-box {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+
+/* BUTTONS */
+/* === Base Button Style === */
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+}
+
+/* === Button Variants === */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text-light);
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+  color: var(--text-light);
+}
+
+.btn-info {
+  background-color: #007acc;
+  color: var(--text-light);
+}
+
+.btn-info:hover {
+  background-color: #005f99;
+  color: var(--text-light);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary);
+  color: var(--text-light);
+}
+
+.btn-warn {
+  background-color: #ff9800;
+  color: var(--text-light);
+}
+
+.btn-warn:hover {
+  background-color: #e68900;
+  color: var(--text-light);
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px;
+  gap: 10px; /* Adjust this value for desired space between buttons */
+}
 
 .Continue-button {
   /* Add your otree next button styles here */
@@ -18,24 +155,9 @@ body {
   cursor: pointer;
 }
 
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2px;
-  gap: 10px; /* Adjust this value for desired space between buttons */
-}
-
-body {font-family: Arial, Helvetica, sans-serif;}
-
-
-.instructions-box {
-  border: 1px solid #ccc; /* Light gray border */
-  padding: 16px;          /* Adds space inside the box */
-  border-radius: 8px;     /* Rounds the corners */
-  background-color: #f9f9f9; /* Light background color */
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-}
+/* TEXT */
+body {font-family: Arial, Helvetica, sans-serif;
+      font-size: 18px; /* Increase base font size */}
 
 .instructions-title {
   font-weight: bold;
@@ -50,15 +172,37 @@ body {font-family: Arial, Helvetica, sans-serif;}
   gap: 8px; /* Adds space between buttons */
 }
 
-.attention-box {
-  border: 2px solid lightblue; /* Light blue border */
-  padding: 12px; /* Space inside the border */
-  border-radius: 5px; /* Optional: rounded corners */
-  background-color: #E0F7FA; /* Even lighter blue background */
-  margin-top: 8px; /* Space above the box */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
+.section-header .icon {
+  font-size: 1.8rem;
+  margin-bottom: 0; /* override existing spacing */
+}
 
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.section-divider {
+  border: none;
+  border-top: 2px solid black;
+  margin-bottom: 25px;
+}
+
+/* OTHER */
+
+
+.icon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
 
 #pie_chart {
   display: flex;
