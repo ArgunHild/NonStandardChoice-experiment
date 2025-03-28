@@ -146,39 +146,38 @@ class Player(BasePlayer):
     Comprehension_2 = models.BooleanField(initial=True) 
     
     Comprehension_question_1 = models.BooleanField(choices=[
-            [True,'Correct answer'], # Correct answer here
-            [False, 'False answer'],
-            [False, 'False answer'],],
+            [True,'Twice'], # Correct answer here
+            [False, 'Once'],
+            [False, 'Three times'],],
         initial=True,
-        label = 'Comprehension question 1',
+        label = 'How many times will you practice each task during the learning stage?',
         widget=widgets.RadioSelect)
     Comprehension_question_2 = models.BooleanField(choices=[
-            [True,'Correct answer'], 
-            [False, 'False answer'],
-            [False, 'False answer'],],
+        [True, 'Performance in the learning stage'],  
+        [False, 'Number of tasks shown'],
+        [False, 'Number of times you click'],],
         initial=True,
-        label = 'Comprehension question 1',
+        label = 'What contributes to your final bonus payment?',
         widget=widgets.RadioSelect)
     Comprehension_question_3 = models.BooleanField(choices=[
-            [True,'Correct answer'], 
-            [False, 'False answer'],
-            [False, 'False answer'],],
+        [True, 'Right before the main stage begins'],
+        [False, 'At the very end of the experiment'],
+        [False, 'During the first practice task'],],
         initial=True,
-        label = 'Comprehension question 1',
+        label = 'When will you receive more detailed information about the main stage choices?',
         widget=widgets.RadioSelect)
     
-    Attention_1 = models.BooleanField(choices=[
-            [False, 'Austria'],
-            [False, 'Germany'],
-            [False, 'Switzerland'],
-            [True, 'Russia'], 
-            [False, 'India'],
-            [False, 'China'],
-            [False, 'Japan'],
-            [False, 'United States'],],
-        initial=True,                 
-        label='Choose the country that was described in the instructions above.',
-        widget=widgets.RadioSelect)
+    Attention_1 = models.BooleanField(
+    choices=[
+        [False, 'Lion'],
+        [False, 'Elephant'],
+        [True, 'Unicorn'],
+        [False, 'Giraffe']
+    ],
+    initial=True,
+    label='Please select the animal described in the text.',
+    widget=widgets.RadioSelect
+)
     
     
     

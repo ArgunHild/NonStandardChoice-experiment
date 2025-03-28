@@ -1,64 +1,70 @@
-{{ block title }}
-    Raise your hand to get the experimenter's attention.
-{{ endblock }}
+{{ block title }}{{ endblock }}
+
 {{ block content }}
+
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
-    
 
-    
+<div class="content-box box-neutral">
+    <h2 class="section-title">Comprehension Check</h2>
+    <hr class="section-divider">
 
-    <p>
-        You have answered the following question(s) incorrectly:
-        <strong>{{Comprehension_wrong_answers}}</strong>. 
-        <br>
-        You have failed the comprehension questions twice. 
-        <br>
-        Please raise your hand to get the experimenter's attention.
-    </p>
-
-    <div id="alert-move-sliders" class="alert-move-sliders" style="display: none;">
-        You are unable to continue at this point. Please raise your hand to get the experimenter's attention.
+    <div class="section-box box-warn">
+        <div class="section-header">
+            <div class="icon">⚠️</div>
+            <h3>Second Attempt Failed</h3>
+        </div>
+        <p>
+            You answered the following question(s) incorrectly:
+            <strong>{{ Comprehension_wrong_answers }}</strong>.
+        </p>
+        <p>
+            You have failed the comprehension questions twice.
+            Please raise your hand to get the experimenter's attention.
+        </p>
     </div>
 
-{% for field in form %}
-    {% if field.name not in hidden_fields %}
-        {{ formfield field.name }}
-    {% endif %}
-{% endfor %}
+    <!-- Comprehension form fields (readonly for review or fallback handling) -->
+    <div class="section-box box-info">
+        <div class="section-header">
+            <div class="icon">🧪</div>
+            <h3>Comprehension Questions</h3>
+        </div>
 
-<div style="display:none">
-    {% for field in form %}
-        {% if field.name in hidden_fields %}
-            {{ formfield field.name }}
-        {% endif %}
-    {% endfor %}
-</div>
+        {% for field in form %}
+            {% if field.name not in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
 
-    <br><br>
+    <div style="display:none">
+        {% for field in form %}
+            {% if field.name in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
 
-    <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">General Instructions</a>
-        <a id="myBtn"  onclick="next_button_comprehension()"  class="otree-btn-next btn btn-primary">Next</a>
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">General Instructions</a>
+        <button id="NextButton" onclick="next_button_comprehension()" class="btn btn-primary">Next</button>
         <button id="submit_button" style="display: none"></button>
     </div>
-    
-    
+</div>
 
-    
-    <div id="myModal1" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h2>Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
-            </div>
-          <p style="padding: 0px">
-         {{include C.Instructions_path}}
-          </p>
+<!-- Modal popup for instructions -->
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Instructions</h2>
+            <span class="close" onclick="span_click(1)">&times;</span>
+        </div>
+        <div class="modal-body">
+            {{ include C.Instructions_path }}
         </div>
     </div>
-
-    <br><br>
+</div>
 
 {{ endblock }}
