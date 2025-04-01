@@ -79,6 +79,22 @@
 }
 
 
+/* BUNDLES */
+
+.highlight-bundle {
+  border: 3px solid var(--primary); /* or --contrast, --info, etc. */
+  border-radius: 10px;
+  padding: 12px 24px;
+  background-color: white;
+  font-size: 1.5em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.highlight-bundle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 /* BUTTONS */
 /* === Base Button Style === */
 .btn {

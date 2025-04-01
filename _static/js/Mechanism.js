@@ -47,10 +47,13 @@ function Sequential() {
 
     // Modal content
     popup.innerHTML = `
-        <div class="popup-content">
-            <h2>Select a Bundle</h2>
-            <p>Click on a bundle to select it.</p>
-            <div id="bundleContainer"></div>
+        <div class="popup-content section-box box-info" style="text-align: center;">
+            <h2>Make Your Choice</h2>
+            <p>Which of these bundles do you prefer?</p>
+            <div id="progressContainer" style="margin: 10px 0;">
+                <div id="progressBar"></div>
+            </div>
+            <div id="comparisonContainer"></div>
         </div>
     `;
 
@@ -72,8 +75,11 @@ function Sequential() {
             
             // Update the popup content with selection and next button
             container.innerHTML = `
-                <p><strong>The outcome bundle is: ${emoji}.</strong></p>
-                <button id="confirmSelection" class="next-button">Next</button>
+                <p style="font-size: 1.2em;">
+                    <strong>The outcome bundle is:</strong><br>
+                    <span style="font-size: 2em; display: inline-block; margin-top: 5px;">${finalEmoji}</span>
+                </p>
+                <button id="confirmSelection" class="next-button btn btn-primary" style="margin-top: 10px;">Next</button>
             `;
 
             // Handle the next button click
@@ -103,13 +109,13 @@ function Binary() {
     popup.id = "popupModal";
     popup.classList.add("popup");
     popup.innerHTML = `
-    <div class="popup-content">
-        <h2>Binary Comparison</h2>
-        <p>Select your preferred bundle</p>
-        <div id="progressContainer">
-            <div id="progressBar"></div>
-        </div>
-        <div id="comparisonContainer"></div>
+    <div class="popup-content section-box box-info" style="text-align: center;">
+    <h2>Make Your Choice</h2>
+    <p>Which of these bundles do you prefer?</p>
+    <div id="progressContainer" style="margin: 10px 0;">
+        <div id="progressBar"></div>
+    </div>
+    <div id="comparisonContainer"></div>
     </div>
 `;
 
@@ -126,10 +132,10 @@ function Binary() {
         let emoji2 = bundleIcons[bundle2] || bundle2;
 
         container.innerHTML = `
-            <div class="comparison">
-                <button class="bundle-option" id="option1">${emoji1}</button>
-                <span>or</span>
-                <button class="bundle-option" id="option2">${emoji2}</button>
+            <div class="comparison" style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+            <button class="bundle-option highlight-bundle" id="option1">${emoji1}</button>
+            <span>or</span>
+            <button class="bundle-option highlight-bundle" id="option2">${emoji2}</button>
             </div>
         `;
 
@@ -161,8 +167,11 @@ function Binary() {
             let finalEmoji = bundleIcons[winners[0]] || winners[0];
     
             container.innerHTML = `
-                <p><strong>The outcome bundle is: ${finalEmoji}.</strong></p>
-                <button id="confirmSelection" class="next-button">Next</button>
+                <p style="font-size: 1.2em;">
+                    <strong>The outcome bundle is:</strong><br>
+                    <span style="font-size: 2em; display: inline-block; margin-top: 5px;">${finalEmoji}</span>
+                </p>
+                <button id="confirmSelection" class="next-button btn btn-primary" style="margin-top: 10px;">Next</button>
             `;
     
             // Handle the next button click

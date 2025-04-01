@@ -426,13 +426,14 @@ class C(BaseConstants):
     Confidence_text_2 = "<strong>If you feel confident in your ability in the task, assign it a higher score.</strong>"
     TimeEfficiency_text_2 = "<strong>If a task takes few amount of mouse-clicks, assign it a higher score.</strong>"
     
-    Rank_sentence ={
-        1: "You are now rank 1. This means, you are the first one to make a choice. Choose from the set of all available bundles.",
-        2: "You are now rank 2. This means, you are the second one to make a choice. Choose from the set of all remaining bundles.",
-        3: "You are now rank 3. This means, you are the third one to make a choice. Choose from the set of all remaining bundles.",
-        4: "You are now rank 4.  This means, you are the fourth one to make a choice. Choose from the set of all remaining bundles.",
-        5: "You are now rank 5.  This means, you are the fifth one to make a choice. Choose from the set of all remaining bundles.",
+    Rank_sentence = {
+    1: "You are <strong>rank 1</strong>: the first to choose. Select your preferred bundle from all available options.",
+    2: "You are <strong>rank 2</strong>: the second to choose. Select your preferred bundle from the remaining options.",
+    3: "You are <strong>rank 3</strong>: the third to choose. Select your preferred bundle from the remaining options.",
+    4: "You are <strong>rank 4</strong>: the fourth to choose. Select your preferred bundle from the remaining options.",
+    5: "You are <strong>rank 5</strong>: the last to choose. Select your preferred bundle from the remaining options.",
     }
+
     
 class Subsession(BaseSubsession):
     pass

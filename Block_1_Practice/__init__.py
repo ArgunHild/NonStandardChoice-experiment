@@ -16,7 +16,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 60 
+    Round_length = 120 # as indicated in our design document
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
@@ -24,7 +24,7 @@ class C(BaseConstants):
     
     # Games paths
     Emotion_recognition_template = "_templates/global/Task_templates/Emotion.html"
-    Quiz_temlpate_path = "_templates/global/Task_templates/Quiz.html"
+    Quiz_template_path = "_templates/global/Task_templates/Quiz.html"
     Math_template_path = "_templates/global/Task_templates/Math.html"
     Spot_the_difference_template_path = "_templates/global/Task_templates/Spot.html"
     
@@ -37,6 +37,12 @@ class C(BaseConstants):
         
     Bonus_1 = 0.5 #TODO: adjust the bonus for practice stage. Make sure participant knows about the bonus in the instructions.
     
+    # Max achievable scores (hardcoded for now)
+    Max_Math = 24         # TODO: Make dynamic based on actual task settings
+    Max_Quiz = 30         # TODO: Make dynamic based on actual task settings
+    Max_Spot = 10         # TODO: Make dynamic based on actual task settings
+    Max_Emotion = 10      # TODO: Make dynamic based on actual task settings
+
     Bonus_cutoffs = {
         'Quiz': 1, #TODO: adjust these
         'Emotion': 1,
@@ -186,11 +192,17 @@ class Practice_Results(Page):
             'Emotion': player.Emotion,
             'Math': player.Math,
             'Spot': player.Spot,
-            'QuizBonus': player.Bonus_Quiz,
-            'EmotionBonus': player.Bonus_Emotion,
-            'MathBonus': player.Bonus_Math,
-            'SpotBonus': player.Bonus_Spot,
-            'Bonus_1': player.participant.Bonus_1
+            'Bonus_1': f"{player.participant.Bonus_1:.2f}",
+            'MathBonus': f"{player.Bonus_Math:.2f}",
+            'QuizBonus': f"{player.Bonus_Quiz:.2f}",
+            'SpotBonus': f"{player.Bonus_Spot:.2f}",
+            'EmotionBonus': f"{player.Bonus_Emotion:.2f}",
+
+                        # Max scores
+            'Max_Quiz': C.Max_Quiz,
+            'Max_Emotion': C.Max_Emotion,
+            'Max_Math': C.Max_Math,
+            'Max_Spot': C.Max_Spot,
         }
 
         return variables

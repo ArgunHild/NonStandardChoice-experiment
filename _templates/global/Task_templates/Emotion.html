@@ -1,32 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="{{ static 'css/Emotion_recognition.css' }}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emotion recognition game</title>
-    
-    <link rel="stylesheet" href="{{static 'css/Emotion_recognition.css'}}">
-</head>
+<div id="quiz-container-wrapper">
+    <div id="quiz-container">
+        <div class="imageContainer">
+            <img id="image1" src="{{ static 'Emotion_recognition/Amusement.png' }}" alt="Image 1" width="400px">
+        </div>
+        <br>
 
-<body>
-<div id="quiz-container">
-    <!-- make the question style bold -->
-    <div class="imageContainer">
-        <!-- TODO: adjust the sources -->
-        <img id="image1" src='{{static "Emotion_recognition/Amusement.png"}}' alt="Image 1" width="400px">
+        <div class="Question_box">
+            <div id="question">This face is expressing..</div>
+            <div id="choices"></div>
+        </div>
+
+        <div id="timer1"></div>
+        <div id="timer"></div>
     </div>
-    <br>
-
-    <div class="Question_box">
-        <div id="question" style="">This face is expressing..</div>
-        <div id="choices"></div>
-    </div>
-    <div id="timer1"></div>
-    <div id="timer"></div>
 </div>
 
 <script src="{{ static 'js/Emotion_recognition.js' }}"></script>
-</body>
-
-</html>

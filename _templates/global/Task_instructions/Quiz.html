@@ -1,46 +1,46 @@
-<style>
-    .center {
-      text-align: center;
-    }
-  </style>
-
-
-
-<div class="card bg-light m-3">
-    <div class="card-body">
-       <h2 class="center">The Quiz Game</h2>
-       <h3>Basics</h3>
-       There will be a maximum of 30 multiple-choice questions.
-       These questions are from various domains such as Art, Languages, Geography, Technology, History, etc.
-       You have to choose the one correct answer out of 4 options.
-       <br><br>
-       These answers become clickable only after 4 seconds of having seen the question.
-       For each question, you have a maximum of 10 seconds to answer. If you do not answer within these 10 seconds, the next question will be displayed.
-
-        <br><br>
-        An example is depicted below. Here, the correct answer is "F. Scott Fitzgerald"
-
-
-       
-       <br>
-       <p style="text-align: center;"><strong>Example</strong></p>
-       <div class="task-example">
-        <div style="text-align: center;">
-            <img src="{{static 'Game_explanation_pics/Quiz.png'}}" style="width: 60%; height: auto;">
-        </div>
-       </div> 
-       <br>
-
-       
-       
-       <h3>Scoring</h3>
-       Each correctly answered question counts as one problem correctly solved!
-
-        <br>
-       <br><br>
-   
-
-   
-
+<div class="section-box box-neutral">
+  <div class="section-header">
+      <div class="icon">🧠</div>
+      <h3>The Quiz Game</h3>
   </div>
-    </div>
+  <p>
+      You will solve a series of up to <strong>30 multiple-choice questions</strong> on general topics such as
+      Art, Languages, Geography, Technology, and History.
+  </p>
+</div>
+
+<div class="section-box box-calm">
+  <div class="section-header">
+      <div class="icon">⏱️</div>
+      <h3>Timing Rules</h3>
+  </div>
+  <ul>
+      <li>Each question has <strong>4 answer options</strong>.</li>
+      <li>Answer buttons activate after <strong>4 seconds</strong>.</li>
+      <li>You have <strong>10 seconds</strong> in total to answer each question.</li>
+      <li>If you don’t answer in time, the next question is shown automatically.</li>
+  </ul>
+</div>
+
+<div class="section-box box-info">
+  <div class="section-header">
+      <div class="icon">🖼️</div>
+      <h3>Example</h3>
+  </div>
+  <p style="text-align: center;"><strong>Example</strong></p>
+  <div class="task-example" style="text-align: center;">
+      <img src="{{ static 'Game_explanation_pics/Quiz.png' }}" style="width: 60%; height: auto;">
+  </div>
+  <br>
+  <p>Here, the correct answer is "F. Scott Fitzgerald".</p>
+</div>
+
+<div class="section-box box-warn">
+  <div class="section-header">
+      <div class="icon">🎯</div>
+      <h3>Scoring</h3>
+  </div>
+  <p>
+      Each correct answer counts as <strong>one point</strong> and increases your bonus in the learning stage.
+  </p>
+</div>
