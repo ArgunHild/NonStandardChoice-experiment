@@ -148,9 +148,51 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False):
     return returnable, menu_current
 
 def calculate_task_scores(player):
+    """
+    Calculates and updates the player's scores for different tasks based on weighted dimensions.
+    This function evaluates a player's performance across four dimensions: Cognitive Load, Engagement, 
+    Confidence, and Time Efficiency. Each dimension is assigned a weight based on the player's 
+    cardinality values for that dimension. These weights are then used to calculate weighted scores 
+    for each task. The tasks include Quiz, MathMemory, EmotionRecognition, and SpotTheDifference.
+    The process for calculating the scores is as follows:
+    1. Retrieve the player's cardinality values for each dimension (Cognitive Load, Engagement, 
+       Confidence, and Time Efficiency).
+    2. Compute the total score by summing up the cardinality values of all dimensions.
+    3. Normalize each dimension's score by dividing it by the total score to obtain weights.
+    4. For each task, retrieve the player's scores for each dimension specific to that task.
+    5. Multiply each task-specific dimension score by its corresponding weight.
+    6. Sum up the weighted scores for all dimensions to calculate the final score for the task.
+    7. Update the player's task scores with the calculated values.
+    Example (Quiz task):
+    - Suppose the player's cardinality values are:
+        Cognitive Load: 10, Engagement: 20, Confidence: 30, Time Efficiency: 40.
+    - The total score is 10 + 20 + 30 + 40 = 100.
+    - The weights are:
+        Cognitive Load: 10/100 = 0.1, Engagement: 20/100 = 0.2, 
+        Confidence: 30/100 = 0.3, Time Efficiency: 40/100 = 0.4.
+    - If the player's Quiz-specific scores are:
+        Cognitive Load: 5, Engagement: 10, Confidence: 15, Time Efficiency: 20.
+    - The weighted scores for Quiz are:
+        Cognitive Load: 0.1 * 5 = 0.5, Engagement: 0.2 * 10 = 2.0,
+        Confidence: 0.3 * 15 = 4.5, Time Efficiency: 0.4 * 20 = 8.0.
+    - The final Quiz score is the sum of the weighted scores:
+        0.5 + 2.0 + 4.5 + 8.0 = 15.0.
+    - This process is repeated for all tasks.
+    Parameters:
+        player (object): An object representing the player, which contains attributes for 
+                         cardinality values and task-specific scores.
+    Updates:
+        player.score_Quiz (float): The calculated score for the Quiz task.
+        player.score_MathMemory (float): The calculated score for the MathMemory task.
+        player.score_EmotionRecognition (float): The calculated score for the EmotionRecognition task.
+        player.score_SpotTheDifference (float): The calculated score for the SpotTheDifference task.
+    """
     '''
     The calculate_task_scores function takes a player object and calculates their scores for different tasks based on various dimensions like cognitive load, engagement, confidence, and time efficiency. 
     It then updates the player's scores for each task by considering these dimensions.
+    
+    
+    
     '''
     
     score_CognitiveLoad = player.cardinality_Dimension_1

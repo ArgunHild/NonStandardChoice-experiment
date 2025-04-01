@@ -17,6 +17,10 @@ SESSION_CONFIGS = [
          num_demo_participants=10,
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
 
+    dict(name='Practice', 
+         app_sequence=['Block_1_Practice'],
+         num_demo_participants=10,
+         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
     dict(name='FinalPlayStage', 
          app_sequence=['Block_98_Play'],
          num_demo_participants=2,
@@ -40,6 +44,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 #TODO: add the relevant participant fields if you wanna pass them thourgh apps
 PARTICIPANT_FIELDS = [
     'Allowed','Comprehension_passed', 'Attention_passed',
+    'task_order',
     'Treatment', 'Group', 'Group_id_counter',
     'Random_bundle', 'Final_bundle',
     'Bonus_1', 'Bonus_2'

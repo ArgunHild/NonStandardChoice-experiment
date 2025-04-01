@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {"q": "Emotion_recognition/Love.png", "choices": ['Satisfaction','Flirtatiousness','Love','Compassion'], "answer": "Love"},
         {"q": "Emotion_recognition/Pain.png", "choices": ['Shame','Anger','Sadness','Pain'], "answer": "Pain"},
         {"q": "Emotion_recognition/Pain_2.png", "choices": ['Guilt','Sadness','Pain','Disgust'], "answer": "Pain"},
-        {"q": "Emotion_recognition/Politeness.png", "choices": ['Happiness','Desire','Politeness'], "answer": "Politeness"},
+        {"q": "Emotion_recognition/Politeness.png", "choices": ['Happiness','Desire','Politeness','Disgust'], "answer": "Politeness"},
         {"q": "Emotion_recognition/Pride.png", "choices": ['Pride','Contempt',' Excitement','Anger'], "answer": "Pride"},
         {"q": "Emotion_recognition/Sadness.png", "choices": ['Sadness','Shame','Disgust','Compassion'], "answer": "Sadness"},
         {"q": "Emotion_recognition/Shame.png", "choices": ['Sadness','Pride','Embarrassment','Shame'], "answer": "Shame"},
@@ -67,14 +67,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function showQuestion() {
+
+        console.log("Trial:", trial);
+        console.log("Using questions:", questions);
+        console.log("questions.length:", questions.length);
+        console.log("currentQuestion:", currentQuestion);
+
         // Load saved state, if exists and the page is initially loaded
         if(localStorage.getItem("currentQuestion") && currentQuestion === 0) {
-            currentQuestion = parseInt(localStorage.getItem("currentQuestion"), 10);
+            const savedIndex = parseInt(localStorage.getItem("currentQuestion"), 10);
             // Load timer only if it's not already counting down
             // if (!interval) { // TODO: uncomment to have a timer
             //     timer = parseInt(localStorage.getItem("timer"), 5);
             // }
+            if (savedIndex < questions.length) {
+                currentQuestion = savedIndex;
+            } else {
+                currentQuestion = 0;
+                localStorage.setItem("currentQuestion", currentQuestion); // Reset if saved index is out of bounds
+            }
         }
+
     
         if (currentQuestion < questions.length) {
             currentQuestion_idx = currentQuestion+1;
