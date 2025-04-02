@@ -30,13 +30,13 @@
         <p>{{ rank_sentence|safe }}</p>
     </div>
 
-    <div class="section-box box-calm" style="text-align: center;">
-        <h4>Available Bundles</h4>
-        <div class="bundle-table" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+    <div class="section-box box-calm" style="text-align: center; padding: 20px;">
+        <h4 style="margin-bottom: 20px;">Available Bundles</h4>
+        <div class="bundle-table" style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
             {% for bundle in AvailableBundles %}
-                <div class="bundle-entry">
-                    <strong>Bundle {{ forloop.counter }}</strong><br>
-                    {{ bundle }}
+                <div class="bundle-entry" style="padding: 15px 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; min-width: 180px;">
+                    <strong style="display: block; margin-bottom: 10px;">Bundle {{ forloop.counter }}</strong>
+                    <span style="font-size: 1.5em; display: inline-block;">{{ bundle }}</span>
                 </div>
             {% endfor %}
         </div>
@@ -50,8 +50,30 @@
     </button>
 </div>
 
+<div class="buttons-container">
+    <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-info">Open Instructions</a>
+</div>
+
 </div>
 
 <div style="display: none;">
     <button id="HiddenNextButton" class="otree-btn-next btn btn-primary">Next</button>
 </div>
+
+<style>
+    #progressContainer {
+      background-color: #ddd;
+      border-radius: 8px;
+      height: 16px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+  
+    #progressBar {
+      background-color: #4caf50;
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+  </style>

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
     // Function to clear cookies on page load
     window.onload = function() {
         document.cookie.split(";").forEach(function(cookie) {
@@ -27,67 +26,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Assign MechanismHandler to the button click event
     document.getElementById('NextButton').addEventListener('click', MechanismHandler);
-    
 });
 
-// Placeholder functions for Sequential and Binary (to be implemented next)
 function Sequential() {
     console.log('Sequential mechanism triggered!');
-    const availableBundles = js_vars.AvailableBundles;  // Bundles like ["Math_3", "Spot_1"]
-    const bundleIcons = js_vars.BundleIcons;  // Nested dictionary
-    const Field_name = 'id_'+js_vars.Field_name;
+    const availableBundles = js_vars.AvailableBundles;
+    const bundleIcons = js_vars.BundleIcons;
+    const Field_name = 'id_' + js_vars.Field_name;
+    console.log("→ [Mechanism] Loaded bundleIcons:", bundleIcons);
+    const rank = js_vars.Rank || "1";
 
-    // Determine the rank (assuming rank is stored in js_vars)
-    const rank = js_vars.Rank || "1";  // Default to rank "1" if not provided
-
-    // Create a popup modal
     let popup = document.createElement("div");
     popup.id = "popupModal";
     popup.classList.add("popup");
 
-    // Modal content
     popup.innerHTML = `
-        <div class="popup-content section-box box-info" style="text-align: center;">
+        <div class="popup-content section-box" style="text-align: center; background-color: #fff; padding: 20px;">
             <h2>Make Your Choice</h2>
             <p>Which of these bundles do you prefer?</p>
-            <div id="progressContainer" style="margin: 10px 0;">
-                <div id="progressBar"></div>
-            </div>
-            <div id="comparisonContainer"></div>
+            <div id="bundleContainer"></div>
         </div>
     `;
 
     document.body.appendChild(popup);
-
     let container = document.getElementById("bundleContainer");
 
-    // Populate the modal with graphical bundle options
-    availableBundles.forEach((bundle, index) => {
-        let emoji = bundleIcons[bundle] || bundle;  // Get emoji from the correct rank, fallback to text if missing
+    availableBundles.forEach((bundle) => {
+        let bundleKey = Array.isArray(bundle) ? bundle.join("_") : bundle;
+        console.log("→ [Sequential] Rendering bundle:", bundle);
+        console.log("→ [Sequential] Lookup key:", bundleKey);
+        console.log("→ [Sequential] Icon for key:", bundleIcons[bundleKey]);
+
+        let emoji = bundleIcons[bundle] || bundle;
 
         let bundleDiv = document.createElement("div");
         bundleDiv.classList.add("bundle-option");
-        bundleDiv.innerHTML = `${emoji}`;  // Use the emoji
+        bundleDiv.innerHTML = `${emoji}`;
 
-        // Click to select
         bundleDiv.addEventListener("click", () => {
             console.log("Selected bundle:", bundle);
-            
-            // Update the popup content with selection and next button
+
             container.innerHTML = `
-                <p style="font-size: 1.2em;">
-                    <strong>The outcome bundle is:</strong><br>
-                    <span style="font-size: 2em; display: inline-block; margin-top: 5px;">${finalEmoji}</span>
-                </p>
-                <button id="confirmSelection" class="next-button btn btn-primary" style="margin-top: 10px;">Next</button>
+                <div style="margin-top: 20px; padding: 15px 25px; border: 2px solid #a4d4ae; border-radius: 10px; background-color: #e8f5e9; display: inline-block;">
+                    <p style="font-size: 1.2em; margin-bottom: 10px;"><strong>The outcome bundle is:</strong></p>
+                    <span style="font-size: 2.2em; display: inline-block;">${emoji}</span>
+                </div>
+                <br>
+                <button id="confirmSelection" class="next-button btn btn-primary" style="margin-top: 20px; font-size: 1.1em; padding: 10px 20px;">Next</button>
             `;
 
-            // Handle the next button click
             document.getElementById("confirmSelection").addEventListener("click", () => {
-                // Save outcome bundle to the hidden field
-                document.getElementById(Field_name).value = bundle;
-
-                // Click the hidden Next button
+                document.getElementById(Field_name).value = JSON.stringify(bundle);
                 document.getElementById("HiddenNextButton").click();
             });
         });
@@ -96,46 +85,70 @@ function Sequential() {
     });
 }
 
-
 function Binary() {
     console.log('Binary mechanism triggered!');
-    const availableBundles = js_vars.AvailableBundles; 
+    const availableBundles = js_vars.AvailableBundles;
     const bundleIcons = js_vars.BundleIcons;
-    const Field_name = 'id_'+js_vars.Field_name;
-    const rank = js_vars.Rank || "1";  // Use the correct rank
+    const Field_name = 'id_' + js_vars.Field_name;
+    const rank = js_vars.Rank || "1";
+    console.log("→ [Mechanism] Loaded bundleIcons:", bundleIcons);
 
-    // Create popup
     let popup = document.createElement("div");
     popup.id = "popupModal";
     popup.classList.add("popup");
     popup.innerHTML = `
-    <div class="popup-content section-box box-info" style="text-align: center;">
-    <h2>Make Your Choice</h2>
-    <p>Which of these bundles do you prefer?</p>
-    <div id="progressContainer" style="margin: 10px 0;">
-        <div id="progressBar"></div>
+    <div class="popup-content section-box" style="text-align: center; background-color: #fff; padding: 20px;">
+        <h2>Make Your Choice</h2>
+        <p>Which of these bundles do you prefer?</p>
+        <div id="progressContainer" style="margin: 10px 0; width: 100%; background-color: #eee; height: 20px; border-radius: 10px;">
+            <div id="progressBar" style="height: 100%; background-color: #4caf50; width: 0%; border-radius: 10px; transition: width 0.3s ease;"></div>
+        </div>
+        <div id="comparisonContainer"></div>
     </div>
-    <div id="comparisonContainer"></div>
-    </div>
-`;
+    `;
 
     document.body.appendChild(popup);
-
     let container = document.getElementById("comparisonContainer");
-    
-    let index = 0;  // Tracking comparisons
-    let progress = 0;  // Progress bar
-    let winners = [];  // Store winners
+
+    let comparisons = [];
+    for (let i = 0; i < availableBundles.length - 1; i += 2) {
+        const b1 = availableBundles[i];
+        const b2 = availableBundles[i + 1];
+        if (b1 && b2 && b1 !== b2) {
+            comparisons.push([b1, b2]);
+        }
+    }
+
+    const total = comparisons.length + Math.ceil(Math.log2(comparisons.length + 1));
+    let progress = 0;
+    let winners = [];
+    let index = 0;
+
+    function updateProgressBar() {
+        const percent = (progress / total) * 100;
+        document.getElementById("progressBar").style.width = `${percent}%`;
+        console.log("Progress:", progress, "/", total);
+    }
 
     function startComparison(bundle1, bundle2) {
+        let key1 = Array.isArray(bundle1) ? bundle1.join("_") : bundle1;
         let emoji1 = bundleIcons[bundle1] || bundle1;
+
+        let key2 = Array.isArray(bundle2) ? bundle2.join("_") : bundle2;
         let emoji2 = bundleIcons[bundle2] || bundle2;
 
+        console.log("→ [Binary] bundle1:", bundle1);
+        console.log("→ [Binary] key1:", key1);
+        console.log("→ [Binary] icon1:", bundleIcons[key1]);
+        console.log("→ [Binary] bundle2:", bundle2);
+        console.log("→ [Binary] key2:", key2);
+        console.log("→ [Binary] icon2:", bundleIcons[key2]);
+
         container.innerHTML = `
-            <div class="comparison" style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-            <button class="bundle-option highlight-bundle" id="option1">${emoji1}</button>
-            <span>or</span>
-            <button class="bundle-option highlight-bundle" id="option2">${emoji2}</button>
+            <div class="comparison" style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 20px;">
+                <button class="bundle-option highlight-bundle" id="option1" style="font-size: 2em; padding: 20px 30px; border: 2px solid #ccc; border-radius: 12px; background-color: #f5f5f5;">${emoji1}</button>
+                <span style="font-weight: bold;">or</span>
+                <button class="bundle-option highlight-bundle" id="option2" style="font-size: 2em; padding: 20px 30px; border: 2px solid #ccc; border-radius: 12px; background-color: #f5f5f5;">${emoji2}</button>
             </div>
         `;
 
@@ -144,49 +157,44 @@ function Binary() {
     }
 
     function nextRound(winner) {
+        progress++;
+        updateProgressBar();
         winners.push(winner);
-        index += 2;
-        progress += 1;
-    
-        // Update Progress Bar
-        let totalComparisons = availableBundles.length - 1;
-        let completedComparisons = Math.min(progress, totalComparisons);
-        let progressPercentage = (completedComparisons / totalComparisons) * 100;
-        console.log(totalComparisons)
-        document.getElementById("progressBar").style.width = progressPercentage + "%";
-    
-        // console.log(index)
-        // TODO: there is a strange bug that leads to a double comparison at the end fix it.
-        if (index < availableBundles.length) {
-            startComparison(availableBundles[index], availableBundles[index + 1] || winner);
+
+        if (index < comparisons.length - 1) {
+            index++;
+            let [b1, b2] = comparisons[index];
+            startComparison(b1, b2);
         } else if (winners.length > 1) {
-            let finalWinner = winners.shift();
-            startComparison(finalWinner, winners.shift());
+            let final1 = winners.shift();
+            let final2 = winners.shift();
+            startComparison(final1, final2);
         } else {
-            // Display outcome under the comparisons
-            let finalEmoji = bundleIcons[winners[0]] || winners[0];
-    
+            let finalKey = Array.isArray(winners[0]) ? winners[0].join("_") : winners[0];
+            let finalEmoji = Array.isArray(winners[0]) ? bundleIcons[finalKey] || winners[0].join(" + ") : bundleIcons[winners[0]] || winners[0];
+
+            console.log("→ [Binary] Final winner bundle:", winners[0]);
+            console.log("→ [Binary] Final key:", finalKey);
+            console.log("→ [Binary] Final emoji from icons:", bundleIcons[finalKey]);
+
             container.innerHTML = `
-                <p style="font-size: 1.2em;">
-                    <strong>The outcome bundle is:</strong><br>
-                    <span style="font-size: 2em; display: inline-block; margin-top: 5px;">${finalEmoji}</span>
-                </p>
-                <button id="confirmSelection" class="next-button btn btn-primary" style="margin-top: 10px;">Next</button>
+                <div style="margin-top: 20px; padding: 15px 25px; border: 2px solid #a4d4ae; border-radius: 10px; background-color: #e8f5e9; display: inline-block;">
+                    <p style="font-size: 1.2em; margin-bottom: 10px;"><strong>The outcome bundle is:</strong></p>
+                    <span style="font-size: 2.2em; display: inline-block;">${finalEmoji}</span>
+                </div>
+                <br>
+                <button id="confirmSelection" class="next-button btn btn-primary" style="margin-top: 20px; font-size: 1.1em; padding: 10px 20px;">Next</button>
             `;
-    
-            // Handle the next button click
+
             document.getElementById("confirmSelection").addEventListener("click", () => {
-                // Save outcome bundle to the field
-                document.getElementById(Field_name).value = winners[0];
-    
-                // Click the hidden Next button
+                document.getElementById(Field_name).value = JSON.stringify(winners[0]);
                 document.getElementById("HiddenNextButton").click();
             });
         }
     }
-    
 
-    // Start first comparison
-    startComparison(availableBundles[index], availableBundles[index + 1]);
+    if (comparisons.length > 0) {
+        let [b1, b2] = comparisons[0];
+        startComparison(b1, b2);
+    }
 }
-

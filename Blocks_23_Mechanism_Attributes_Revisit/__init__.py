@@ -26,24 +26,19 @@ def get_icon(task, level):
     return f"{icons[task]}<sub>{level}</sub>"
 
 def get_bundle_icons(player, rank, difficulty):
-    
     bundles = list(return_available_bundles(player, rank, difficulty)[0].keys())
-    
     bundle_icons = C.Bundle_icons
     result = {}
-    
+
     for bundle in bundles:
         parts = bundle.split('_')
-        if '+' in bundle:
-            sub_bundles = bundle.split('+')
-            icons = []
-            for sub_bundle in sub_bundles:
-                task, difficulty = sub_bundle.split('_')
-                icons.append(f"{bundle_icons[task]}<sub>{difficulty}</sub>")
-            result[bundle] = ' + '.join(icons)
-        else:
-            task, difficulty = parts[0], parts[1]
-            result[bundle] = f"{bundle_icons[task]}<sub>{difficulty}</sub>"
+        icons = []
+        for i in range(0, len(parts), 2):
+            task = parts[i]
+            difficulty = parts[i + 1]
+            icons.append(f"{bundle_icons[task]}<sub>{difficulty}</sub>")
+        result[bundle] = '&nbsp;+&nbsp;'.join(icons)
+    
     return result
 
 def return_available_bundles(player, rank, difficulty, save_to_player=False):
