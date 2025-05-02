@@ -48,6 +48,14 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+def creating_session(subsession):
+    task_names = ['Quiz', 'Emotion', 'Math', 'Spot']
+    for p in subsession.get_players():
+        task_order = random.sample(task_names, len(task_names))
+        task_order += task_order  # repeat for round 5–8
+        p.participant.vars['task_order'] = task_order
+        # print(f"Task order for participant {p.participant.id_in_session}: {task_order}")
+
 
 
 class Group(BaseGroup):
@@ -76,207 +84,96 @@ class Player(BasePlayer):
     Bonus_Emotion_2 = models.FloatField(initial=0)
     Bonus_Math_2 = models.FloatField(initial=0)
     Bonus_Spot_2 = models.FloatField(initial=0)
+    
+
+# Function to get task
+def get_task(player: Player, round_number: int):
+    task_order = player.participant.vars['task_order']
+    task_name = task_order[round_number]
+    
+    if round_number > 4:
+        task_name = task_name + '_2'
+    
+    return task_name
+
+def get_task_Template(task, round_number):
+    if round_number > 4:
+        ending = '_2'
+    else:
+        ending = ''
+
+    template = f"_templates/global/Task_templates/pages/{task}{ending}.html"
+    instructions = f"_templates/global/Task_templates/pages/{task}_instructions{ending}.html"
+    return template, instructions
+
+
+
 
 # PAGES
-class Quiz_instructions(Page):
+class Instruction_1(Page):
+    @staticmethod
+    def vars_for_template(player: Player):
+        task = get_task(player, 1)
+        instructions = get_task_Template(task, 1)[1]
+        player.participant.vars['task'] = task
+        print(instructions)
+        return {
+            'Instructions_path': instructions,
+            'task': task,
+        }
+        
+        
+class Instruction_2(Page):
     pass
-class Emotion_instructions(Page):
+class Instruction_3(Page):
     pass
-class Math_instructions(Page):
-    pass
-class Spot_instructions(Page):
+class Instruction_4(Page):
     pass
 
-class Quiz_instructions_2(Page):
-    pass
-class Emotion_instructions_2(Page):
-    pass
-class Math_instructions_2(Page):
-    pass
-class Spot_instructions_2(Page):
+class Instruction_5(Page):
     pass
 
-class Quiz(Page):
-    form_model = 'player'
-    form_fields = ['Quiz'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Quiz']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Quiz',
-                'type': 'trial'} 
-    
-class Emotion(Page):
-    form_model = 'player'
-    form_fields = ['Emotion'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Emotion']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Emotion',
-                'trial': 'trial'} 
-        
-class Math(Page):
-    form_model = 'player'
-    form_fields = ['Math', 'Math_Attempts'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Math', 'Math_Attempts']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Math',} 
-        
-class Spot(Page):
-    form_model = 'player'
-    form_fields = ['Spot'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Spot']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Spot',
-                'trial': 'trial'}  
-class Quiz_2(Page):
-    form_model = 'player'
-    form_fields = ['Quiz_2'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Quiz']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Quiz_2',
-                'type': 'trial2'} 
-    
-class Emotion_2(Page):
-    form_model = 'player'
-    form_fields = ['Emotion_2'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Emotion']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Emotion_2',
-                'trial': 'trial2'} 
-        
-class Math_2(Page):
-    form_model = 'player'
-    form_fields = ['Math_2', 'Math_Attempts'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Math_2', 'Math_Attempts']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Math_2',} 
-        
-class Spot_2(Page):
-    form_model = 'player'
-    form_fields = ['Spot_2'] 
-    
-    timeout_seconds = C.Round_length
-    timer_text = C.Timer_text
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = {
-            'hidden_fields': [],
-        }
-        
-        # Add or modify variables specific to ExtendedPage
-        for _ in ['Spot']:
-            variables['hidden_fields'].append(_)
-        return variables
-    
-    @staticmethod
-    def js_vars(player: Player):
-        return {'field_name': 'Spot_2',
-                'trial': 'trial2'}  
+class Instruction_6(Page):
+    pass
 
+class Instruction_7(Page):
+    pass
+
+class Instruction_8(Page):
+    pass
+
+class Game_1(Page):
+    
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        task = get_task(player, 1)
+        template, instructions = get_task_Template(task, 1)
+        
+        return {
+            'Instructions_path': instructions,
+            'task': task,
+            'template_path': template,
+        }
+
+class Game_2(Page):
+    pass
+class Game_3(Page):
+    pass
+class Game_4(Page):
+    pass
+
+class Game_5(Page):
+    pass
+
+class Game_6(Page):
+    pass
+
+class Game_7(Page):
+    pass
+
+class Game_8(Page):
+    pass
 
 class Practice_Results(Page):
     @staticmethod
@@ -315,11 +212,6 @@ class Practice_Results(Page):
 
 # Page sequence
 
-# page_sequence = [Spot_instructions, Spot,
-#                  Spot_instructions_2, Spot_2,
-#                  Practice_Results] 
-#TODO: uncomment below
-page_sequence = [Quiz_instructions, Quiz, Emotion_instructions, Emotion, Math_instructions, Math, Spot_instructions, Spot,
-                Quiz_instructions_2, Quiz_2, Emotion_instructions_2, Emotion_2, Math_instructions_2, Math_2, Spot_instructions_2, Spot_2,
-                Practice_Results] 
+page_sequence = [Instruction_1, Game_1, Instruction_2, Game_2, Instruction_3, Game_3, Instruction_4, Game_4,
+                 Instruction_5, Game_5, Instruction_6, Game_6, Instruction_7, Game_7, Instruction_8, Practice_Results]
 
