@@ -5,7 +5,8 @@ SESSION_CONFIGS = [
     dict(name='Experiment', 
          app_sequence=[
              'Block_0_Introduction', 
-             'Block_1_Practice', 
+            #  'Block_1_Practice', 
+             'Block_1_Practice_NotRandomized',
              'Blocks_23_Mechanism_Attributes_Revisit',
              'Block_4_MarketLevelOutcomes', 
              'Block_98_Play',
@@ -14,7 +15,7 @@ SESSION_CONFIGS = [
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
     dict(name='MechanismAttributesRevisit', 
          app_sequence=['Block_0_Introduction', 'Blocks_23_Mechanism_Attributes_Revisit'],
-         num_demo_participants=10,
+         num_demo_participants=14, #need at least 10 participants, 5 for each mechs.
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
 
     dict(name='Practice', 
@@ -45,7 +46,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = [
     'Allowed','Comprehension_passed', 'Attention_passed',
     'task_order',
-    'Treatment', 'Group', 'Group_id_counter',
+    'Treatment', 'Group', 'ID_in_Group', 'ID_in_Treatment',
     'Random_bundle', 'Final_bundle',
     'Bonus_1', 'Bonus_2'
 ]

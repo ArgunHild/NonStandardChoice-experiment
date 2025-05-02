@@ -119,14 +119,23 @@ function Binary() {
         }
     }
 
-    const total = comparisons.length + Math.ceil(Math.log2(comparisons.length + 1));
+
+    // const total = comparisons.length + Math.ceil(Math.log2(comparisons.length + 1));
+    const total = availableBundles.length-1;
     let progress = 0;
     let winners = [];
     let index = 0;
 
+    // If there is an unpaired bundle, add it directly to the winners list
+    if (availableBundles.length % 2 !== 0) {
+        winners.push(availableBundles[availableBundles.length - 1]);
+    }
+    
     function updateProgressBar() {
+        console.log('comparisons length', comparisons.length)
         const percent = (progress / total) * 100;
         document.getElementById("progressBar").style.width = `${percent}%`;
+        // console.log("→ [Binary] Total comparisons:", total);
         console.log("Progress:", progress, "/", total);
     }
 
@@ -137,12 +146,12 @@ function Binary() {
         let key2 = Array.isArray(bundle2) ? bundle2.join("_") : bundle2;
         let emoji2 = bundleIcons[bundle2] || bundle2;
 
-        console.log("→ [Binary] bundle1:", bundle1);
-        console.log("→ [Binary] key1:", key1);
-        console.log("→ [Binary] icon1:", bundleIcons[key1]);
-        console.log("→ [Binary] bundle2:", bundle2);
-        console.log("→ [Binary] key2:", key2);
-        console.log("→ [Binary] icon2:", bundleIcons[key2]);
+        // console.log("→ [Binary] bundle1:", bundle1);
+        // console.log("→ [Binary] key1:", key1);
+        // console.log("→ [Binary] icon1:", bundleIcons[key1]);
+        // console.log("→ [Binary] bundle2:", bundle2);
+        // console.log("→ [Binary] key2:", key2);
+        // console.log("→ [Binary] icon2:", bundleIcons[key2]);
 
         container.innerHTML = `
             <div class="comparison" style="display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 20px;">
@@ -161,7 +170,7 @@ function Binary() {
         updateProgressBar();
         winners.push(winner);
 
-        if (index < comparisons.length - 1) {
+        if (index < comparisons.length-1) {
             index++;
             let [b1, b2] = comparisons[index];
             startComparison(b1, b2);

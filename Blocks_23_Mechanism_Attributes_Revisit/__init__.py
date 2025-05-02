@@ -41,7 +41,7 @@ def get_bundle_icons(player, rank, difficulty):
     
     return result
 
-def return_available_bundles(player, rank, difficulty, save_to_player=False):
+def return_available_bundles(player, rank, difficulty, save_to_player=False, return_unavailable_bundles=False):
     """
     Returns a dictionary of available bundles for a player based on the specified difficulty and rank.
     
@@ -57,28 +57,36 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False):
     assert difficulty in ['Easy', 'Medium', 'Difficult'], "Invalid difficulty level."
     assert rank in [1, 2, 3, 4, 5], "Rank must be between 1 and 5."
 
-    player_id_group = player.participant.Group_id_counter
-    Group = player.participant.Group
+    player_id_group = player.participant.ID_in_Group
+    # Group = player.participant.Group
     # Selecting the correct bundle dictionary
     bundle_dict = {
         'Easy': C.BUNDLES_EASY,
         'Medium': C.BUNDLES_MEDIUM,
         'Difficult': C.BUNDLES_HIGH
     }[difficulty]
-
+    
+    # print(player.participant.Group)
+    
+    players_dict = {p.participant.ID_in_Group: p for p in player.subsession.get_players()
+                if p.participant.id_in_session in player.participant.Group}  # Lookup dict for players
+    
+    print("print: players_dict",players_dict.keys())
+    
     # If rank is 1, return initial bundles instead of filtering
     if rank == 1:
-        'if player is rank 1 he gets menu#Group_id_counter e.g. if hes the second player he gets the second menu'
-        returnable = bundle_dict.get(f"{player_id_group}", {})
+        "if player is rank 1 he gets menu#ID_in_Group e.g. if he's the second player he gets the second menu"
+        # if this is the 1st player, he gets menu 1; 2nd player gets menu 2, etc.
+        menu = player_id_group  # if thiis is the 6th player, then his id is 6-5=1, set in the first app.
+            
+        available_bundles = bundle_dict.get(f"{menu}", {}) # if this is the 6th player, he gets menu 1 again; 7 -> 2, 8 -> 3, etc.
+            
         if save_to_player:
-            setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(returnable.keys())))
+            setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
                 
-        return returnable, 1  # Return full dictionary for rank 1
+        return available_bundles, menu  # Return full dictionary for rank 1
 
-    
-    players_dict = {p.participant.Group_id_counter: p for p in player.subsession.get_players()
-                    if p.participant.id_in_session in player.participant.Group}  # Lookup dict for players
-        
+
     unavailable_bundles = []
 
     # Mapping difficulty to attribute names dynamically
@@ -90,57 +98,66 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False):
 
     # Get the correct list of attributes based on difficulty
     chosen_ranks = rank_attributes[difficulty]
-
+    
+    # Return dictionary without unavailable bundles; note that player_id_group is always <=5. even if n>20
+    menu_current = ((player_id_group + rank - 2) % 5) + 1 # e.g., for player 4 in rank 2, menu will be 1
+    
     '''
-    for player 1 (group_id_counter = 1) 
-        - rank 1, no unavailable bundles; menu #1
-        - rank 2, unavailable bundles: what player 2 chose in rank 1 from menu 2; menu #2
+    for player 1 (ID_in_Group = 1) 
+        - rank 1, no unavailable bundles == everythings available; menu #1
+        - rank 2, unavailable bundles are: what player 2 chose in rank 1 from menu 2; menu #2
         - .. 
         - rank 5, unavailable bundles: what player 5 chose in rank1, what player 4 chose in rank 4, .. ; menu #5
         
-    for player i, (for Group_id_counter i in 1, 2, 3, 4, 5)
-        - rank 1, no unavailable bundles; menu #Group_id_counter
-        - rank i, unavailable bundles: what player i+1 chose in rank i-1 from menu i+1; menu #Group_id_counter + i
+    for player i, (for ID_in_Group i in 1, 2, 3, 4, 5)
+        - rank 1, no unavailable bundles; menu #ID_in_Group
+        - rank i, unavailable bundles: what player i+1 chose in rank i-1 from menu i+1; menu #ID_in_Group + i
             - if i+1 > 5, then we start from 1 again (next guy)
             
     for player i > 5
-        - algorithm treats him as player 1.
+        - algorithm treats him as player i-5, so he gets menu #ID_in_Group - 5
     '''
     # Extract unavailable bundles dynamically
+    print('========DEBUGGING========')
     next_guy = player_id_group  
-    opponent_rank = 0
-    for x in range(1, rank): #range (0,rank): 1, 2, ... rank-1
-        opponent_rank += 1
-        next_guy += 1 #initially the next guy is the participant himself but then we increment it by one
-        if next_guy >min(5, len(players_dict)+1): #if next guy is greater than 5, then we start from 1 again
-            next_guy = 1 
-        # # print('players in this group',   players_dict.keys())
-        # # print('current guys id:', player_id_group,'next guy is:', next_guy)
-        # get the player whose Group_id_counter == x - 1, this person has picked, in the previous round, from the relevant bundle.
-        # # print('playersdict' ,players_dict)
+    next_guy_rank = rank -2
+    for x in range(1, rank):  # x = 1 to rank-1 e.g, if rank=3, x = 1,2; rank = 5, x = 1,2,3,4
+        next_guy += 1 # e.g., if player 1, rank 2, next_guy starts at 2.
+        if next_guy > 5:
+            next_guy = 1
+
         player_object = players_dict[next_guy]
+        unavailable = getattr(player_object, chosen_ranks[next_guy_rank])  # CORRECT INDEXING!
+        if unavailable:
+            unavailable_clean = unavailable.strip('"').strip().lower()
+            unavailable_bundles.append(unavailable_clean)
+
+        print(f"looped through {x} times")
+        print(f'Menu: {menu_current};id: {player_id_group} ;Rank: {rank}')
+        print(f"player with group id {next_guy}, at rank {next_guy_rank}, had picked {getattr(player_object, chosen_ranks[next_guy_rank])}")
+        print('\n')
         
-        # remove what player x-opponent_rank (group_id) what he picked in his choice x-opponent_rank 
-        # (e.g. if group_id = 3 and rank 4,
-        #   then we remove what player 4 picked in his choice 3, 
-        #   + what player 5 picked in his choice 4, etc. 
-        #TODO: MICHI: check if the person is assigned proper menu and check if the remaining bundles are proper. Check for the case where there are more than 5 players
-        unavailable_bundles.append(getattr(player_object, chosen_ranks[x-opponent_rank]))
-        # # print(f'Rank: {rank}, player with group id {next_guy} had picked {getattr(player_object, chosen_ranks[x-opponent_rank])}')
-    # Return dictionary without unavailable bundles
-    menu_current = player_id_group + rank - 1 # e.g. if player is 2nd in group and rank 3, then he gets menu 4
-    if player_id_group + rank - 1 > min(5, len(players_dict)+1): #but if there is no player 4 or he is 5th player then he gets menu 4
-        menu_current = 1
-    
+        next_guy_rank -= 1  
+
     # returnable = {k: v for k, v in bundle_dict.get(f"{player_id_group + rank - 1}", {}).items() if k not in unavailable_bundles}
-    returnable = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items() if k not in unavailable_bundles}
-    # # print('returnable', returnable, 'unavailable', unavailable_bundles)
-    # # print('\n\n')
+    # available_bundles = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items() if k not in unavailable_bundles}
+    available_bundles = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items()
+                     if k.strip().lower() not in unavailable_bundles}
+
+    # unavailable_bundles = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items() if k in unavailable_bundles}
+    unavailable_bundles = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items()
+                            if k.strip().lower() in unavailable_bundles}
+
+    print('returnable', available_bundles, 'unavailable', unavailable_bundles)
+    print('\n\n')
     
     if save_to_player:
-        setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(returnable.keys())))
+        setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
     
-    return returnable, menu_current
+    if return_unavailable_bundles:
+        return available_bundles, menu_current, unavailable_bundles
+    else:    
+        return available_bundles, menu_current
 
 def calculate_task_scores(player):
     """
@@ -960,9 +977,18 @@ Pseudo code:
 def get_variables_for_template(player: Player, rank: int, difficulty: str):
     variables = MyBasePage.vars_for_template(player)
     variables['Mechanism'] = player.participant.Treatment
-    variables['player_Group_id'] = player.participant.Group_id_counter
+    variables['player_Group_id'] = player.participant.ID_in_Group
     variables['AvailableBundles'] = list(return_available_bundles(player, rank, difficulty)[0].values())
     variables['Menu'] = return_available_bundles(player, rank, difficulty)[1]
+    
+    if rank==1:
+        variables['UnavailableBundles'] = 'ALL IS PERMITTED TO THE FIRST BORN!'
+    else:
+        variables['UnavailableBundles'] = list(return_available_bundles(player, rank, difficulty, return_unavailable_bundles=True)[2].values())
+    if player.participant.ID_in_Treatment >5:
+        variables['Note'] = f"This players decisions have no bearing on others ({player.participant.ID_in_Treatment}th player in treatment)"
+    else:
+        variables['Note'] = f"This players decisions have a bearing on others ({player.participant.ID_in_Treatment}th player in treatment)"
     variables['rank_sentence'] = C.Rank_sentence[rank]
     return variables
 

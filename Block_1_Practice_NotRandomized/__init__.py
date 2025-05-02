@@ -12,7 +12,7 @@ Your app description
 # TODO: market level outcomes app: Add WTA questions for 1 out of 15 outcomes (for now)
 
 class C(BaseConstants):
-    NAME_IN_URL = 'Learning_stage'
+    NAME_IN_URL = 'Practice'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     

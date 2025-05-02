@@ -33,25 +33,48 @@ def creating_session(subsession):
     players = subsession.get_players()
     
     #TODO: remove this code below. FOr now this is there to allow me to bypass comprehension
-    for p in players:
+    # for p in players:
         
-        # randomly select one of the 15 bundles to be relevant
-        selected_rank = random.randint(1, 5) 
-        selected_difficulty = random.choice(['Easy', 'Medium', 'Difficult']) 
-        p.participant.Random_bundle = f'{selected_difficulty}_{selected_rank}'  
+    #     # randomly select one of the 15 bundles to be relevant
+    #     selected_rank = random.randint(1, 5) 
+    #     selected_difficulty = random.choice(['Easy', 'Medium', 'Difficult']) 
+    #     p.participant.Random_bundle = f'{selected_difficulty}_{selected_rank}'  
         
-        p.participant.vars['Comprehension_passed'] = True
-        p.participant.vars['Allowed'] = True   
+    #     p.participant.vars['Comprehension_passed'] = True
+    #     p.participant.vars['Allowed'] = True   
     
     
-    # Treatments
-    for i, player in enumerate(players):
-        if i < len(players)//2:
-            player.participant.Treatment = 'Binary'
-            # player.participant.Treatment = 'Binary'
+    
+    # Treatment assignment.
+    # Randomly decide which treatment will go to the first half
+    first_half_treatment = random.choice(['Binary', 'Sequential'])
+    second_half_treatment = 'Sequential' if first_half_treatment == 'Binary' else 'Binary'
+
+    # Sort players by ID_in_subsession for consistency
+    players_sorted = sorted(players, key=lambda p: p.participant.id_in_session)
+    half = len(players_sorted) // 2
+
+    Tr1_counter = 1
+    Tr2_counter = 1
+    
+    for i, p in enumerate(players_sorted):
+        if i < half:
+            p.participant.Treatment = first_half_treatment
+            p.participant.ID_in_Treatment = Tr1_counter # Assign ID in treatment group
+            Tr1_counter += 1
         else:
-            player.participant.Treatment = 'Sequential'
-            player.participant.Treatment = 'Sequential'
+            p.participant.Treatment = second_half_treatment
+            p.participant.ID_in_Treatment = Tr2_counter # Assign ID in treatment group
+            Tr2_counter += 1
+
+            
+    
+    #TODO: remove this code below. FOr now this is there to allow me to bypass comprehension
+    # for debugging purposes, remove this code below
+    # for p in players:
+    #     p.participant.Treatment = 'Sequential'
+    
+    
     
     # GROUP ASSIGNMENT
     treatment1_players = [p for p in players if p.participant.Treatment == 'Binary']
@@ -62,30 +85,22 @@ def creating_session(subsession):
         #TODO: check that treatment assignment works well
         
         '''
-        Group assignment works as follows:
-        - for each player in the particular mechanism, pick 4 other random players 
-            - (if there's less than 4, pick all) and assign them to the group.
-        - for example for Player 4 Group: [3, 5, 2, 1].
-           - This means player with id 3 will be rank 1, player with id 5 will be rank 5 and so forth
-           - in the mechanism when player 4 is 
-                - rank 1 he chooses from all bundles
-                - rank 2 he chooses from all bundles - what player 3 has chosen and so forth. 
+	    1. Each player is assigned randomly an id from 1 till N (session size//2 - given 2 mechanisms). 
+	    2. For the first 5 participants, each player is in a group with the other 4 participants. for the remaining players, their choices have no bearing on the first 5 players, but the first 5 players choies affect the available bundles of these players. (Remember that group id assignment is random.)
         '''
-        
-        random.shuffle(player_list)
-        group_id_counter = 1
-        for player in player_list:
-            # Select 4 random player IDs from the same treatment
-            player.participant.Group = [
-                p.participant.id_in_session for p in random.sample(
-                    [p for p in player_list if p != player], 
-                    min(4, len(player_list) - 1)
-                )]
-            player.participant.Group_id_counter = group_id_counter
-            group_id_counter += 1
-            # # print('players groupmembers:', player.participant.Group)
-            # # print('id in group', player.participant.Group_id_counter)
+               
+    def assign_groups(player_list):
+        group_ids = [p.participant.id_in_session for p in player_list]  # session-wide IDs
 
+        for player in player_list:
+            player_id = player.participant.ID_in_Treatment
+            player_id = ((player_id - 1) % 5) + 1
+            player.participant.ID_in_Group = player_id
+
+            # Group is everyone else’s id_in_session
+            player.participant.Group = [p.participant.id_in_session for p in player_list if p != player]
+
+            
     # Assign groups within each treatment
     assign_groups(treatment1_players)
     assign_groups(treatment2_players)
