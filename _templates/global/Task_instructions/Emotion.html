@@ -1,41 +1,34 @@
-<style>
-    .center {
-      text-align: center;
-    }
-  </style>
-
-<div class="card bg-light m-3">
-    <div class="card-body">
-       <h2 class="center">The EmotionRecognition Game</h2>
-       <h3>Basics</h3>
-        In this task, you will see a person depicting a certain emotion.
-        
-        Your task is to choose the correct emotion depicted in the picture.
-
-        <br><br>
-        An example is depicted below. 
-        In this example, the correct answer is "Amusement".
-    
-
-       
-       <br>
-       <p style="text-align: center;"><strong>Example</strong></p>
-       <div class="task-example">
-        <img src="{{static 'Game_explanation_pics/Emotion.png'}}" style="width: 100%; height: auto;">
-       </div> 
-       <br>
-
-       
-       
-       <h3>Scoring</h3>
-       There will be 10 many pictures in total.
-       
-       Each correctly answered question counts as one problem solved. 
-        <br>
-       <br><br>
-   
-
-   
-
+<div class="section-box box-neutral">
+  <div class="section-header">
+      <div class="icon">🧠</div>
+      <h3>The Emotion Recognition Game</h3>
   </div>
-    </div>
+  <p>
+      In this task, you will see a person displaying a specific emotion.
+      Your job is to <strong>choose the correct emotion</strong> from a list of options.
+  </p>
+</div>
+
+<div class="section-box box-info">
+  <div class="section-header">
+      <div class="icon">🖼️</div>
+      <h3>Example</h3>
+  </div>
+  <div class="task-example" style="text-align: center;">
+      <img src="{{ static 'Game_explanation_pics/Emotion.png' }}" style="width: 80%; height: auto;">
+  </div>
+  <p style="text-align: center; margin-top: 10px;">
+      In this example, the correct answer would be <strong>“Amusement.”</strong>
+  </p>
+</div>
+
+<div class="section-box box-calm">
+  <div class="section-header">
+      <div class="icon">🎯</div>
+      <h3>Scoring</h3>
+  </div>
+  <p>
+      You will see <strong>10 pictures</strong> in total.
+      Each correctly identified emotion counts as one problem solved.
+  </p>
+</div>

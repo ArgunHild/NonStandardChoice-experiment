@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spot the Difference</title>
-    
     <link rel="stylesheet" href="{{static 'css/SpotTheDifference.css'}}">
     <script src="{{ static 'js/SpotTheDifference.js' }}"></script>
-
 </head>
-
 <body>
-    <p>Find all the differences between the two images. Mark the differences on the Right image.</p>
-    <p id="circlesCount">Circles placed: 0/10</p>
+    <div class="game-instructions">
+        <p>Find all 10 differences between the two images. <strong>Click on each difference on the right image.</strong></p>
+        <p id="circlesCount" class="counter"><strong>Differences marked:</strong> <span class="highlight">0/10</span></p>
+    </div>
     
     <div id="gameArea">
         <div class="imageContainer">
-            <!-- TODO: adjust the source -->
-            <img id="image1" src="https://raw.githubusercontent.com/argunaman2022/stereotypes-replication/master/_static/pics/Change_detection/Pic6_left.png" alt="Image 1" width="400px">
+            <img id="image1" src="https://raw.githubusercontent.com/argunaman2022/stereotypes-replication/master/_static/pics/Change_detection/Pic6_left.png" alt="Reference Image" width="400">
         </div>
+        
         <div class="imageContainer">
-            <img id="image2" src="https://raw.githubusercontent.com/argunaman2022/stereotypes-replication/master/_static/pics/Change_detection/Pic6_right.png"  alt="Image 2" width="400px">
+            <img id="image2" src="https://raw.githubusercontent.com/argunaman2022/stereotypes-replication/master/_static/pics/Change_detection/Pic6_right.png" alt="Find Differences Here" width="400">
             <canvas id="overlayCanvas"></canvas>
         </div>
     </div>
-    
-    
 </body>
-    
-    
-    
-    
-</body>
-
 </html>
