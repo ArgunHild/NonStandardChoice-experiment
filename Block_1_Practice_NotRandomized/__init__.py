@@ -24,11 +24,12 @@ class C(BaseConstants):
     
     # Games paths
     Emotion_recognition_template = "_templates/global/Task_templates/Emotion.html"
-    Quiz_temlpate_path = "_templates/global/Task_templates/Quiz.html"
+    Quiz_template_path = "_templates/global/Task_templates/Quiz.html"
     Math_template_path = "_templates/global/Task_templates/Math.html"
     Spot_the_difference_template_path = "_templates/global/Task_templates/Spot.html"
     Spot_the_difference_template_path_2 = "_templates/global/Task_templates/Spot_2.html"
     
+    #TODO: check why circles are shifted to the right relative to clicking point for Spot round 1 (for round 2 everything is fine)
     
     # Task instruction paths
     Math_instructions = "_templates/global/Task_instructions/Math.html"
@@ -38,6 +39,13 @@ class C(BaseConstants):
         
     Bonus_1 = 0.5 #TODO: adjust the bonus for practice stage. Make sure participant knows about the bonus in the instructions.
     
+
+        # Max achievable scores (hardcoded for now)
+    Max_Math = 24         # TODO: Make dynamic based on actual task settings
+    Max_Quiz = 30         # TODO: Make dynamic based on actual task settings
+    Max_Spot = 10         # TODO: Make dynamic based on actual task settings
+    Max_Emotion = 10      # TODO: Make dynamic based on actual task settings
+
     Bonus_cutoffs = {
         'Quiz': 1, #TODO: adjust these
         'Emotion': 1,
@@ -299,7 +307,12 @@ class Practice_Results(Page):
             'Quiz_2': player.Quiz_2,
             'Emotion_2': player.Emotion_2,
             'Math_2': player.Math_2,
-            'Spot_2': player.Spot_2
+            'Spot_2': player.Spot_2,
+
+            'Max_Quiz': C.Max_Quiz,
+            'Max_Emotion': C.Max_Emotion,
+            'Max_Math': C.Max_Math,
+            'Max_Spot': C.Max_Spot,
             #
             # 'We do not display bonuses at this stage to avoid any sort of wealth effects.'
             # 'QuizBonus': player.Bonus_Quiz + player.Bonus_Quiz_2,

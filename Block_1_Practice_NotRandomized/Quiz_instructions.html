@@ -1,12 +1,22 @@
-{{ block title }}
-[[Template name: Learning stage quiz task]]
-{{ endblock }}
+{{ block title }}{{ endblock }}
+
 {{ block content }}
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
-{{include C.Quiz_instructions}}
+<div class="content-box box-neutral">
+    <h2 class="section-title">Learning Stage – Quiz Task</h2>
+    <hr class="section-divider">
 
+ 
 
-    {{ next_button }}
+    <!-- Main quiz instructions -->
+    {{ include C.Quiz_instructions }}
+
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <button id="NextButton" class="btn btn-primary">Start Quiz</button>
+    </div>
+</div>
+
 {{ endblock }}
-
-

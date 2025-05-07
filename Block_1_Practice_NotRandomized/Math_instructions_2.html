@@ -1,14 +1,19 @@
-{{ block title }}
-[[Template name: Learning stage MathMemory task; Round2]]
-{{ endblock }}
+{{ block title }}{{ endblock }}
+
 {{ block content }}
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
+<div class="content-box box-neutral">
+    <h2 class="section-title">Learning Stage – Math Memory (Round 2)</h2>
+    <hr class="section-divider">
 
-<p>
-    On the next page, you will play the second round of the MathMemory game.
-    </p>
+    {{ include C.Math_instructions }}
 
-    {{ next_button }}
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <button id="NextButton" class="btn btn-primary">Start Task</button>
+    </div>
+</div>
+
 {{ endblock }}
-
-
