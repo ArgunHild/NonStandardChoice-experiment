@@ -321,16 +321,15 @@ class C(BaseConstants):
             "Emotion": "😃",
     }
     
-    #TODO: MICHI, double check pls.
     BUNDLES_EASY = {
         "1": {
-            "Math_2": "🔢<sub>2</sub>",  # Calculator with 3
+            "Math_2": "🔢<sub>2</sub>",  # Calculator with 2
             "Spot_1": "🔍<sub>1</sub>",  # Magnifying glass with 1
             "Quiz_1": "📚<sub>1</sub>",  # Books with 1
             "Emotion_1": "😃<sub>1</sub>",  # Smiley face with 1
             "Math_1": "🔢<sub>1</sub>",  # Calculator with 1
             "Emotion_2": "😃<sub>2</sub>",  # Smiley face with 2
-            "Quiz_2": "🔍<sub>2</sub>"  # Magnifying glass with 3
+            "Spot_2": "🔍<sub>2</sub>"  # Magnifying glass with 2
         },
         "2": {
             "Math_2": "🔢<sub>2</sub>",
@@ -338,7 +337,7 @@ class C(BaseConstants):
             "Quiz_2": "📚<sub>2</sub>",
             "Emotion_2": "😃<sub>2</sub>",
             "Math_1": "🔢<sub>1</sub>",
-            "Quiz_1": "😃<sub>1</sub>",
+            "Quiz_1": "📚<sub>1</sub>",
             "Spot_1": "🔍<sub>1</sub>"
         },
         "3": {
@@ -357,7 +356,7 @@ class C(BaseConstants):
             "Emotion_3": "😃<sub>3</sub>",
             "Math_3": "🔢<sub>3</sub>",
             "Emotion_2": "😃<sub>2</sub>",
-            "Spot_3": "📚<sub>3</sub>"
+            "Spot_3": "🔍<sub>3</sub>"
         },
         "5": {
             "Math_2": "🔢<sub>2</sub>",
@@ -369,68 +368,67 @@ class C(BaseConstants):
             "Quiz_2": "📚<sub>2</sub>"
         }
     }
-    #TODO: MICHI double check pls
-    BUNDLES_MEDIUM = {
+
+    BUNDLES_MEDIUM = { #done
         "1": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
+            "Math_2_Emotion_2": "🔢<sub>2</sub> + 😃<sub>2</sub>",
+            "Spot_1_Quiz_2": "🔍<sub>1</sub> + 📚<sub>2</sub>",
+            "Quiz_2_Emotion_1": "📚<sub>2</sub> + 😃<sub>1</sub>",
+            "Emotion_2_Quiz_1": "😃<sub>2</sub> + 📚<sub>1</sub>",
+            "Math_1_Emotion_2": "🔢<sub>1</sub> + 😃<sub>2</sub>",
+            "Quiz_1_Emotion_1": "📚<sub>1</sub> + 😃<sub>1</sub>",
+            "Spot_1_Quiz_1": "🔍<sub>1</sub> + 📚<sub>1</sub>"
+        },
+        "2": { #done
+            "Math_2_Spot_2": "🔢<sub>2</sub> + 🔍<sub>2</sub>",
+            "Spot_1_Math_2": "🔍<sub>1</sub> + 🔢<sub>2</sub>",
+            "Quiz_2_Spot_1": "📚<sub>2</sub> + 🔍<sub>1</sub>",
+            "Emotion_2_Math_1": "😃<sub>2</sub> + 🔢<sub>1</sub>",
+            "Math_1_Spot_2": "🔢<sub>1</sub> + 🔍<sub>2</sub>",
+            "Quiz_1_Spot_1": "📚<sub>1</sub> + 🔍<sub>1</sub>",
+            "Spot_1_Math_1": "🔍<sub>1</sub> + 🔢<sub>1</sub>"
+        },
+        "3": { #done
+            "Math_2_Emotion_3": "🔢<sub>2</sub> + 😃<sub>3</sub>",
+            "Spot_1_Quiz_3": "🔍<sub>1</sub> + 📚<sub>3</sub>",
+            "Quiz_2_Emotion_2": "📚<sub>2</sub> + 😃<sub>2</sub>",
+            "Emotion_3_Quiz_2": "😃<sub>3</sub> + 📚<sub>2</sub>",
+            "Math_1_Emotion_3": "🔢<sub>1</sub> + 😃<sub>3</sub>",
+            "Quiz_1_Emotion_2": "📚<sub>1</sub> + 😃<sub>2</sub>",
+            "Spot_1_Quiz_2": "🔍<sub>1</sub> + 📚<sub>2</sub>"
+        },
+        "4": { #done
+            "Math_2_Spot_3": "🔢<sub>3</sub> + 🔍<sub>3</sub>",
+            "Spot_1_Math_3": "🔍<sub>1</sub> + 🔢<sub>3</sub>",
+            "Quiz_2_Spot_2": "📚<sub>2</sub> + 🔍<sub>2</sub>",
+            "Emotion_2_Math_2": "😃<sub>2</sub> + 🔢<sub>2</sub>",
+            "Math_1_Spot_3": "🔢<sub>1</sub> + 🔍<sub>3</sub>",
+            "Quiz_1_Spot_2": "📚<sub>1</sub> + 🔍<sub>2</sub>",
+            "Spot_1_Math_2": "🔍<sub>1</sub> + 🔢<sub>2</sub>"
+        },
+        "5": { #done
+            "Math_2_Emotion_3": "🔢<sub>2</sub> + 😃<sub>3</sub>",
             "Spot_2_Emotion_3": "🔍<sub>2</sub> + 😃<sub>3</sub>",
             "Quiz_2_Emotion_3": "📚<sub>2</sub> + 😃<sub>3</sub>",
             "Emotion_2_Emotion_3": "😃<sub>2</sub> + 😃<sub>3</sub>",
-            "Math_2_Emotion_3": "🔢<sub>2</sub> + 😃<sub>3</sub>",
-            "Quiz_3_Emotion_3": "📚<sub>3</sub> + 😃<sub>3</sub>",
+            "Math_1_Emotion_3": "🔢<sub>1</sub> + 😃<sub>3</sub>",
+            "Quiz_1_Emotion_3": "📚<sub>1</sub> + 😃<sub>3</sub>",
             "Spot_1_Emotion_3": "🔍<sub>1</sub> + 😃<sub>3</sub>"
-        },
-        "2": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_3_Emotion_3": "🔍<sub>3</sub> + 😃<sub>3</sub>",
-            "Quiz_3_Emotion_3": "📚<sub>3</sub> + 😃<sub>3</sub>",
-            "Emotion_3_Quiz_3": "😃<sub>3</sub> + 📚<sub>3</sub>",
-            "Math_3_Quiz_3": "🔢<sub>3</sub> + 📚<sub>3</sub>",
-            "Emotion_2_Spot_3": "😃<sub>2</sub> + 🔍<sub>3</sub>",
-            "Spot_1_Emotion_2": "🔍<sub>1</sub> + 😃<sub>2</sub>"
-        },
-        "3": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_3_Emotion_3": "🔍<sub>3</sub> + 😃<sub>3</sub>",
-            "Quiz_3_Emotion_3": "📚<sub>3</sub> + 😃<sub>3</sub>",
-            "Emotion_3_Quiz_3": "😃<sub>3</sub> + 📚<sub>3</sub>",
-            "Math_3_Quiz_3": "🔢<sub>3</sub> + 📚<sub>3</sub>",
-            "Emotion_2_Spot_3": "😃<sub>2</sub> + 🔍<sub>3</sub>",
-            "Spot_1_Emotion_2": "🔍<sub>1</sub> + 😃<sub>2</sub>"
-        },
-        "4": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_3_Emotion_3": "🔍<sub>3</sub> + 😃<sub>3</sub>",
-            "Quiz_3_Emotion_3": "📚<sub>3</sub> + 😃<sub>3</sub>",
-            "Emotion_3_Quiz_3": "😃<sub>3</sub> + 📚<sub>3</sub>",
-            "Math_3_Quiz_3": "🔢<sub>3</sub> + 📚<sub>3</sub>",
-            "Emotion_2_Spot_3": "😃<sub>2</sub> + 🔍<sub>3</sub>",
-            "Spot_1_Emotion_2": "🔍<sub>1</sub> + 😃<sub>2</sub>"
-        },
-        "5": {
-            "Math_3_Emotion_3": "🔢<sub>3</sub> + 😃<sub>3</sub>",
-            "Spot_3_Emotion_3": "🔍<sub>3</sub> + 😃<sub>3</sub>",
-            "Quiz_3_Emotion_3": "📚<sub>3</sub> + 😃<sub>3</sub>",
-            "Emotion_3_Quiz_3": "😃<sub>3</sub> + 📚<sub>3</sub>",
-            "Math_3_Quiz_3": "🔢<sub>3</sub> + 📚<sub>3</sub>",
-            "Emotion_2_Spot_3": "😃<sub>2</sub> + 🔍<sub>3</sub>",
-            "Spot_1_Emotion_2": "🔍<sub>1</sub> + 😃<sub>2</sub>"
         }
     }
 
 
-    #TODO: MICHI double check pls
     BUNDLES_HIGH = {
-        "1": {
+        "1": { #done
             "Math_2_Emotion_2_Spot_2": "🔢<sub>2</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub>",
             "Spot_1_Quiz_2_Spot_2": "🔍<sub>1</sub> + 📚<sub>2</sub> + 🔍<sub>2</sub>",
-            "Quiz_2_Emotion_1_Quiz_2": "📚<sub>2</sub> + 😃<sub>1</sub> + 📚<sub>2</sub>",
+            "Quiz_2_Emotion_1_Spot_2": "📚<sub>2</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub>",
             "Emotion_2_Quiz_1_Spot_2": "😃<sub>2</sub> + 📚<sub>1</sub> + 🔍<sub>2</sub>",
-            "Math_1_Emotion_2_Quiz_2": "🔢<sub>1</sub> + 😃<sub>2</sub> + 📚<sub>2</sub>",
+            "Math_1_Emotion_2_Spot_2": "🔢<sub>1</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub>",
             "Quiz_1_Emotion_1_Spot_2": "📚<sub>1</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub>",
             "Spot_1_Quiz_1_Spot_2": "🔍<sub>1</sub> + 📚<sub>1</sub> + 🔍<sub>2</sub>"
         },
-        "2": {
+        "2": { #done
             "Math_2_Spot_2_Emotion_1": "🔢<sub>2</sub> + 🔍<sub>2</sub> + 😃<sub>1</sub>",
             "Spot_1_Math_2_Emotion_1": "🔍<sub>1</sub> + 🔢<sub>2</sub> + 😃<sub>1</sub>",
             "Quiz_2_Spot_1_Emotion_1": "📚<sub>2</sub> + 🔍<sub>1</sub> + 😃<sub>1</sub>",
@@ -439,7 +437,7 @@ class C(BaseConstants):
             "Quiz_1_Spot_1_Emotion_1": "📚<sub>1</sub> + 🔍<sub>1</sub> + 😃<sub>1</sub>",
             "Spot_1_Math_1_Emotion_1": "🔍<sub>1</sub> + 🔢<sub>1</sub> + 😃<sub>1</sub>"
         },
-        "3": {
+        "3": { #done
             "Math_2_Emotion_3_Math_3": "🔢<sub>2</sub> + 😃<sub>3</sub> + 🔢<sub>3</sub>",
             "Spot_1_Quiz_3_Math_3": "🔍<sub>1</sub> + 📚<sub>3</sub> + 🔢<sub>3</sub>",
             "Quiz_2_Emotion_2_Math_3": "📚<sub>2</sub> + 😃<sub>2</sub> + 🔢<sub>3</sub>",
@@ -448,7 +446,7 @@ class C(BaseConstants):
             "Quiz_1_Emotion_2_Math_3": "📚<sub>1</sub> + 😃<sub>2</sub> + 🔢<sub>3</sub>",
             "Spot_1_Quiz_2_Math_3": "🔍<sub>1</sub> + 📚<sub>2</sub> + 🔢<sub>3</sub>"
         },
-        "4": {
+        "4": { #done
             "Math_2_Spot_3_Quiz_2": "🔢<sub>2</sub> + 🔍<sub>3</sub> + 📚<sub>2</sub>",
             "Spot_1_Math_3_Quiz_2": "🔍<sub>1</sub> + 🔢<sub>3</sub> + 📚<sub>2</sub>",
             "Quiz_2_Spot_2_Quiz_2": "📚<sub>2</sub> + 🔍<sub>2</sub> + 📚<sub>2</sub>",
@@ -526,23 +524,23 @@ class Player(BasePlayer):
     Difficult_rank_5_revisit_choice = models.StringField(label='')
     
     ### switch dummies. these are dictionaries 
-    Easy_rank_1_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Easy_rank_2_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Easy_rank_3_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Easy_rank_4_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Easy_rank_5_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Easy_rank_1_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Easy_rank_2_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Easy_rank_3_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Easy_rank_4_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Easy_rank_5_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
     
-    Medium_rank_1_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Medium_rank_2_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Medium_rank_3_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Medium_rank_4_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Medium_rank_5_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Medium_rank_1_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Medium_rank_2_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Medium_rank_3_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Medium_rank_4_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Medium_rank_5_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
     
-    Difficult_rank_1_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Difficult_rank_2_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Difficult_rank_3_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Difficult_rank_4_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
-    Difficult_rank_5_revisit_choice_switch = models.IntegerField(label='Would you like to take the offered bundle or stick to the mechanism outcome?', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Difficult_rank_1_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Difficult_rank_2_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Difficult_rank_3_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Difficult_rank_4_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
+    Difficult_rank_5_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Offered bundle'], [0, 'Mechanism outcome']], widget=widgets.RadioSelect)
         
     ### Outcome of the random choice
     Outcome_bundle = models.StringField()
@@ -746,7 +744,7 @@ class Attributes_tasks_Dimension_1(MyBasePage):
         # Add or modify variables specific to ExtendedPage
         
         variables['items'] = ["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"]
-        variables['DimensionAtHand'] = "CognitiveLoad"
+        variables['DimensionAtHand'] = "Cognitive Load"
         variables['DimensionText'] = C.CognitiveLoad_text
         
         variables['field_name'] = "ranking_order_CognitiveLoad"
@@ -773,7 +771,7 @@ class Attributes_tasks_Dimension_1_cardinality(MyBasePage):
         
         variables = MyBasePage.vars_for_template(player)
         
-        variables['DimensionAtHand'] = "CognitiveLoad"
+        variables['DimensionAtHand'] = "Cognitive Load"
         variables['DimensionText'] = C.CognitiveLoad_text_2
         
         # TODO: remove the next 2 lines (DEBUG ONLY)
@@ -870,7 +868,7 @@ class Attributes_tasks_Dimension_3_cardinality(MyBasePage):
         
         variables = MyBasePage.vars_for_template(player)
         
-        variables['DimensionAtHand'] = "TimeFfiency"
+        variables['DimensionAtHand'] = "Confidence"
         variables['DimensionText'] = C.Confidence_text
                 # TODO: remove the next 2 lines (DEBUG ONLY)
         if not ranking_order:
@@ -891,7 +889,7 @@ class Attributes_tasks_Dimension_4(MyBasePage):
         # Add or modify variables specific to ExtendedPage
         
         variables['items'] = ["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"]
-        variables['DimensionAtHand'] = "TimeEfficiency"
+        variables['DimensionAtHand'] = "Time Efficiency"
         variables['DimensionText'] = C.TimeEfficiency_text
         
         variables['field_name'] = "ranking_order_TimeEfficiency"
@@ -918,7 +916,7 @@ class Attributes_tasks_Dimension_4_cardinality(MyBasePage):
         
         variables = MyBasePage.vars_for_template(player)
         
-        variables['DimensionAtHand'] = "TimeEfficiency"
+        variables['DimensionAtHand'] = "Time Efficiency"
         variables['DimensionText'] = C.TimeEfficiency_text_2
         # TODO: remove the next 2 lines (DEBUG ONLY)
         if not ranking_order:
@@ -1414,6 +1412,15 @@ class Revisit_Difficult_rank5(MyBasePage):
     @staticmethod
     def vars_for_template(player: Player):
         return get_variables_for_template_revisit(player, 5, 'Difficult')
+    
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        # Choose a random round (difficulty and rank)
+        difficulties = ['Easy', 'Medium', 'Difficult']
+        ranks = [1, 2, 3, 4, 5]
+        difficulty = random.choice(difficulties)
+        rank = random.choice(ranks)
+        player.participant.Random_bundle = f"{difficulty}_{rank}"
 
 
 

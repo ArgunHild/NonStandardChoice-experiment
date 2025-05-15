@@ -1,5 +1,4 @@
 {{ block title }}
-    Your Learning Stage Results
 {{ endblock }}
 
 {{ block content }}
@@ -19,32 +18,39 @@
         <p>
             Below you can see how many points you earned in each game during the two learning rounds.
         </p>
-        <ul>
-            <li>
-                <span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🧮</span>
-                <strong>MathMemory:</strong>
-                Round 1: {{ Math_1 }} / {{ Max_Math }} points, 
-                Round 2: {{ Math_2 }} / {{ Max_Math }} points
-            </li>
-            <li>
-                <span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🧩</span>
-                <strong>Quiz:</strong>
-                Round 1: {{ Quiz_1 }} / {{ Max_Quiz }} points,
-                Round 2: {{ Quiz_2 }} / {{ Max_Quiz }} points
-            </li>
-            <li>
-                <span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🔍</span>
-                <strong>Spot the Difference:</strong>
-                Round 1: {{ Spot_1 }} / {{ Max_Spot }} points,
-                Round 2: {{ Spot_2 }} / {{ Max_Spot }} points
-            </li>
-            <li>
-                <span class="icon" style="font-size: 1.2rem; margin-right: 10px;">😊</span>
-                <strong>Emotion Recognition:</strong>
-                Round 1: {{ Emotion_1 }} / {{ Max_Emotion }} points,
-                Round 2: {{ Emotion_2 }} / {{ Max_Emotion }} points
-            </li>
-        </ul>
+        <!-- Performance Table -->
+        <table class="performance-table">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Round 1</th>
+                    <th>Round 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="icon">🧮</span> MathMemory</td>
+                    <td>{{ Math_1 }} / {{ Max_Math }} pts</td>
+                    <td>{{ Math_2 }} / {{ Max_Math }} pts</td>
+                </tr>
+                <tr>
+                    <td><span class="icon">🧩</span> Quiz</td>
+                    <td>{{ Quiz_1 }} / {{ Max_Quiz }} pts</td>
+                    <td>{{ Quiz_2 }} / {{ Max_Quiz }} pts</td>
+                </tr>
+                <tr>
+                    <td><span class="icon">🔍</span> Spot the Difference</td>
+                    <td>{{ Spot_1 }} / {{ Max_Spot }} pts</td>
+                    <td>{{ Spot_2 }} / {{ Max_Spot }} pts</td>
+                </tr>
+                <tr>
+                    <td><span class="icon">😊</span> Emotion Recognition</td>
+                    <td>{{ Emotion_1 }} / {{ Max_Emotion }} pts</td>
+                    <td>{{ Emotion_2 }} / {{ Max_Emotion }} pts</td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 
 

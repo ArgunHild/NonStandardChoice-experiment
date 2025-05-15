@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE:revisit easy rank 1]]
+
 {{ endblock }}
 
 {{ block content }}
@@ -14,16 +14,36 @@
         Mechanism outcome: {{MechanismOutcome}} <br>
         Scores: {{Scores_bundles}} <br>
         Offered bundle: {{OfferedBundle}} <br>
-
-
-        <br>
-        <br>
-        
-        In round {{rank}} of the {{difficulty}} difficulty, you had chosen the bundle {{MechanismOutcome}}. <br>
-        If this round is randomly selected by the computer, this will be your assigned bundle. <br>
-        However, we offer you an option to switch to the following bundle: {{OfferedBundle}}. <br>
-
     </p>
+
+       <div class="section-box box-neutral">
+            <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+                <span class="icon">🎯</span> Your Choice for Round {{ rank }} ({{ difficulty }})
+            </h3>
+            <div class="section-divider"></div>
+
+            <p>
+                In this round, your previous choice resulted in the bundle shown on the left.
+                If this round is randomly selected at the end of the study, that bundle will determine your outcome.
+            </p>
+
+            <p>
+                However, you now have the opportunity to review that outcome and switch to an alternative bundle — shown on the right — if you prefer.
+            </p>
+
+            <div class="section-box box-info">
+                <div style="display: flex; gap: 30px; justify-content: center; align-items: flex-start; margin-top: 20px;">
+                    <div class="highlight-bundle" style="text-align: center;">
+                        <p style="margin-bottom: 8px;"><strong>Original Bundle</strong></p>
+                        <span style="font-size: 2.2em;">{{ MechanismOutcome }}</span>
+                    </div>
+                    <div class="highlight-bundle" style="text-align: center;">
+                        <p style="margin-bottom: 8px;"><strong>Alternative Bundle</strong></p>
+                        <span style="font-size: 2.2em;">{{ OfferedBundle }}</span>
+                    </div>
+                </div>
+            </div>
+
 
 
 {{formfields}}
@@ -31,33 +51,26 @@
 
     <br><br>
 
-    <div class="buttons-container">
-        <div class="instructions-box">
-            <p class="instructions-title">Instruction Buttons</p> <!-- Title for the buttons -->
-            <div class="Instructions">
-                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary"> Instructions</a>
-            </div>
-        </div>         
+        <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>
+
         <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
     </div>
-    
 
-
-    
     <div id="myModal1" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-              <h2>Study Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
             </div>
-          <p style="padding: 0px">
-         {{include Instructions}}
-          </p>
+            <p style="padding: 0px">
+                {{ include C.Instructions_path }}
+            </p>
         </div>
     </div>
+</div>
 
-
-    <br><br>
+</div>
 {{ endblock }}
 
 

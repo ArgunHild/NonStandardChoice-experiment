@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE: Elicitation of preferences]]
+
 {{ endblock }}
 
 {{ block content }}
@@ -10,46 +10,51 @@
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 <script type="text/javascript" src="{{ static 'js/Script_cardinality.js' }}"></script>
 
-<p>
-    Now assign a score from 1 to 10 for the 4 tasks based on how well they would align with the dimension of {{DimensionAtHand}}.
-    <br><br>
-    {{DimensionText}}   
-    <br><br>
-    To continue, please assign an importance score (1-10) to each dimension.
-</p>
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+        Score Tasks by {{ DimensionAtHand }}
+    </h3>
+    <div class="section-divider"></div>
 
+    <p>
+        Based on your experience, please assign each task a score from <strong>1 to 10</strong> 
+        reflecting how well it aligns with the attribute <strong>{{ DimensionAtHand }}</strong>.
+    </p>
 
+    <p><em>{{ DimensionText }}</em></p>
 
+    <p>
+        These scores should reflect your personal view of how strongly each task expresses this attribute —
+        not just in comparison to each other, but in absolute terms.
+    </p>
 
-    <br><br>
+    <div class="section-box box-info" style="margin-top: 15px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Score (1–10)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ranked_items %}
+                <tr>
+                    <td>{{ item }}</td>
+                    <td>
+                        <select class="likert-scale" name="cardinality_Dimension_CognitiveLoad_{{ item }}" required>
+                            <option value="">Select</option>
+                            {% for i in range(1, 11) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-
-
-
-
-
-    <h3>Assign an importance score (1-10) to each dimension</h3>
-
-    <table>
-        <tr>
-            <th>Dimension as ranked on the previous page</th>
-            <th>Importance (1-10)</th>
-        </tr>
-        {% for item in ranked_items %}
-        <tr>
-            <td>{{ item }}</td>
-            <td>
-                <select class="likert-scale" name="cardinality_Dimension_CognitiveLoad_{{ item }}" required>
-                    <option value="">Select</option>
-                    {% for i in range(1, 11) %}
-                        <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    
+</div>
 
 
 

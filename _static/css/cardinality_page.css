@@ -1,54 +1,72 @@
-
 .boxes-container {
     display: flex;
-    gap: 20px;
+    gap: 30px;
+    margin-top: 20px;
+    flex-wrap: wrap; /* supports responsiveness */
 }
 
 .box {
-    width: 45%;
-    padding: 10px;
-    border: 2px solid #ccc;
-    background: #f8f8f8;
-    min-height: 200px;
+    flex: 1;
+    padding: 20px;
+    background: var(--neutral);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.05);
+    min-height: 220px;
 }
 
+/* Lists */
 .sortable {
     list-style: none;
     padding: 0;
-    min-height: 100px;
+    margin: 0;
+    min-height: 120px;
 }
 
+/* Draggable Items */
 .sortable-item {
-    padding: 10px;
-    margin: 5px 0;
-    background: #f4f4f4;
-    border: 1px solid #ccc;
+    padding: 12px 16px;
+    margin: 8px 0;
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
     cursor: grab;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+    transition: background 0.2s ease;
 }
 
 .sortable-item:hover {
-    background: #ddd;
+    background: #e6ffe6; /* soft green from --calm variant */
 }
 
+/* Drop Targets */
 .sortable-slot {
-    padding: 10px;
-    margin: 5px 0;
-    background: #e0f7fa;
-    border: 1px dashed #007bff;
-    text-align: center;
-    min-height: 40px;
+    padding: 12px 16px;
+    margin: 8px 0;
+    background: var(--info);
+    border: 2px dashed var(--primary);
+    border-radius: 8px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-weight: 500;
+    color: var(--text-dark);
 }
 
 .placeholder {
-    color: #aaa;
+    color: #999;
+    font-style: italic;
 }
 
+/* Disabled state for button */
 #submit-btn:disabled {
     background: #ccc;
+    color: #666;
     cursor: not-allowed;
+    border-radius: 6px;
 }
 
 
@@ -56,21 +74,40 @@
 /* Cardinality page */
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Adds vertical spacing between rows */
     margin-top: 10px;
 }
 
 th, td {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: none;
     text-align: left;
 }
+
+thead th {
+    background-color: var(--info);
+    font-weight: 600;
+    border-radius: 6px 6px 0 0;
+}
+
+tbody td {
+    background-color: #f1fbff;  /* soft blue-neutral */
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
 
 select {
     width: 100%;
     padding: 5px;
 }
 
+.likert-scale {
+    padding: 6px 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+}
 
 
 

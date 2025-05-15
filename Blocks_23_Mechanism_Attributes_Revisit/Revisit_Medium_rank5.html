@@ -1,63 +1,78 @@
 {{ block title }}
-    [[TEMPLATE TITLE:revisit easy rank 1]]
+ 
 {{ endblock }}
 
-{{ block content }}
+{% block content %}
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
+<!-- Optional Debug Info -->
+<div class="section-box box-warn">
+    <strong>FOR DEBUG</strong><br>
+    Rank: {{ rank }} &nbsp;|&nbsp; Difficulty: {{ difficulty }}<br>
+    Mechanism outcome: {{ MechanismOutcome }}<br>
+    Scores: {{ Scores_bundles }}<br>
+    Offered bundle: {{ OfferedBundle }}<br>
+</div>
+
+<!-- Instruction Block -->
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+        <span class="icon">🎯</span> Your Choice for Round {{ rank }} ({{ difficulty }})
+    </h3>
+    <div class="section-divider"></div>
+
     <p>
-        <strong>FOR DEBUG</strong>
-        <br>
-        Rank:{{rank}}; Difficulty:{{difficulty}} <br>
-        Mechanism outcome: {{MechanismOutcome}} <br>
-        Scores: {{Scores_bundles}} <br>
-        Offered bundle: {{OfferedBundle}} <br>
-
-
-        <br>
-        <br>
-        
-        In round {{rank}} of the {{difficulty}} difficulty, you had chosen the bundle {{MechanismOutcome}}. <br>
-        If this round is randomly selected by the computer, this will be your assigned bundle. <br>
-        However, we offer you an option to switch to the following bundle: {{OfferedBundle}}. <br>
-
+        In this round, your previous choice resulted in the bundle shown on the left.
+        If this round is randomly selected at the end of the study, that bundle will determine your outcome.
     </p>
 
+    <p>
+        You now have the opportunity to review that outcome and choose between it and an alternative bundle shown on the right.
+    </p>
 
-{{formfields}}
-
-
-    <br><br>
-
-    <div class="buttons-container">
-        <div class="instructions-box">
-            <p class="instructions-title">Instruction Buttons</p> <!-- Title for the buttons -->
-            <div class="Instructions">
-                <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary"> Instructions</a>
-            </div>
-        </div>         
-        <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
-    </div>
-    
+    <p><strong>Please choose the bundle you would prefer as your final outcome for this round.</strong></p>
 
 
-    
-    <div id="myModal1" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h2>Study Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
-            </div>
-          <p style="padding: 0px">
-         {{include Instructions}}
-          </p>
+<!-- Bundle Comparison -->
+<div class="section-box box-info">
+    <div style="display: flex; gap: 30px; justify-content: center; align-items: flex-start; margin-top: 20px;">
+        <div class="highlight-bundle" style="text-align: center;">
+            <p style="margin-bottom: 8px;"><strong>Original Bundle</strong></p>
+            <span style="font-size: 2.2em;">{{ MechanismOutcome }}</span>
+        </div>
+        <div class="highlight-bundle" style="text-align: center;">
+            <p style="margin-bottom: 8px;"><strong>Alternative Bundle</strong></p>
+            <span style="font-size: 2.2em;">{{ OfferedBundle }}</span>
         </div>
     </div>
+</div>
 
+<!-- Form -->
+{{ formfields }}
 
-    <br><br>
-{{ endblock }}
+<br><br>
 
+<!-- Navigation -->
+<div class="buttons-container">
+    <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>
+    <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+</div>
 
+<!-- Modal -->
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Study Instructions</h2>
+            <span class="close" onclick="span_click(1)">&times;</span>
+        </div>
+        <p style="padding: 0px">
+            {{ include Instructions }}
+        </p>
+    </div>
+</div>
+</div>
+
+<br><br>
+{% endblock %}

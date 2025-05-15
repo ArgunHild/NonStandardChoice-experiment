@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE: RANKING TASKS PER ATTRIBUTE. DIMENSION 1]]
+    
 {{ endblock }}
 
 {% block content %}
@@ -9,19 +9,39 @@
     <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
     <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
 
-    <br>
-    <br>
-    <p>
-        Would you prefer a bundle with different tasks or a bundle with the same tasks?
-        <ul>
-            <li>Example bundle with different tasks: 🔢<sub>3</sub> + 😃<sub>3</sub></li>
-            <li>Example bundle with the same tasks: 😃<sub>3</sub> + 😃<sub>3</sub></li>
-        </ul>
-    </p>
-    {{formfields}}
+   <div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+        Your Preference for Variety
+    </h3>
+    <div class="section-divider"></div>
 
-    <br>
-    <br>
+    <p>
+        Some task bundles contain different tasks, while others include the same task more than once. 
+        We'd like to know your preference when choosing between these types of bundles.
+    </p>
+
+    <p>
+        <strong>Example:</strong>
+        <div class="example-bundles" style="display: flex; gap: 30px; justify-content: center; margin-top: 20px;">
+            <div class="highlight-bundle" style="text-align: center;">
+                <p style="margin-bottom: 8px;"><strong>Mixed-task bundle</strong></p>
+                <span style="font-size: 2em;">🔢<sub>3</sub> + 😊<sub>2</sub></span>
+            </div>
+            <div class="highlight-bundle" style="text-align: center;">
+                <p style="margin-bottom: 8px;"><strong>Same-task bundle</strong></p>
+                <span style="font-size: 2em;">🔢<sub>3</sub> + 🔢<sub>1</sub></span>
+            </div>
+</div>
+
+    </p>
+
+    <p>
+        Please indicate which type of bundle you would generally prefer.
+    </p>
+
+    {{ formfields }}
+</div>
+
 
     
     <div class="buttons-container">

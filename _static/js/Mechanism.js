@@ -97,7 +97,7 @@ function Binary() {
     popup.id = "popupModal";
     popup.classList.add("popup");
     popup.innerHTML = `
-    <div class="popup-content section-box" style="text-align: center; background-color: #fff; padding: 20px;">
+    <div class="popup-content section-box" style="text-align: center; background-color: #fff; padding: 20px;max-width: 960px; width: 90%; margin: 0 auto;">
         <h2>Make Your Choice</h2>
         <p>Which of these bundles do you prefer?</p>
         <div id="progressContainer" style="margin: 10px 0; width: 100%; background-color: #eee; height: 20px; border-radius: 10px;">

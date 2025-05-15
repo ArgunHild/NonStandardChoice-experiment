@@ -1,5 +1,5 @@
 {{ block title }}
-    [[TEMPLATE TITLE: RANKING ATTRIBUTES]]
+
 {{ endblock }}
 
 {% block content %}
@@ -11,26 +11,31 @@
     <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 
-    <p>
-        We are interested in learning your preferences over a set of dimensions that are relevant
-        for comparing tasks and bundles. [TEMPLATE SENTENCE TO EXPLAIN WHY THIS IS IN THEIR INTEREST]
-        <br><br>
-        Please rank the following five dimensions in terms of their importance to 
-        you when deciding which task or bundle to choose, with <strong>Rank 1 being the most important</strong>
-        and <strong>Rank 5 being the least important</strong>. Drag each item from the left into a slot on the right.
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">Rank the Task Attributes</h3>
+    <div class="section-divider"></div>
 
-        <br><br>
-        You may continue to the next page once you have ranked all dimensions.
+    <p>
+        People value different things when choosing between tasks — like how difficult, enjoyable, or efficient they are. 
+        We’d like to understand what matters most <strong>to you</strong> when making such choices.
     </p>
 
     <p>
-        <strong>Table here to explain each dimension</strong>
+        Please rank the following <strong>four attributes</strong> based on how important they are to you when choosing between tasks or bundles. 
+        <strong>Rank 1</strong> means most important, and <strong>Rank 4</strong> means least important.
+        Drag each item from the list on the left into a rank slot on the right.
     </p>
 
-    <div class="boxes-container">
+    <p>
+        You may continue once all attributes have been ranked.
+    </p>
+
+    <!-- Optional: Insert your attribute explanation table here again, if you want to reinforce meanings -->
+
+    <div class="boxes-container" style="margin-top: 30px;">
         <!-- Left List (Unsorted Items) -->
         <div class="box">
-            <h4>Dimensions to rank</h4>
+            <h4 style="margin-bottom: 10px;">Attributes to Rank</h4>
             <ul id="left-list" class="sortable">
                 {% for item in items %}
                     <li class="sortable-item" data-value="{{ item }}">{{ item }}</li>
@@ -38,16 +43,18 @@
             </ul>
         </div>
 
-        <!-- Right Box (Ranked Items with Fixed Slots) -->
+        <!-- Right List (Rank Slots) -->
         <div class="box">
-            <h4>To rank, drag and drop here</h4>
+            <h4 style="margin-bottom: 10px;">To rank, drag and drop here</h4>
             <ul id="right-list">
                 {% for i in range(1, 5) %}
-                    <li class="sortable-slot" data-rank="{{ i }}">Rank {{ i }}: <span class="placeholder">[Drag&Drop here]</span></li>
+                    <li class="sortable-slot" data-rank="{{ i }}">Rank {{ i }}: <span class="placeholder">[Drag & Drop here]</span></li>
                 {% endfor %}
             </ul>
         </div>
     </div>
+</div>
+
 
 
     
