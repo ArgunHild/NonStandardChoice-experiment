@@ -75,7 +75,7 @@ class MarketLevel_1(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         
-        Final_bundle = player.participant.Final_bundle
+        Final_bundle = player.participant.Final_bundle.strip('"')
         bundle = Final_bundle.split('_')
         
         bundle_1 = get_icon(bundle[0], int(bundle[1]))  
@@ -106,4 +106,4 @@ class MarketLevel_1(MyBasePage):
         
         return variables
         
-page_sequence = [MarketLevel_1,  ]
+page_sequence = [MarketLevel_1  ]

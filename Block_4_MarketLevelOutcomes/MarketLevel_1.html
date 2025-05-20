@@ -1,32 +1,48 @@
 {{ block title }}
-    [[TEMPLATENAME for WTP elicitation]]
+
 {{ endblock }}
 
 {{ block content }}
-<link rel="stylesheet" href="{{static 'css/css.css'}}">
-<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
-<p>
-Here we elicit participants willingness to pay for his assigned bundle (the final random bundle from 15 rounds).
-<br>
-<br>
-<br>
-The computer has chosen the bundle {{Final_bundle}} from round {{round_number}} to be your bundle.
+<div class="content-box box-neutral">
 
-<br><br>
-In the next page, you will play the tasks in this bundle to earn your final bonus. 
+    <div class="section-box box-info">
+        <h3 class="section-title">🎯 Your Final Bundle</h3>
+        <div class="section-divider"></div>
 
-However, in this page, we want to offer you an alternative. 
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 16px;">
+            The computer has randomly selected the following bundle from <strong>round {{ round_number }}</strong>:
+        </p>
 
-<br><br>
-[[<strong>Coauthors: Here we explain to them how the multiple price listing works to elicit their willingness to pay for the bundle at hand. I have not coded this part since we have not yet agree on this part</strong>]]
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <div class="highlight-bundle">
+                {{ Final_bundle }}
+            </div>
+        </div>
 
-</p>
+        <p style="text-align: center; color: #333;">
+            In the <strong>next page</strong>, you will complete the tasks in this bundle to earn your final bonus.
+        </p>
+    </div>
+
+    <div class="section-box box-calm">
+        <h4 class="section-title" style="font-size: 1.4em; margin-bottom: 10px;">💸 Optional Alternative</h4>
+        <div class="section-divider"></div>
+
+        <p style="margin-bottom: 20px;">
+            However, before you proceed, we want to offer you an opportunity to trade this bundle for an alternative — depending on your preference.
+        </p>
+
+        <p style="margin-bottom: 0;">
+            <strong>Coauthors:</strong> Here we explain how the multiple price list (MPL) works to elicit willingness to pay (WTP). Not yet implemented.
+        </p>
+    </div>
 
 
-
-<div style="display:none">
+<div style="display: none;">
     {% for field in form %}
         {% if field.name in hidden_fields %}
             {{ formfield field.name }}
@@ -34,31 +50,27 @@ However, in this page, we want to offer you an alternative.
     {% endfor %}
 </div>
 
+<br>
 
+<div class="buttons-container">
+    <a id="myBtn" onclick="open_modal(1)" class="otree-btn-next btn btn-primary">Instructions</a>
+    <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+</div>
 
-    <br><br>
-
-    <div class="buttons-container">
-            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-primary">Instructions</a>
-        <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
-    </div>
-    
-    
-
-    
-    <div id="myModal1" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h2>Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
-            </div>
-          <p style="padding: 0px">
-         {{include C.Instructions_path}}
-          </p>
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Instructions</h2>
+            <span class="close" onclick="span_click(1)">&times;</span>
         </div>
+        <p style="padding: 0px">
+            {{ include C.Instructions_path }}
+        </p>
     </div>
+</div>
 
-    <br><br>
+</div>
 {{ endblock }}
+
 
 

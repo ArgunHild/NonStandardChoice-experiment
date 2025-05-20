@@ -124,14 +124,7 @@ class ChosenBundleExplanation(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
 
-        # Final_bundle = player.participant.Final_bundle
-        #TODO: remove this try except block and uncomment above, this is just for debugging
-        try:
-            Final_bundle = player.participant.Final_bundle
-        except:  
-            player.participant.Final_bundle = 'Math_1_Spot_1'
-
-        Final_bundle = player.participant.Final_bundle
+        Final_bundle = player.participant.Final_bundle.strip('"')
         bundle = Final_bundle.split('_')
         
         bundle_1 = get_icon(bundle[0], int(bundle[1]))  
@@ -149,15 +142,23 @@ class ChosenBundleExplanation(MyBasePage):
             
             
         Bundle_text = f'''
-        You are assigned the following bundle {final_bundle}. 
-        
-        <br><br>
-        Your performance on this task will determine whether you earn the bonus (<strong>{C.Bonus_max}€</strong>) or not.
-        On the next page you will start with the ..
+            You have been assigned the following bundle: {final_bundle}.
+            
+            <br><br>
+            To earn the bonus of <strong>{C.Bonus_max}€</strong>, you must reach the required minimum score in <strong>each</strong> of the tasks in this bundle. Failing to meet the cutoff in any one task means no bonus will be paid.
+            
+            <br><br>
+            On the next page, you will begin working on your assigned bundle.
         '''
+
         
         variables['Bundle_text'] = Bundle_text
-        variables['Final_bundle'] = Final_bundle
+        def format_bundle_icon(bundle_str):
+            clean = bundle_str.strip('"')
+            parts = clean.split('_')
+            return ' + '.join([get_icon(parts[i], int(parts[i+1])) for i in range(0, len(parts), 2)])
+
+        variables['Final_bundle'] = format_bundle_icon(Final_bundle)
     
         return variables
     
@@ -202,7 +203,7 @@ class Game_1(MyBasePage):
         
         variables['Task'] = bundle[num]
         variables['Difficulty'] = num+1
-        task = bundle[num]
+        task = bundle[num].strip('"')
         variables['Task_instructions'] = getattr(C, f"{task}_instructions")
         variables['GameTemplate'] = getattr(C, f"{task}_template")
         
@@ -240,7 +241,7 @@ class Game_2(MyBasePage):
         
         variables['Task'] = bundle[num]
         variables['Difficulty'] = num+1
-        task = bundle[num]
+        task = bundle[num].strip('"')
         variables['Task_instructions'] = getattr(C, f"{task}_instructions")
         variables['GameTemplate'] = getattr(C, f"{task}_template")
 
@@ -278,7 +279,7 @@ class Game_3(MyBasePage):
         
         variables['Task'] = bundle[num]
         variables['Difficulty'] = num+1
-        task = bundle[num]
+        task = bundle[num].strip('"')
         variables['Task_instructions'] = getattr(C, f"{task}_instructions")
         variables['GameTemplate'] = getattr(C, f"{task}_template")
         return variables
