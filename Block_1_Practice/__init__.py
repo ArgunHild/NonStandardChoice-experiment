@@ -122,7 +122,7 @@ class Instruction_1(Page):
         task = get_task(player, 1)
         instructions = get_task_Template(task, 1)[1]
         player.participant.vars['task'] = task
-        print(instructions)
+        # print(instructions)
         return {
             'Instructions_path': instructions,
             'task': task,

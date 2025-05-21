@@ -1,6 +1,7 @@
 from otree.api import *
 import random
 import json
+import ast
 
 doc = '''
 
@@ -71,7 +72,7 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False, ret
     players_dict = {p.participant.ID_in_Group: p for p in player.subsession.get_players()
                 if p.participant.id_in_session in player.participant.Group}  # Lookup dict for players
     
-    print("print: players_dict",players_dict.keys())
+    # print("print: players_dict",players_dict.keys())
     
     # If rank is 1, return initial bundles instead of filtering
     if rank == 1:
@@ -118,7 +119,7 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False, ret
         - algorithm treats him as player i-5, so he gets menu #ID_in_Group - 5
     '''
     # Extract unavailable bundles dynamically
-    print('========DEBUGGING========')
+    # print('========DEBUGGING========')
     next_guy = player_id_group  
     next_guy_rank = rank -2
     for x in range(1, rank):  # x = 1 to rank-1 e.g, if rank=3, x = 1,2; rank = 5, x = 1,2,3,4
@@ -132,10 +133,10 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False, ret
             unavailable_clean = unavailable.strip('"').strip().lower()
             unavailable_bundles.append(unavailable_clean)
 
-        print(f"looped through {x} times")
-        print(f'Menu: {menu_current};id: {player_id_group} ;Rank: {rank}')
-        print(f"player with group id {next_guy}, at rank {next_guy_rank}, had picked {getattr(player_object, chosen_ranks[next_guy_rank])}")
-        print('\n')
+        # print(f"looped through {x} times")
+        # print(f'Menu: {menu_current};id: {player_id_group} ;Rank: {rank}')
+        # print(f"player with group id {next_guy}, at rank {next_guy_rank}, had picked {getattr(player_object, chosen_ranks[next_guy_rank])}")
+        # print('\n')
         
         next_guy_rank -= 1  
 
@@ -148,11 +149,12 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False, ret
     unavailable_bundles = {k: v for k, v in bundle_dict.get(f"{menu_current}", {}).items()
                             if k.strip().lower() in unavailable_bundles}
 
-    print('returnable', available_bundles, 'unavailable', unavailable_bundles)
-    print('\n\n')
+    # print('returnable', available_bundles, 'unavailable', unavailable_bundles)
+    # print('\n\n')
     
     if save_to_player:
         setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
+        print(f"Saved to player: Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
     
     if return_unavailable_bundles:
         return available_bundles, menu_current, unavailable_bundles
@@ -675,21 +677,7 @@ class MyBasePage(Page):
 
 
 class Attributes_explanation(MyBasePage):
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        '''
-        for each player and each choice, we check if it is empty,
-            if empty we assign a random available bundle.
-        This is for debug only!
-        # TODO: remove these codes, replace with pass
-        '''
-        for rank in range(1, 6):
-            for difficulty in ['Easy', 'Medium', 'Difficult']:
-                choice_field = f"{difficulty}_rank{rank}_choice"
-                if not getattr(player, choice_field):
-                    available_bundles = return_available_bundles(player, rank, difficulty)[0]
-                    random_choice = random.choice(list(available_bundles.keys()))
-                    setattr(player, choice_field, random_choice)
+    pass
 
 class Attributes_rank(MyBasePage):
     extra_fields = ['ranking_order'] 
@@ -1277,9 +1265,29 @@ class Mechanism_Difficult_rank5_WaitPage(WaitPage):
 class Revisit_WaitPage(WaitPage):
     pass
 
+    
 class Revisit_explanation(MyBasePage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
+        
+        '''
+        for each player and each choice, we check if it is empty,
+            if empty we assign a random available bundle.
+        This is for debug only!
+        # TODO: remove these codes, replace with pass
+        '''
+        'setting random bundles for the player'
+        for rank in range(1, 6):
+            for difficulty in ['Easy', 'Medium', 'Difficult']:
+                choice_field = f"{difficulty}_rank{rank}_choice"
+                if not getattr(player, choice_field):
+                    available_bundles = return_available_bundles(player, rank, difficulty)[0]
+                    random_choice = random.choice(list(available_bundles.keys()))
+                    setattr(player, choice_field, random_choice)
+        
+        
+        
+        
         calculate_task_scores(player)
         for rank in range(1, 6): 
             for difficulty in ['Easy', 'Medium', 'Difficult']:
@@ -1297,10 +1305,22 @@ def get_variables_for_template_revisit(player: Player, rank: int, difficulty: st
     available_bundles_scores = json.loads(available_bundles_scores)
     variables['Scores_bundles'] = available_bundles_scores
     
+    print(f"Available Bundle Scores_before: {available_bundles_scores}")
+    
     mechanism_outcome = getattr(player, f'{difficulty}_rank{rank}_choice')
+
+    # Try to decode only if it starts and ends with a quote
+    if isinstance(mechanism_outcome, str) and mechanism_outcome.startswith('"') and mechanism_outcome.endswith('"'):
+        mechanism_outcome = ast.literal_eval(mechanism_outcome)
+        
     available_bundles_scores.pop(mechanism_outcome, None)  # Remove the mechanism outcome bundle
     offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
     
+    print(f"Mechanism Outcome: {mechanism_outcome}")
+    print(f"Available Bundle Scores_after: {available_bundles_scores}")
+    print(f"Offered Bundle: {offered_bundle}")
+    
+
     MechanismOutcome = getattr(player, f'{difficulty}_rank{rank}_choice')
    # variables['MechanismOutcome'] = get_icon(MechanismOutcome.split('_')[0], MechanismOutcome.split('_')[1])
     #variables['OfferedBundle'] = get_icon(offered_bundle.split('_')[0], offered_bundle.split('_')[1])
@@ -1516,7 +1536,7 @@ pages_revisit = [
 ]
 
 
-#TODO: make sure to add Attributes and randomize order with pages_mechanism
-page_sequence =  pages_mechanism +  pages_Attributes + pages_revisit
+
+page_sequence =  pages_Attributes + pages_mechanism +   pages_revisit
 
                 

@@ -43,7 +43,7 @@ class C(BaseConstants):
     
     # Task instruction paths
     Emotion_template = "_templates/global/Task_templates/Emotion.html"
-    Quiz_temlpate = "_templates/global/Task_templates/Quiz.html"
+    Quiz_template = "_templates/global/Task_templates/Quiz.html"
     Math_template = "_templates/global/Task_templates/Math.html"
     Spot_template = "_templates/global/Task_templates/Spot_2.html" 
     # Task instruction paths
@@ -317,7 +317,7 @@ class Results(MyBasePage):
             <ol>
             <li> {bundle_1}: {player.Bonus_2_1}€ </li>
             <li> {bundle_2}: {player.Bonus_2_2}€ </li>
-            <li> {bundle_3}: {player.Bonus_2_1}€ </li>
+            <li> {bundle_3}: {player.Bonus_2_3}€ </li>
             </ol>
             '''
         elif bundle_2:

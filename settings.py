@@ -8,7 +8,7 @@ SESSION_CONFIGS = [
             #  'Block_1_Practice', 
              'Block_1_Practice_NotRandomized',
              'Blocks_23_Mechanism_Attributes_Revisit',
-             'Block_4_MarketLevelOutcomes', 
+            #  'Block_4_MarketLevelOutcomes', 
              'Block_98_Play',
              'Block_99_Results'],
          num_demo_participants=10,
@@ -18,10 +18,7 @@ SESSION_CONFIGS = [
          num_demo_participants=14, #need at least 10 participants, 5 for each mechs.
          completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
 
-    dict(name='Practice', 
-         app_sequence=['Block_1_Practice'],
-         num_demo_participants=10,
-         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
+
     dict(name='FinalPlayStage', 
          app_sequence=['Block_98_Play'],
          num_demo_participants=2,
