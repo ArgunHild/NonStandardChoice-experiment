@@ -857,7 +857,7 @@ class Attributes_tasks_Dimension_3_cardinality(MyBasePage):
         variables = MyBasePage.vars_for_template(player)
         
         variables['DimensionAtHand'] = "Confidence"
-        variables['DimensionText'] = C.Confidence_text
+        variables['DimensionText'] = C.Confidence_text_2
                 # TODO: remove the next 2 lines (DEBUG ONLY)
         if not ranking_order:
             ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))

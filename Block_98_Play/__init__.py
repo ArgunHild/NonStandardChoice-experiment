@@ -6,8 +6,6 @@ doc = """
 Your app description
 """
 
-#TODO: create two rounds of trial stages each 180 seconds
-#TODO: create more games for the emotion recognition
 
 def get_icon(task, level):
     """
@@ -170,11 +168,13 @@ def calculate_bonus(player, field_num):
     
     Final_bundle = player.participant.Final_bundle
     
+    Final_bundle = Final_bundle.strip('"')
     task = Final_bundle.split('_')[field_num]
     difficulty = int(Final_bundle.split('_')[field_num+1])
     performance = getattr(player, f'Game_{game_num}_performance')
     
     bonus = 0
+    print('DEBUGGING:', Final_bundle, task, difficulty)
     if performance > C.Minimum_scores[task][difficulty]:
         bonus = C.Bonus_max
     
@@ -296,6 +296,8 @@ class Results(MyBasePage):
         variables = MyBasePage.vars_for_template(player)
         
         Final_bundle = player.participant.Final_bundle
+        Final_bundle = Final_bundle.strip('"')
+        
         bundle = Final_bundle.split('_')
         
         bundle_1 = get_icon(bundle[0], int(bundle[1]))  
