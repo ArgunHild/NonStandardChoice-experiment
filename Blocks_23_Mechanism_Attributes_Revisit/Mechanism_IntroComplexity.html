@@ -1,0 +1,109 @@
+{% extends "global/Base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/css.css' %}">
+
+<div class="content-box box-neutral">
+  <h2 class="section-title">How this part works</h2>
+  <hr class="section-divider">
+
+  <!-- ────────── Mechanism explanation ────────── -->
+  <div class="section-box box-info">
+    <div class="section-header">
+      <span class="icon">⚙️</span>
+      <h3 class="instructions-title">Your mechanism</h3>
+    </div>
+
+    {% if mechanism == 'binary' %}
+        <p>You will first see the complete menu of bundles; at that point nothing is clickable.  
+        Click <em>Start&nbsp;the&nbsp;mechanism</em> when you are ready to begin.</p>
+
+        <p>After that, you will be shown <strong>two bundles at a time</strong>.  
+        In each round simply choose the bundle you prefer.  
+        You will make a handful of these quick comparisons until the system can determine your clear favourite.</p>
+    {% else %}
+        <p>You will first see the full menu of bundles (nothing is clickable yet).  
+        When you are ready, click <em>Start&nbsp;the&nbsp;mechanism</em>.  
+        The same bundles will re-appear and you can then <strong>choose the single bundle you prefer</strong>.</p>
+    {% endif %}
+
+  </div>
+
+    <!-- ────────── Complexity explanation ────────── -->
+  <div class="section-box box-calm">
+    <div class="section-header">
+      <span class="icon">🧩</span>
+      <h3 class="instructions-title">Bundle complexity</h3>
+    </div>
+
+    <p>
+      You will work through <strong>three blocks one after the other</strong>:
+      <em>Low</em> → <em>Medium</em> → <em>High</em>.  
+      Each step adds one more task to every bundle, so choices get a little richer as you progress.
+    </p>
+
+    <table class="performance-table">
+      <thead>
+        <tr><th>Complexity level</th><th>Tasks&nbsp;per&nbsp;bundle</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Low </td><td>1 task</td></tr>
+        <tr><td>Medium </td><td>2 tasks</td></tr>
+        <tr><td>High </td><td>3 tasks</td></tr>
+      </tbody>
+    </table>
+
+    <p class="mt-2">
+      The <strong>difficulty</strong> of each individual task (easy / medium / hard) is independent
+      of bundle complexity—so a <em>Low</em> bundle can still contain a hard task.
+    </p>
+  </div>
+
+  <!-- ────────── Difficulty explanation ────────── -->
+  <div class="section-box box-warn">
+    <div class="section-header">
+      <span class="icon">🎯</span>
+      <h3 class="instructions-title">Task difficulty</h3>
+    </div>
+
+    <p>
+      Every task comes in <strong>three difficulty levels</strong>,
+      shown in the sub-script next to the task icon:
+    </p>
+
+    <table class="performance-table">
+      <thead>
+        <tr><th>Numeric code</th><th>Difficulty label</th><th>Score needed</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Easy</td><td>≥ 25 % correct</td></tr>
+        <tr><td>2</td><td>Medium</td><td>≥ 50 % correct</td></tr>
+        <tr><td>3</td><td>Hard</td><td>≥ 75 % correct</td></tr>
+      </tbody>
+    </table>
+
+    <p class="mt-2">
+      <em>Example:</em> If you play <strong>Quiz&nbsp;2</strong> (Quiz at medium difficulty),
+      the round contains 30 questions and you must answer at least
+      <strong>15</strong> correctly to satisfy that task.
+    </p>
+
+    <p>
+      Remember: You earn the bundle’s lump-sum bonus only when you meet the required score
+      for <em>every task</em> in that bundle.
+    </p>
+  </div>
+
+
+
+  <p class="mt-2">
+     When you’re ready, click <em>Start the mechanism</em>.  
+     You will first work on the <strong>low-complexity</strong> block.
+  </p>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-primary">Start the mechanism</button>
+  </div>
+</div>
+
+{% endblock %}

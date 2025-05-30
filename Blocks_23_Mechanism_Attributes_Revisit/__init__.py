@@ -987,6 +987,13 @@ def get_js_vars(player: Player, rank: int, difficulty: str):
     )
   
 
+class Mechanism_IntroComplexity(MyBasePage):
+    @staticmethod
+    def vars_for_template(player: Player):
+        version = MyBasePage.vars_for_template(player)
+        version['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
+        return version
+
 class Mechanism_Easy_rank1(MyBasePage):
     form_fields = MyBasePage.form_fields + ['Easy_rank1_choice'] 
     
@@ -1070,6 +1077,9 @@ class Mechanism_Easy_rank5(MyBasePage):
 
         return_available_bundles(player, 5,  'Easy', save_to_player=True)
 
+class Mechanism_TransitionToMedium(MyBasePage):
+    pass
+
 class Mechanism_Medium_rank1(MyBasePage):
     form_fields = MyBasePage.form_fields + ['Medium_rank1_choice']
     
@@ -1147,6 +1157,10 @@ class Mechanism_Medium_rank5(MyBasePage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         return_available_bundles(player, 5, 'Medium', save_to_player=True)
+
+
+class Mechanism_TransitionToHigh(MyBasePage):
+    pass
         
 class Mechanism_Difficult_rank1(MyBasePage):
     form_fields = MyBasePage.form_fields + ['Difficult_rank1_choice']
@@ -1509,16 +1523,19 @@ pages_Attributes = [
                     ]
 
 pages_mechanism = [
+    Mechanism_IntroComplexity,  
     Mechanism_Easy_rank1, 
     Mechanism_Easy_rank2_WaitPage, Mechanism_Easy_rank2, 
     Mechanism_Easy_rank3_WaitPage, Mechanism_Easy_rank3,
     Mechanism_Easy_rank4_WaitPage, Mechanism_Easy_rank4,
     Mechanism_Easy_rank5_WaitPage, Mechanism_Easy_rank5,
+    Mechanism_TransitionToMedium, 
     Mechanism_Medium_rank1,
     Mechanism_Medium_rank2_WaitPage, Mechanism_Medium_rank2,
     Mechanism_Medium_rank3_WaitPage, Mechanism_Medium_rank3,
     Mechanism_Medium_rank4_WaitPage, Mechanism_Medium_rank4,
     Mechanism_Medium_rank5_WaitPage, Mechanism_Medium_rank5,
+    Mechanism_TransitionToHigh, 
     Mechanism_Difficult_rank1,
     Mechanism_Difficult_rank2_WaitPage, Mechanism_Difficult_rank2,
     Mechanism_Difficult_rank3_WaitPage, Mechanism_Difficult_rank3,

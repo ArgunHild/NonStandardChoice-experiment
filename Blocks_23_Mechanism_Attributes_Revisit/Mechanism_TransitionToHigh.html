@@ -1,0 +1,48 @@
+{% extends "global/Base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/css.css' %}">
+
+<div class="content-box box-neutral">
+  <h2 class="section-title">Final block: <em>High&nbsp;Complexity</em></h2>
+  <hr class="section-divider">
+
+  <div class="section-box box-info">
+    <div class="section-header">
+      <span class="icon">🧩</span>
+      <h3 class="instructions-title">What changes?</h3>
+    </div>
+
+    <p>
+      In the <strong>High</strong> block, every bundle now contains
+      <strong>three&nbsp;tasks</strong>.  
+      Difficulty codes (1&nbsp;= easy, 2&nbsp;= medium, 3&nbsp;= hard) still apply exactly as before.
+    </p>
+
+    <!-- ────────── Example bundles ────────── -->
+    <div class="example-bundles" style="display:flex; gap:30px; justify-content:center; margin:25px 0;">
+      <div class="highlight-bundle" style="text-align:center;">
+        <p style="margin-bottom:8px;"><strong>Bundle example&nbsp;A</strong></p>
+        <span style="font-size:2em;">
+          🔢<sub>1</sub>&nbsp;+ 😃<sub>2</sub> +&nbsp;🔍<sub>3</sub>
+        </span>
+      </div>
+      <div class="highlight-bundle" style="text-align:center;">
+        <p style="margin-bottom:8px;"><strong>Bundle example&nbsp;B</strong></p>
+        <span style="font-size:2em;">
+          📚<sub>2</sub>&nbsp;+ 😃<sub>2</sub> +&nbsp;🔢<sub>3</sub>
+        </span>
+      </div>
+    </div>
+
+    <p>
+      Your mechanism remains unchanged&mdash;only the bundles have grown.  
+      Review the options, then click <em>Start&nbsp;the&nbsp;mechanism</em> to make your final choice(s).
+    </p>
+  </div>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-primary">Start the mechanism</button>
+  </div>
+</div>
+{% endblock %}
