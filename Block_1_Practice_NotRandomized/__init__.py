@@ -28,8 +28,7 @@ class C(BaseConstants):
     Math_template_path = "_templates/global/Task_templates/Math.html"
     Spot_the_difference_template_path = "_templates/global/Task_templates/Spot.html"
     Spot_the_difference_template_path_2 = "_templates/global/Task_templates/Spot_2.html"
-    
-    #TODO: check why circles are shifted to the right relative to clicking point for Spot round 1 (for round 2 everything is fine)
+
     
     # Task instruction paths
     Math_instructions = "_templates/global/Task_instructions/Math.html"
