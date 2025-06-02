@@ -313,7 +313,11 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1    
     
-    Instructions_path = "_templates/global/Instructions.html"
+    Instructions_general_path = "_templates/global/Instructions.html"
+    Instructions_attributes_path = "_templates/global/Instructions_attributes.html"
+    Instructions_mechanism_path = "_templates/global/Instructions_mechanism.html"
+     
+    Comprehension_password = 'MARGUN' #if changed here, needs to be changed in the js.js as well
     
     # bundle icons
     Bundle_icons = {
@@ -705,7 +709,7 @@ class MyBasePage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {'hidden_fields': [], #hide the browser field from the participant, see the page to see how this works. #user_clicked_out
-                'Instructions': C.Instructions_path,
+                'Instructions': C.Instructions_general_path,
                 'MechanismPage': "_templates/global/Mechanism.html",} 
   
 #%% Pages
@@ -1002,6 +1006,14 @@ class Comprehension_check_1(MyBasePage):
         # save at the participant level
         if player_passed_comprehension:
             player.participant.vars['Comprehension_passed'] = True
+            
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
+        return variables
 
         
 class Comprehension_check_2(MyBasePage):
@@ -1018,6 +1030,7 @@ class Comprehension_check_2(MyBasePage):
 
         # Add or modify variables specific to ExtendedPage
         variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
         return variables
 
     @staticmethod   
@@ -1057,6 +1070,7 @@ class Comprehension_check_3(MyBasePage):
 
         # Add or modify variables specific to ExtendedPage
         variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
         return variables
 
     @staticmethod   

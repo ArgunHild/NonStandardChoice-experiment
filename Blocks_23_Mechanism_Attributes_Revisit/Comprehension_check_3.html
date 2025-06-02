@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+<script type="text/javascript" src="{{ static 'js/js.js' }}"></script>
 
 <div class="content-box box-neutral">
     <h2 class="section-title">Comprehension Check</h2>
@@ -47,24 +48,23 @@
         {% endfor %}
     </div>
 
-    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">General Instructions</a>
-        <button id="NextButton" onclick="next_button_comprehension()" class="btn btn-primary">Next</button>
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Bundle choice)</a>
+        <a id="myBtn"  onclick="next_button_comprehension()"  class="otree-btn-next btn btn-primary">Next</a>
         <button id="submit_button" style="display: none"></button>
     </div>
-</div>
 
-<!-- Modal popup for instructions -->
-<div id="myModal1" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2><span class="icon">📘</span>Instructions</h2>
-            <span class="close" onclick="span_click(1)">&times;</span>
-        </div>
-        <div class="modal-body">
-            {{ include C.Instructions_path }}
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
         </div>
     </div>
-</div>
 
 {{ endblock }}

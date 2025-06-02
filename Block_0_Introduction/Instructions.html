@@ -10,7 +10,7 @@
     <h2 class="section-title">Instructions</h2>
     <hr class="section-divider">
 
-    {{ include C.Instructions_path }}
+    {{ include C.Instructions_general_path }}
 
     {% for field in form %}
         {% if field.name not in hidden_fields %}
@@ -41,7 +41,7 @@
       </div>
       <div class="modal-body">
         <p>
-          {{ include C.Instructions_path }}
+          {{ include C.Instructions_general_path }}
         </p>
       </div>
   </div>

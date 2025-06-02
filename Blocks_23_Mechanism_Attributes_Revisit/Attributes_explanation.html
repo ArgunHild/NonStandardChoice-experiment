@@ -12,55 +12,18 @@
 
 
 
- <div class="section-box box-info">
-    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">Task Attribute Overview</h3>
-    <div class="section-divider"></div>
-    <p>
-        In the next few steps, you'll be asked to reflect on different aspects of the tasks you completed earlier — things like how mentally demanding, enjoyable, or time-consuming they felt. 
-        These aspects are called <strong>attributes</strong>, and you'll use them to rank the tasks based on your own experience.
-    </p>
-
-    <p>
-    Below is a short overview of the attributes you’ll be using to guide your rankings:
-    </p>
-
-            <div class="attribute-grid">
-        <div class="attribute-box section-box box-neutral">
-            <span class="icon">🧠</span>
-            <strong>Cognitive Load</strong>
-            <p>How mentally demanding the task feels — including focus, memory, and switching between steps. Also considers fatigue from repetition.</p>
-        </div>
-
-        <div class="attribute-box section-box box-neutral">
-            <span class="icon">🎮</span>
-            <strong>Engagement</strong>
-            <p>How enjoyable or stimulating the task feels. Some tasks may feel more fun or interesting than others.</p>
-        </div>
-
-        <div class="attribute-box section-box box-neutral">
-            <span class="icon">💡</span>
-            <strong>Confidence</strong>
-            <p>How confident you feel in your ability to do the task well, based on your skills and perceived difficulty.</p>
-        </div>
-
-        <div class="attribute-box section-box box-neutral">
-            <span class="icon">⏱️</span>
-            <strong>Time Efficiency</strong>
-            <p>How efficient the task feels — how long it takes, how many clicks are needed, and how quickly it moves.</p>
-        </div>
-    </div>
+    {{ include C.Instructions_attributes_path }}
 
 
 
-
-
+    These instructions will be available throughout the ranking process, so you can refer back to them whenever you need by pressing the button below.
 
 
     
     <br><br>
 
     <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>       
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>       
         <button id="submit-btn" class="otree-btn-next btn btn-primary">Continue</button>
     </div>
 
@@ -71,7 +34,7 @@
                 <span class="close" onclick="span_click(1)">&times;</span>
             </div>
             <p style="padding: 0px">
-                {{ include C.Instructions_path }}
+                {{ include C.Instructions_attributes_path}}
             </p>
         </div>
     </div>
@@ -81,5 +44,4 @@
 
 
 
-    <br><br>
 {% endblock %}

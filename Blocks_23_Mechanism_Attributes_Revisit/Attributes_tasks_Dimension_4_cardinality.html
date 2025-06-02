@@ -68,7 +68,7 @@
 
 
     <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)"  class="btn btn-info">Open Instructions</a>
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>
         <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
     </div>
 
@@ -79,14 +79,15 @@
     <div id="myModal1" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-              <h2>Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
             </div>
-          <p style="padding: 0px">
-         {{include C.Instructions_path}}
-          </p>
+            <p style="padding: 0px">
+                {{ include C.Instructions_attributes_path}}
+            </p>
         </div>
     </div>
+
 
 
 </div>

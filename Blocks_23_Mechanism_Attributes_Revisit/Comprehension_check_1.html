@@ -48,23 +48,26 @@
         {% endfor %}
     </div>
 
-    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
-        <button id="NextButton" class="btn btn-primary">Next</button>
-    </div>
-</div>
 
-<!-- Modal popup for instructions -->
-<div id="myModal1" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2><span class="icon">📘</span>Instructions</h2>
-            <span class="close" onclick="span_click(1)">&times;</span>
-        </div>
-        <div class="modal-body">
-            {{ include C.Instructions_path }}
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Bundle choice)</a>
+        <button id="submit-btn" class="otree-btn-next btn btn-primary">Next</button>
+    </div>
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
         </div>
     </div>
-</div>
+
+
 
 {{ endblock }}

@@ -2,129 +2,47 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/css.css' %}">
-
-<div class="content-box box-neutral">
-  <h2 class="section-title">How this part works</h2>
-  <hr class="section-divider">
-
-  <!-- What to expect -->
-  <div class="section-box box-neutral">
-    <div class="section-header">
-      <span class="icon">👀</span>
-      <h3 class="instructions-title">What to expect</h3>
-    </div>
-    On the next few pages, you will be making a series of choices between bundles of tasks.
-    One of your bundles will be randomly assigned for you to work on at the end of the experiment.
-    Majority of your <strong>bonus payment</strong> depends on how well you perform at this bundle of tasks, therefore, choose your bundles carefully.
-  </div>
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
 
-  <!-- ────────── Mechanism explanation ────────── -->
-  <div class="section-box box-info">
-    <div class="section-header">
-      <span class="icon">⚙️</span>
-      <h3 class="instructions-title">How to make a selection</h3>
-    </div>
-
-    {% if mechanism == 'binary' %}
-        <p>You will first see the complete menu of bundles; at that point nothing is clickable.  
-        Click <em>Start&nbsp;the&nbsp;mechanism</em> when you are ready to begin.</p>
-
-        <p>After that, you will be shown <strong>two bundles at a time</strong>.  
-        In each round simply choose the bundle you prefer.  
-        You will make a handful of these quick comparisons until the system can determine your clear favourite.</p>
-    {% else %}
-        <p>You will first see the full menu of bundles (nothing is clickable yet).  
-        When you are ready, click <em>Start&nbsp;the&nbsp;mechanism</em>.  
-        The same bundles will re-appear and you can then <strong>choose the bundle you prefer</strong>.</p>
-        <!-- The same bundles will re-appear and you can then <strong>choose the single bundle you prefer</strong>.</p> -->
-    {% endif %}
-
-  </div>
-
-    <!-- ────────── Complexity explanation ────────── -->
-  <div class="section-box box-calm">
-    <div class="section-header">
-      <span class="icon">🧩</span>
-      <h3 class="instructions-title">Bundle complexity</h3>
-    </div>
-
-    <p>
-      You will work through <strong>three blocks one after the other</strong>:
-      <em>Low</em> → <em>Medium</em> → <em>High</em>.  
-      Each step adds one more task to every bundle, so choices get a little richer as you progress.
-    </p>
-
-    <table class="performance-table">
-      <thead>
-        <tr><th>Complexity level</th><th>Tasks&nbsp;per&nbsp;bundle</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Low </td><td>1 task</td></tr>
-        <tr><td>Medium </td><td>2 tasks</td></tr>
-        <tr><td>High </td><td>3 tasks</td></tr>
-      </tbody>
-    </table>
+{{include C.Instructions_mechanism_path}}
 
 
-  </div>
-
-  <!-- ────────── Difficulty explanation ────────── -->
-  <div class="section-box box-warn">
-    <div class="section-header">
-      <span class="icon">🎯</span>
-      <h3 class="instructions-title">Task difficulty</h3>
-    </div>
-
-    <p>
-      Every task comes in <strong>three difficulty levels</strong>,
-      shown in the sub-script next to the task icon:
-    </p>
-
-    <table class="performance-table">
-      <thead>
-        <tr><th>Numeric code</th><th>Difficulty label</th><th>Score needed</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>Easy</td><td>≥ 25 % correct</td></tr>
-        <tr><td>2</td><td>Medium</td><td>≥ 50 % correct</td></tr>
-        <tr><td>3</td><td>Hard</td><td>≥ 75 % correct</td></tr>
-      </tbody>
-    </table>
-
-    <p class="mt-2">
-      <em>Example:</em> If you play <strong>Quiz&nbsp;2</strong> (Quiz at medium difficulty),
-      the round contains 30 questions and you must answer at least
-      <strong>15</strong> correctly to satisfy that task.
-    </p>
-
-    <p>
-      <!-- Remember: You earn the bundle’s lump-sum bonus only when you meet the required score -->
-      Remember: You will earn the bonus only when you meet the required score
-      for <em>every task</em> in that bundle.
-    </p>
-
-    <p class="mt-2">
-      The <strong>difficulty</strong> of each individual task (easy / medium / hard) is independent
-      of bundle complexity—so a <em>Low</em> bundle can still contain a hard task.
-    </p>
-  </div>
-
-
-<!-- 
-  <p class="mt-2">
-     When you’re ready, click <em>Start the mechanism</em>.  
-     You will first work on the <strong>low-complexity</strong> block.
-  </p> -->
 
   <p class="mt-2">
+    These instructions will be available to you via the button at the bottom of the screen.
+    <br><br>
     It is important that you understand these instructions.  
     On the next page, you will see some comprehension questions about these instructions. 
   </p>
 
-  <div class="text-center mt-4">
-    <button class="btn btn-primary">Check comprehension</button>
-  </div>
-</div>
+  
+
+
+
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Bundle choice)</a>
+        <button id="submit-btn" class="otree-btn-next btn btn-primary">Check comprehension</button>
+    </div>
+
+    
+    
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
+        </div>
+    </div>
+
+
 
 {% endblock %}
