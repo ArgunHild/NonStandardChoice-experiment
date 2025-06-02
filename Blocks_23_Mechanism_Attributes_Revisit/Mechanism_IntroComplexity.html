@@ -2,6 +2,9 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/css.css' %}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
 <div class="content-box box-neutral">
   <h2 class="section-title">How this part works</h2>
@@ -129,7 +132,7 @@
     <div id="myModal1" class="modal">
         <div class="modal-content modal-content-wide">
             <div class="modal-header">
-                <h2>Instructions</h2>
+                <h2><span class="icon">📘</span> Instructions</h2>
                 <span class="close" onclick="span_click(1)">&times;</span>
             </div>
             <p style="padding: 0px">
