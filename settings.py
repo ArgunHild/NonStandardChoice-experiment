@@ -12,17 +12,17 @@ SESSION_CONFIGS = [
              'Block_98_Play',
 ],
          num_demo_participants=10,
-         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
+         completionlink='prolific completion link!!!!!!'), 
     dict(name='MechanismAttributesRevisit', 
          app_sequence=['Block_0_Introduction', 'Blocks_23_Mechanism_Attributes_Revisit'],
          num_demo_participants=14, #need at least 10 participants, 5 for each mechs.
-         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
+         completionlink='prolific completion link!!!!!!'), 
 
 
     dict(name='FinalPlayStage', 
          app_sequence=['Block_98_Play'],
          num_demo_participants=2,
-         completionlink='prolific completion link!!!!!!'), #TODO: add the proper completion link from prolific
+         completionlink='prolific completion link!!!!!!'), 
     
 ]
 
@@ -35,11 +35,11 @@ ROOMS = [
     dict( name = 'Survey', display_name = 'Survey'),
 ]
 
-#TODO: add use use_browser_bots=True, to test with website bots
+
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc="", use_browser_bots=False,
 )
-#TODO: add the relevant participant fields if you wanna pass them thourgh apps
+
 PARTICIPANT_FIELDS = [
     'Allowed','Comprehension_passed', #'Attention_passed',
     'task_order',
@@ -48,6 +48,7 @@ PARTICIPANT_FIELDS = [
     'Bonus_1', 'Bonus_2',
     'Total_bonus', 'Total_payment',
 ]
+
 #TODO: add the treatments here
 SESSION_FIELDS = {
                     'Male_quotas':{}, 'Female_quotas':{} 
