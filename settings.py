@@ -41,7 +41,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 #TODO: add the relevant participant fields if you wanna pass them thourgh apps
 PARTICIPANT_FIELDS = [
-    'Allowed','Comprehension_passed', 'Attention_passed',
+    'Allowed','Comprehension_passed', #'Attention_passed',
     'task_order',
     'Treatment', 'Group', 'ID_in_Group', 'ID_in_Treatment',
     'Random_bundle', 'Final_bundle',

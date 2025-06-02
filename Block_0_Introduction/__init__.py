@@ -109,7 +109,6 @@ def creating_session(subsession):
     for player in subsession.get_players():
         player.participant.Allowed = True
         player.participant.Comprehension_passed = False 
-        player.participant.Attention_passed= True
         
     
     
@@ -119,10 +118,7 @@ def creating_session(subsession):
 class Group(BaseGroup):
     pass
 
-class Player(BasePlayer):   
-    Comprehension_password = models.StringField(blank=False,
-                                            label='Password')
-    
+class Player(BasePlayer):      
     # Demographics
     prolific_id = models.StringField(default=str("None")) #prolific id, will be fetched automatically.
     age = models.IntegerField(blank=True, #TODO: remove blank=True
@@ -152,47 +148,51 @@ class Player(BasePlayer):
     # logs how often user clicked out of the page #TODO: ensure that this is added to all the pages
     blur_event_counts = models.StringField(initial=0, blank=True) 
     
-    'Comprehension and attention checks'
-    #whether the player got the comprehension questions rigt at the first try
-    Comprehension_1 = models.BooleanField(initial=True) 
-    #In the first comprehension check, the questions the player has answered wrong are stored as a string below.
-    Comprehension_wrong_answers = models.StringField(initial='') 
-    Comprehension_wrong_answers_2 = models.StringField(initial='') 
-    Comprehension_2 = models.BooleanField(initial=True) 
     
-    Comprehension_question_1 = models.BooleanField(choices=[
-            [True,'Twice'], # Correct answer here
-            [False, 'Once'],
-            [False, 'Three times'],],
-        initial=True,
-        label = 'How many times will you practice each task during the learning stage?',
-        widget=widgets.RadioSelect)
-    Comprehension_question_2 = models.BooleanField(choices=[
-        [True, 'Performance in the learning stage'],  
-        [False, 'Number of tasks shown'],
-        [False, 'Number of times you click'],],
-        initial=True,
-        label = 'What contributes to your final bonus payment?',
-        widget=widgets.RadioSelect)
-    Comprehension_question_3 = models.BooleanField(choices=[
-        [True, 'Right before the main stage begins'],
-        [False, 'At the very end of the experiment'],
-        [False, 'During the first practice task'],],
-        initial=True,
-        label = 'When will you receive more detailed information about the main stage choices?',
-        widget=widgets.RadioSelect)
     
-    Attention_1 = models.BooleanField(
-    choices=[
-        [False, 'Lion'],
-        [False, 'Elephant'],
-        [True, 'Unicorn'],
-        [False, 'Giraffe']
-    ],
-    initial=True,
-    label='Please select the animal described in the text.',
-    widget=widgets.RadioSelect
-)
+    # 'Comprehension and attention checks'
+    # Comprehension_password = models.StringField(blank=False,
+    #                                     label='Password')
+    # #whether the player got the comprehension questions rigt at the first try
+    # Comprehension_1 = models.BooleanField(initial=True) 
+    # #In the first comprehension check, the questions the player has answered wrong are stored as a string below.
+    # Comprehension_wrong_answers = models.StringField(initial='') 
+    # Comprehension_wrong_answers_2 = models.StringField(initial='') 
+    # Comprehension_2 = models.BooleanField(initial=True) 
+    
+    # Comprehension_question_1 = models.BooleanField(choices=[
+    #         [True,'Twice'], # Correct answer here
+    #         [False, 'Once'],
+    #         [False, 'Three times'],],
+    #     initial=True,
+    #     label = 'How many times will you practice each task during the learning stage?',
+    #     widget=widgets.RadioSelect)
+    # Comprehension_question_2 = models.BooleanField(choices=[
+    #     [True, 'Performance in the learning stage'],  
+    #     [False, 'Number of tasks shown'],
+    #     [False, 'Number of times you click'],],
+    #     initial=True,
+    #     label = 'What contributes to your final bonus payment?',
+    #     widget=widgets.RadioSelect)
+    # Comprehension_question_3 = models.BooleanField(choices=[
+    #     [True, 'Right before the main stage begins'],
+    #     [False, 'At the very end of the experiment'],
+    #     [False, 'During the first practice task'],],
+    #     initial=True,
+    #     label = 'When will you receive more detailed information about the main stage choices?',
+    #     widget=widgets.RadioSelect)
+    
+    # Attention_1 = models.BooleanField(
+    # choices=[
+    #     [False, 'Lion'],
+    #     [False, 'Elephant'],
+    #     [True, 'Unicorn'],
+    #     [False, 'Giraffe']
+    # ],
+    #     initial=True,
+    #     label='Please select the animal described in the text.',
+    #     widget=widgets.RadioSelect
+    # )
     
     
     
@@ -238,115 +238,19 @@ class Demographics(MyBasePage):
 class Instructions(MyBasePage):
     pass        
 
-class Comprehension_check_1(MyBasePage):
-    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
-    form_fields = MyBasePage.form_fields + extra_fields    
-
-    @staticmethod   
-    def before_next_page(player: Player, timeout_happened=False):
-        player_passed_comprehension = player.Comprehension_question_1 and player.Comprehension_question_2 and player.Comprehension_question_3
-        # if player has answered a question wrong then I save it in a string
-        wrong_answers = ''
-        if not player.Comprehension_question_1:
-            player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
-            wrong_answers+= 'first question'
-        if not player.Comprehension_question_2:
-            if not wrong_answers =='': wrong_answers += ', '
-            player.Comprehension_question_2 = None
-            wrong_answers+= 'second question'
-        if not player.Comprehension_question_3:
-            if not wrong_answers =='': wrong_answers += ', '
-            player.Comprehension_question_3 = None
-            wrong_answers+= 'third question'
-        
-        player.Comprehension_wrong_answers = wrong_answers
-        player.Comprehension_1 = player_passed_comprehension
-        # save at the participant level
-        if player_passed_comprehension:
-            player.participant.vars['Comprehension_passed'] = True
-
-        
-class Comprehension_check_2(MyBasePage):
-    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
-    form_fields = MyBasePage.form_fields + extra_fields    
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return not player.Comprehension_1
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
-
-        # Add or modify variables specific to ExtendedPage
-        variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
-        return variables
-
-    @staticmethod   
-    def before_next_page(player: Player, timeout_happened=False):
-        player_passed_comprehension = player.Comprehension_question_1 and player.Comprehension_question_2 and player.Comprehension_question_3
-        # if player has answered a question wrong then I save it in a string
-        wrong_answers = ''
-        if not player.Comprehension_question_1:
-            player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
-            wrong_answers+= 'first question'
-        if not player.Comprehension_question_2:
-            if not wrong_answers =='': wrong_answers += ', '
-            player.Comprehension_question_2 = None
-            wrong_answers+= 'second question'
-        if not player.Comprehension_question_3:
-            if not wrong_answers =='': wrong_answers += ', '
-            player.Comprehension_question_3 = None
-            wrong_answers+= 'third question'
-        
-        player.Comprehension_wrong_answers_2 = wrong_answers
-        player.Comprehension_1 = player_passed_comprehension
-        # save at the participant level
-        if player_passed_comprehension:
-            player.participant.vars['Comprehension_passed'] = True
-            
-class Comprehension_check_3(MyBasePage):
-    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3', 'Comprehension_password']
-    form_fields = MyBasePage.form_fields + extra_fields    
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return not player.Comprehension_1
-    
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
-
-        # Add or modify variables specific to ExtendedPage
-        variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
-        return variables
-
-    @staticmethod   
-    def before_next_page(player: Player, timeout_happened=False):
-        player_passed_comprehension = (player.Comprehension_question_1 and
-                                       player.Comprehension_question_2 and player.Comprehension_question_3)
-        #failing two compr. checks player is not allowed to continue
-        player.participant.Allowed = player_passed_comprehension
-        player.Comprehension_2 = player_passed_comprehension
-        # save at the participant level if they passed
-        if player_passed_comprehension:
-            player.participant.vars['Comprehension_passed'] = True
-            player.participant.vars['Allowed']=True
-        else:
-            player.participant.vars['Allowed']=True # we wont kick anyone
-            player.participant.vars['Comprehension_passed'] = False
-            
 
 
-class Attention_check_1(MyBasePage):
-    extra_fields = ['Attention_1']
-    form_fields = MyBasePage.form_fields + extra_fields    
-    #save at  the participant level
-    @staticmethod   
-    def before_next_page(player: Player, timeout_happened=False):
-        player.participant.vars['Attention_1'] = player.Attention_1
+
+# class Attention_check_1(MyBasePage):
+#     extra_fields = ['Attention_1']
+#     form_fields = MyBasePage.form_fields + extra_fields    
+#     #save at  the participant level
+#     @staticmethod   
+#     def before_next_page(player: Player, timeout_happened=False):
+#         player.participant.vars['Attention_1'] = player.Attention_1
 
 
 page_sequence = [Consent, Instructions,
-                 Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
-                 Attention_check_1]
+                #  Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
+                #  Attention_check_1
+                ]

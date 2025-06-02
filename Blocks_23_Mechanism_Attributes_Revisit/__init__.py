@@ -659,6 +659,41 @@ class Player(BasePlayer):
     Available_bundles_Difficult_rank4_score = models.StringField(initial='')
     Available_bundles_Difficult_rank5_score = models.StringField(initial='')
  
+ 
+    
+    'Comprehension and attention checks'
+    Comprehension_password = models.StringField(blank=False,
+                                        label='Password')
+    #whether the player got the comprehension questions rigt at the first try
+    Comprehension_1 = models.BooleanField(initial=True) 
+    #In the first comprehension check, the questions the player has answered wrong are stored as a string below.
+    Comprehension_wrong_answers = models.StringField(initial='') 
+    Comprehension_wrong_answers_2 = models.StringField(initial='') 
+    Comprehension_2 = models.BooleanField(initial=True) 
+    
+    Comprehension_question_1 = models.BooleanField(choices=[
+            [True,'Twice'], # Correct answer here
+            [False, 'Once'],
+            [False, 'Three times'],],
+        initial=True,
+        label = 'How many times will you practice each task during the learning stage?',
+        widget=widgets.RadioSelect)
+    Comprehension_question_2 = models.BooleanField(choices=[
+        [True, 'Performance in the learning stage'],  
+        [False, 'Number of tasks shown'],
+        [False, 'Number of times you click'],],
+        initial=True,
+        label = 'What contributes to your final bonus payment?',
+        widget=widgets.RadioSelect)
+    Comprehension_question_3 = models.BooleanField(choices=[
+        [True, 'Right before the main stage begins'],
+        [False, 'At the very end of the experiment'],
+        [False, 'During the first practice task'],],
+        initial=True,
+        label = 'When will you receive more detailed information about the main stage choices?',
+        widget=widgets.RadioSelect)
+ 
+ 
  #%% Base Pages
 class MyBasePage(Page):
     'MyBasePage contains the functions that are common to all pages'
@@ -938,6 +973,107 @@ class Attributes_variety(MyBasePage):
                   'cardinality_Dimension_TimeEfficiency_Quiz', 'cardinality_Dimension_TimeEfficiency_SpotTheDifference', 'cardinality_Dimension_TimeEfficiency_MathMemory', 'cardinality_Dimension_TimeEfficiency_EmotionRecognition']:
             if not player.field_maybe_none(attribute):
                 setattr(player, attribute, random.randint(1, 10))
+
+
+#%% Comprehension questions
+class Comprehension_check_1(MyBasePage):
+    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
+    form_fields = MyBasePage.form_fields + extra_fields    
+
+    @staticmethod   
+    def before_next_page(player: Player, timeout_happened=False):
+        player_passed_comprehension = player.Comprehension_question_1 and player.Comprehension_question_2 and player.Comprehension_question_3
+        # if player has answered a question wrong then I save it in a string
+        wrong_answers = ''
+        if not player.Comprehension_question_1:
+            player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
+            wrong_answers+= 'first question'
+        if not player.Comprehension_question_2:
+            if not wrong_answers =='': wrong_answers += ', '
+            player.Comprehension_question_2 = None
+            wrong_answers+= 'second question'
+        if not player.Comprehension_question_3:
+            if not wrong_answers =='': wrong_answers += ', '
+            player.Comprehension_question_3 = None
+            wrong_answers+= 'third question'
+        
+        player.Comprehension_wrong_answers = wrong_answers
+        player.Comprehension_1 = player_passed_comprehension
+        # save at the participant level
+        if player_passed_comprehension:
+            player.participant.vars['Comprehension_passed'] = True
+
+        
+class Comprehension_check_2(MyBasePage):
+    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3']
+    form_fields = MyBasePage.form_fields + extra_fields    
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return not player.Comprehension_1
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        return variables
+
+    @staticmethod   
+    def before_next_page(player: Player, timeout_happened=False):
+        player_passed_comprehension = player.Comprehension_question_1 and player.Comprehension_question_2 and player.Comprehension_question_3
+        # if player has answered a question wrong then I save it in a string
+        wrong_answers = ''
+        if not player.Comprehension_question_1:
+            player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
+            wrong_answers+= 'first question'
+        if not player.Comprehension_question_2:
+            if not wrong_answers =='': wrong_answers += ', '
+            player.Comprehension_question_2 = None
+            wrong_answers+= 'second question'
+        if not player.Comprehension_question_3:
+            if not wrong_answers =='': wrong_answers += ', '
+            player.Comprehension_question_3 = None
+            wrong_answers+= 'third question'
+        
+        player.Comprehension_wrong_answers_2 = wrong_answers
+        player.Comprehension_1 = player_passed_comprehension
+        # save at the participant level
+        if player_passed_comprehension:
+            player.participant.vars['Comprehension_passed'] = True
+            
+class Comprehension_check_3(MyBasePage):
+    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3', 'Comprehension_password']
+    form_fields = MyBasePage.form_fields + extra_fields    
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return not player.Comprehension_1
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        return variables
+
+    @staticmethod   
+    def before_next_page(player: Player, timeout_happened=False):
+        player_passed_comprehension = (player.Comprehension_question_1 and
+                                       player.Comprehension_question_2 and player.Comprehension_question_3)
+        #failing two compr. checks player is not allowed to continue
+        player.participant.Allowed = player_passed_comprehension
+        player.Comprehension_2 = player_passed_comprehension
+        # save at the participant level if they passed
+        if player_passed_comprehension:
+            player.participant.vars['Comprehension_passed'] = True
+            player.participant.vars['Allowed']=True
+        else:
+            player.participant.vars['Allowed']=True # we wont kick anyone
+            player.participant.vars['Comprehension_passed'] = False
+            
 
 
 #%% # Mechanism pages
@@ -1524,6 +1660,7 @@ pages_Attributes = [
 
 pages_mechanism = [
     Mechanism_IntroComplexity,  
+    Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
     Mechanism_Easy_rank1, 
     Mechanism_Easy_rank2_WaitPage, Mechanism_Easy_rank2, 
     Mechanism_Easy_rank3_WaitPage, Mechanism_Easy_rank3,

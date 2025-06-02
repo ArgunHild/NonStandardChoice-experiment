@@ -53,7 +53,7 @@ class MyBasePage(Page):
 class Results(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.participant.Allowed and player.participant.Comprehension_passed and player.participant.Attention_passed
+        return player.participant.Allowed and player.participant.Comprehension_passed #and player.participant.Attention_passed
 
 
 class Failed_screening(MyBasePage):
@@ -77,14 +77,14 @@ class Failed_screening(MyBasePage):
             completion_link = C.Return_redirect
         )
 
-class Failed_attention(MyBasePage):
-    @staticmethod
-    def is_displayed(player: Player):
-        return not player.participant.Attention_passed  # player failed both attention checks
-    @staticmethod
-    def js_vars(player):
-        return dict(
-            completion_link = C.Reject_redirect
-        )
+# class Failed_attention(MyBasePage):
+#     @staticmethod
+#     def is_displayed(player: Player):
+#         return not player.participant.Attention_passed  # player failed both attention checks
+#     @staticmethod
+#     def js_vars(player):
+#         return dict(
+#             completion_link = C.Reject_redirect
+#         )
 
-page_sequence = [Results, Failed_screening, Failed_attention]
+page_sequence = [Results, Failed_screening,] #Failed_attention]

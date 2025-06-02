@@ -7,11 +7,23 @@
   <h2 class="section-title">How this part works</h2>
   <hr class="section-divider">
 
+  <!-- What to expect -->
+  <div class="section-box box-neutral">
+    <div class="section-header">
+      <span class="icon">👀</span>
+      <h3 class="instructions-title">What to expect</h3>
+    </div>
+    On the next few pages, you will be making a series of choices between bundles of tasks.
+    One of your bundles will be randomly assigned for you to work on at the end of the experiment.
+    Majority of your <strong>bonus payment</strong> depends on how well you perform at this bundle of tasks, therefore, choose your bundles carefully.
+  </div>
+
+
   <!-- ────────── Mechanism explanation ────────── -->
   <div class="section-box box-info">
     <div class="section-header">
       <span class="icon">⚙️</span>
-      <h3 class="instructions-title">Your mechanism</h3>
+      <h3 class="instructions-title">How to make a selection</h3>
     </div>
 
     {% if mechanism == 'binary' %}
@@ -24,7 +36,8 @@
     {% else %}
         <p>You will first see the full menu of bundles (nothing is clickable yet).  
         When you are ready, click <em>Start&nbsp;the&nbsp;mechanism</em>.  
-        The same bundles will re-appear and you can then <strong>choose the single bundle you prefer</strong>.</p>
+        The same bundles will re-appear and you can then <strong>choose the bundle you prefer</strong>.</p>
+        <!-- The same bundles will re-appear and you can then <strong>choose the single bundle you prefer</strong>.</p> -->
     {% endif %}
 
   </div>
@@ -53,10 +66,7 @@
       </tbody>
     </table>
 
-    <p class="mt-2">
-      The <strong>difficulty</strong> of each individual task (easy / medium / hard) is independent
-      of bundle complexity—so a <em>Low</em> bundle can still contain a hard task.
-    </p>
+
   </div>
 
   <!-- ────────── Difficulty explanation ────────── -->
@@ -89,20 +99,31 @@
     </p>
 
     <p>
-      Remember: You earn the bundle’s lump-sum bonus only when you meet the required score
+      <!-- Remember: You earn the bundle’s lump-sum bonus only when you meet the required score -->
+      Remember: You will earn the bonus only when you meet the required score
       for <em>every task</em> in that bundle.
+    </p>
+
+    <p class="mt-2">
+      The <strong>difficulty</strong> of each individual task (easy / medium / hard) is independent
+      of bundle complexity—so a <em>Low</em> bundle can still contain a hard task.
     </p>
   </div>
 
 
-
+<!-- 
   <p class="mt-2">
      When you’re ready, click <em>Start the mechanism</em>.  
      You will first work on the <strong>low-complexity</strong> block.
+  </p> -->
+
+  <p class="mt-2">
+    It is important that you understand these instructions.  
+    On the next page, you will see some comprehension questions about these instructions. 
   </p>
 
   <div class="text-center mt-4">
-    <button class="btn btn-primary">Start the mechanism</button>
+    <button class="btn btn-primary">Check comprehension</button>
   </div>
 </div>
 
