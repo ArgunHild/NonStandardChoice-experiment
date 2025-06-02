@@ -14,8 +14,8 @@
       <h3 class="instructions-title">What to expect</h3>
     </div>
     On the next few pages, you will be making a series of choices between bundles of tasks.
-    One of your bundles will be randomly assigned for you to work on at the end of the experiment.
-    Majority of your <strong>bonus payment</strong> depends on how well you perform at this bundle of tasks, therefore, choose your bundles carefully.
+    When the choice phase is over, the computer will randomly select <strong>one</strong> of those menus and the bundle you chose in that menu. You will then complete every task in that bundle.
+    You earn a bonus of <strong>XX</strong> EUR <strong>only if</strong> you hit the required score on <em>every task</em> in that bundle (see <em>Task difficulty</em> below).
   </div>
 
 
@@ -27,17 +27,16 @@
     </div>
 
     {% if mechanism == 'binary' %}
-        <p>You will first see the complete menu of bundles; at that point nothing is clickable.  
+        <p>You will first see a menu containing <strong>3 – 7</strong> bundles; at that point nothing is clickable.  
         Click <em>Start&nbsp;the&nbsp;mechanism</em> when you are ready to begin.</p>
 
         <p>After that, you will be shown <strong>two bundles at a time</strong>.  
         In each round simply choose the bundle you prefer.  
         You will make a handful of these quick comparisons until the system can determine your clear favourite.</p>
     {% else %}
-        <p>You will first see the full menu of bundles (nothing is clickable yet).  
+        <p>You will first see a menu containing <strong>3 – 7</strong> bundles (nothing is clickable yet).  
         When you are ready, click <em>Start&nbsp;the&nbsp;mechanism</em>.  
-        The same bundles will re-appear and you can then <strong>choose the bundle you prefer</strong>.</p>
-        <!-- The same bundles will re-appear and you can then <strong>choose the single bundle you prefer</strong>.</p> -->
+        The same bundles will re‑appear and you can then <strong>choose the bundle you prefer</strong>.</p>
     {% endif %}
 
   </div>
@@ -57,19 +56,29 @@
 
     <table class="performance-table">
       <thead>
-        <tr><th>Complexity level</th><th>Tasks&nbsp;per&nbsp;bundle</th></tr>
+        <tr>
+          <th>Complexity level</th>
+          <th>Tasks&nbsp;per&nbsp;bundle</th>
+          <th>Example</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td>Low </td><td>1 task</td></tr>
-        <tr><td>Medium </td><td>2 tasks</td></tr>
-        <tr><td>High </td><td>3 tasks</td></tr>
+        <tr>
+          <td>Low</td><td>1 task</td><td>😃<sub>2</sub></td>
+        </tr>
+        <tr>
+          <td>Medium</td><td>2 tasks</td><td>🔢<sub>1</sub> + 😃<sub>2</sub></td>
+        </tr>
+        <tr>
+          <td>High</td><td>3 tasks</td><td>🔢<sub>1</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub></td>
+        </tr>
       </tbody>
     </table>
 
 
   </div>
 
-  <!-- ────────── Difficulty explanation ────────── -->
+   <!-- ────────── Difficulty explanation ────────── -->
   <div class="section-box box-warn">
     <div class="section-header">
       <span class="icon">🎯</span>
@@ -77,45 +86,24 @@
     </div>
 
     <p>
-      Every task comes in <strong>three difficulty levels</strong>,
-      shown in the sub-script next to the task icon:
+      Each task appears at one of <strong>three difficulty levels</strong> (shown as a subscript as in the previous block):
     </p>
 
     <table class="performance-table">
       <thead>
-        <tr><th>Numeric code</th><th>Difficulty label</th><th>Score needed</th></tr>
+        <tr><th>Subscript</th><th>Label</th><th>Score needed</th></tr>
       </thead>
       <tbody>
-        <tr><td>1</td><td>Easy</td><td>≥ 25 % correct</td></tr>
-        <tr><td>2</td><td>Medium</td><td>≥ 50 % correct</td></tr>
-        <tr><td>3</td><td>Hard</td><td>≥ 75 % correct</td></tr>
+        <tr><td>1</td><td>Easy</td><td>≥ 25 % correct</td></tr>
+        <tr><td>2</td><td>Medium</td><td>≥ 50 % correct</td></tr>
+        <tr><td>3</td><td>Hard</td><td>≥ 75 % correct</td></tr>
       </tbody>
     </table>
 
-    <p class="mt-2">
-      <em>Example:</em> If you play <strong>Quiz&nbsp;2</strong> (Quiz at medium difficulty),
-      the round contains 30 questions and you must answer at least
-      <strong>15</strong> correctly to satisfy that task.
-    </p>
+    <p class="mt-1"><em>Example:</em> <strong>Quiz 2</strong> has 30 questions → you must answer at least <strong>15</strong> correctly.</p>
 
-    <p>
-      <!-- Remember: You earn the bundle’s lump-sum bonus only when you meet the required score -->
-      Remember: You will earn the bonus only when you meet the required score
-      for <em>every task</em> in that bundle.
-    </p>
-
-    <p class="mt-2">
-      The <strong>difficulty</strong> of each individual task (easy / medium / hard) is independent
-      of bundle complexity—so a <em>Low</em> bundle can still contain a hard task.
-    </p>
+    <p class="mt-1"><strong>Bonus rule:</strong> You receive the bonus only if you meet the threshold on <strong>every task</strong> in the realised bundle. Difficulty is independent of bundle complexity—so even a <em>Low</em> bundle can contain a hard task.</p>
   </div>
-
-
-<!-- 
-  <p class="mt-2">
-     When you’re ready, click <em>Start the mechanism</em>.  
-     You will first work on the <strong>low-complexity</strong> block.
-  </p> -->
 
   <p class="mt-2">
     It is important that you understand these instructions.  
