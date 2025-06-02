@@ -6,6 +6,20 @@ doc = """
 Your app description
 """
 
+TASK_LABELS = {
+    'Spot':    'Spot the Difference',
+    'Quiz':    'Quiz',
+    'Math':    'MathMemory',
+    'Emotion': 'Emotion Recognition',
+}
+
+def readable_task(token: str) -> str:
+    """Strip stray quotes and map to a display label."""
+    clean = token.strip('"')
+    return TASK_LABELS.get(clean, clean)  # fallback = raw token
+
+def clean_split(bundle_str: str):
+    return bundle_str.strip('"').split('_')
 
 def get_icon(task, level):
     """
@@ -196,27 +210,16 @@ class Game_1(MyBasePage):
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
         
-        Final_bundle = player.participant.Final_bundle
-        bundle = Final_bundle.split('_')
-        num = 0
-        
-        task = bundle[num]
-        
-        if task =='Spot':
-            task_name = 'Spot the Difference'
-        elif task == 'Quiz':
-            task_name = 'Quiz'
-        elif task == 'Math':
-            task_name = 'MathMemory'
-        elif task == 'Emotion':
-            task_name = 'Emotion Recognition'
-        
-        variables['Task'] = task_name
-        variables['Difficulty'] = num+1
-        task = bundle[num].strip('"')
-        variables['Task_instructions'] = getattr(C, f"{task}_instructions")
-        variables['GameTemplate'] = getattr(C, f"{task}_template")
-        
+        bundle = clean_split(player.participant.Final_bundle)
+        num         = 0                       # <- Game_1 always reads the 1st task
+        task_code   = bundle[num].strip('"')  # strip errant quotes once
+        task_name   = readable_task(task_code)
+
+        variables['Task']            = task_name
+        variables['Difficulty']      = int(bundle[num + 1])  # true level 1-3
+        variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
+        variables['GameTemplate']      = getattr(C, f'{task_code}_template')
+
         return variables
     
     @staticmethod
@@ -243,29 +246,19 @@ class Game_2(MyBasePage):
     @staticmethod
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
-        
-        Final_bundle = player.participant.Final_bundle
-        bundle = Final_bundle.split('_')
-        
-        num = 2
-        task = bundle[num]
-        
-        if task =='Spot':
-            task_name = 'Spot the Difference'
-        elif task == 'Quiz':
-            task_name = 'Quiz'
-        elif task == 'Math':
-            task_name = 'MathMemory'
-        elif task == 'Emotion':
-            task_name = 'Emotion Recognition'
-        
-        variables['Task'] = task_name
-        variables['Difficulty'] = num+1
-        task = bundle[num].strip('"')
-        variables['Task_instructions'] = getattr(C, f"{task}_instructions")
-        variables['GameTemplate'] = getattr(C, f"{task}_template")
+
+        bundle    = clean_split(player.participant.Final_bundle)
+        num       = 2                       # Game_2 reads the 2nd task (index 2)
+        task_code = bundle[num].strip('"')
+        task_name = readable_task(task_code)
+
+        variables['Task']            = task_name
+        variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
+        variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
+        variables['GameTemplate']      = getattr(C, f'{task_code}_template')
 
         return variables
+
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -291,17 +284,17 @@ class Game_3(MyBasePage):
     @staticmethod
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
-        
-        Final_bundle = player.participant.Final_bundle
-        bundle = Final_bundle.split('_')
-        
-        num = 4
-        
-        variables['Task'] = bundle[num]
-        variables['Difficulty'] = num+1
-        task = bundle[num].strip('"')
-        variables['Task_instructions'] = getattr(C, f"{task}_instructions")
-        variables['GameTemplate'] = getattr(C, f"{task}_template")
+
+        bundle    = clean_split(player.participant.Final_bundle)
+        num       = 2                       # Game_2 reads the 2nd task (index 2)
+        task_code = bundle[num].strip('"')
+        task_name = readable_task(task_code)
+
+        variables['Task']            = task_name
+        variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
+        variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
+        variables['GameTemplate']      = getattr(C, f'{task_code}_template')
+
         return variables
     
     @staticmethod

@@ -713,12 +713,12 @@ class Player(BasePlayer):
 
     Comprehension_question_3 = models.BooleanField(
         choices=[
-            [False, '1 task'],
-            [False, '2 tasks'],
-            [True,  '3 tasks'],                        # ✅ correct
+            [False, '≥ 25 % correct'],
+            [False, '≥ 50 % correct'],
+            [True,  '≥ 75 % correct'],   # ✅ correct
         ],
         initial=True,
-        label='In the High-complexity block, how many tasks does each bundle contain?',
+        label='If a task is labelled with the sub-script “3” (hard), what percentage of answers must you get right?',
         widget=widgets.RadioSelect,
     )
     # -----------------------------------------------------------------
