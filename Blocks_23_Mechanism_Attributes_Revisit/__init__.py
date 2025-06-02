@@ -1628,8 +1628,38 @@ class Revisit_complete(MyBasePage):
     
     @staticmethod
     def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
+        variables = MyBasePage.vars_for_template(player)       
+        
+        random_bundle = player.participant.Random_bundle
+        
+        # check if player switched in Random_bundle[0] difficulty, Random_bundle[1] rank
+        selected_difficulty = random_bundle.split('_')[0]
+        selected_rank = int(random_bundle.split('_')[1])
+        MechanismOutcome = getattr(player, f'{selected_difficulty}_rank{selected_rank}_choice')
+        
+        switched = getattr(player, f'{selected_difficulty}_rank_{selected_rank}_revisit_choice_switch')
+        available_bundles_scores = getattr(player, f"Available_bundles_{selected_difficulty}_rank{selected_rank}_score")
+        available_bundles_scores = json.loads(available_bundles_scores)
+        available_bundles_scores.pop(MechanismOutcome, None)  # Remove the mechanism outcome bundle
+        offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
+        
+        # if player switched assign offered bundle otherwise mechanismOutcome
+        if switched == 0:
+            player.participant.Final_bundle = MechanismOutcome
+        else:
+            player.participant.Final_bundle = offered_bundle
+            
+        # print(f'Player {player.participant.id_in_session} has been randomly selected to choose bundle {offered_bundle}')
+        variables['RandomDifficulty'] = selected_difficulty
+        variables['RandomRank'] = selected_rank
+        
+        def format_bundle_icon(bundle_str):
+            clean = bundle_str.strip('"')
+            parts = clean.split('_')
+            return ' + '.join([get_icon(parts[i], parts[i+1]) for i in range(0, len(parts), 2)])
 
+        variables['AssignedBundle'] = format_bundle_icon(player.participant.Final_bundle)
+        
         Final_bundle = player.participant.Final_bundle.strip('"')
         bundle = Final_bundle.split('_')
         
@@ -1662,41 +1692,9 @@ class Revisit_complete(MyBasePage):
             return ' + '.join([get_icon(parts[i], int(parts[i+1])) for i in range(0, len(parts), 2)])
 
         variables['Final_bundle'] = format_bundle_icon(Final_bundle)
-    
+        
+        
         return variables
-    
-        
-        # random_bundle = player.participant.Random_bundle
-        
-        # # check if player switched in Random_bundle[0] difficulty, Random_bundle[1] rank
-        # selected_difficulty = random_bundle.split('_')[0]
-        # selected_rank = int(random_bundle.split('_')[1])
-        # MechanismOutcome = getattr(player, f'{selected_difficulty}_rank{selected_rank}_choice')
-        
-        # switched = getattr(player, f'{selected_difficulty}_rank_{selected_rank}_revisit_choice_switch')
-        # available_bundles_scores = getattr(player, f"Available_bundles_{selected_difficulty}_rank{selected_rank}_score")
-        # available_bundles_scores = json.loads(available_bundles_scores)
-        # available_bundles_scores.pop(MechanismOutcome, None)  # Remove the mechanism outcome bundle
-        # offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
-        
-        # # if player switched assign offered bundle otherwise mechanismOutcome
-        # if switched == 0:
-        #     player.participant.Final_bundle = MechanismOutcome
-        # else:
-        #     player.participant.Final_bundle = offered_bundle
-            
-        # # print(f'Player {player.participant.id_in_session} has been randomly selected to choose bundle {offered_bundle}')
-        # variables['RandomDifficulty'] = selected_difficulty
-        # variables['RandomRank'] = selected_rank
-        
-        # def format_bundle_icon(bundle_str):
-        #     clean = bundle_str.strip('"')
-        #     parts = clean.split('_')
-        #     return ' + '.join([get_icon(parts[i], parts[i+1]) for i in range(0, len(parts), 2)])
-
-        # variables['AssignedBundle'] = format_bundle_icon(player.participant.Final_bundle)
-        
-        # return variables
     
     
 

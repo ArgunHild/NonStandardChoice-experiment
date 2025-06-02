@@ -56,26 +56,26 @@ class Results(Page):
         return player.participant.Allowed and player.participant.Comprehension_passed #and player.participant.Attention_passed
 
 
-class Failed_screening(MyBasePage):
-    'This page is displayed if the player failed the comprehension checks'
-    @staticmethod
-    def is_displayed(player: Player):
-        return not player.participant.Comprehension_passed 
+# class Failed_screening(MyBasePage):
+#     'This page is displayed if the player failed the comprehension checks'
+#     @staticmethod
+#     def is_displayed(player: Player):
+#         return not player.participant.Comprehension_passed 
 
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
-        failure_message = '''Unfortunately you did not successfuly pass the comprehension check. Because of this we cannot use your data. 
-                                We do not want to reject you because of this, so we ask you to <strong>return the study on Prolific</strong>. '''
-        # Add or modify variables specific to ExtendedPage
-        variables['failure_message'] = failure_message
-        return variables
+#     @staticmethod
+#     def vars_for_template(player: Player):
+#         variables = MyBasePage.vars_for_template(player)
+#         failure_message = '''Unfortunately you did not successfuly pass the comprehension check. Because of this we cannot use your data. 
+#                                 We do not want to reject you because of this, so we ask you to <strong>return the study on Prolific</strong>. '''
+#         # Add or modify variables specific to ExtendedPage
+#         variables['failure_message'] = failure_message
+#         return variables
 
-    @staticmethod
-    def js_vars(player):
-        return dict(
-            completion_link = C.Return_redirect
-        )
+#     @staticmethod
+#     def js_vars(player):
+#         return dict(
+#             completion_link = C.Return_redirect
+#         )
 
 # class Failed_attention(MyBasePage):
 #     @staticmethod
@@ -87,4 +87,4 @@ class Failed_screening(MyBasePage):
 #             completion_link = C.Reject_redirect
 #         )
 
-page_sequence = [Results, Failed_screening,] #Failed_attention]
+page_sequence = [Results,] #Failed_attention]
