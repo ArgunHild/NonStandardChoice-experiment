@@ -679,27 +679,50 @@ class Player(BasePlayer):
     Comprehension_wrong_answers_2 = models.StringField(initial='') 
     Comprehension_2 = models.BooleanField(initial=True) 
     
-    Comprehension_question_1 = models.BooleanField(choices=[
-            [True,'Twice'], # Correct answer here
-            [False, 'Once'],
-            [False, 'Three times'],],
+    # -----------------------------------------------------------------
+
+    Comprehension_question_1 = models.BooleanField(
+        choices=[
+            [True,
+            'The computer randomly picks one of the menus you faced and the '
+            'bundle you chose in that menu.'],        # ✅ correct
+            [False,
+            'The last menu you saw is automatically selected.'],
+            [False,
+            'You can decide which menu counts after you see your results.'],
+        ],
         initial=True,
-        label = 'How many times will you practice each task during the learning stage?',
-        widget=widgets.RadioSelect)
-    Comprehension_question_2 = models.BooleanField(choices=[
-        [True, 'Performance in the learning stage'],  
-        [False, 'Number of tasks shown'],
-        [False, 'Number of times you click'],],
+        label='How is the bundle you will actually work on selected?',
+        widget=widgets.RadioSelect,
+    )
+
+    Comprehension_question_2 = models.BooleanField(
+        choices=[
+            [True,
+            'You must reach the required score on every task in the selected '
+            'bundle.'],                               # ✅ correct
+            [False,
+            'You must reach the required score on at least one task in the bundle.'],
+            [False,
+            'You receive the bonus just for completing all tasks, regardless of score.'],
+        ],
         initial=True,
-        label = 'What contributes to your final bonus payment?',
-        widget=widgets.RadioSelect)
-    Comprehension_question_3 = models.BooleanField(choices=[
-        [True, 'Right before the main stage begins'],
-        [False, 'At the very end of the experiment'],
-        [False, 'During the first practice task'],],
+        label='What must happen for you to receive the bonus of XX EUR?', #TODO: make bonus amount dynamic
+        widget=widgets.RadioSelect,
+    )
+
+    Comprehension_question_3 = models.BooleanField(
+        choices=[
+            [False, '1 task'],
+            [False, '2 tasks'],
+            [True,  '3 tasks'],                        # ✅ correct
+        ],
         initial=True,
-        label = 'When will you receive more detailed information about the main stage choices?',
-        widget=widgets.RadioSelect)
+        label='In the High-complexity block, how many tasks does each bundle contain?',
+        widget=widgets.RadioSelect,
+    )
+    # -----------------------------------------------------------------
+
  
  
  #%% Base Pages
