@@ -198,10 +198,20 @@ class Game_1(MyBasePage):
         
         Final_bundle = player.participant.Final_bundle
         bundle = Final_bundle.split('_')
-        
         num = 0
         
-        variables['Task'] = bundle[num]
+        task = bundle[num]
+        
+        if task =='Spot':
+            task_name = 'Spot the Difference'
+        elif task == 'Quiz':
+            task_name = 'Quiz'
+        elif task == 'Math':
+            task_name = 'MathMemory'
+        elif task == 'Emotion':
+            task_name = 'Emotion Recognition'
+        
+        variables['Task'] = task_name
         variables['Difficulty'] = num+1
         task = bundle[num].strip('"')
         variables['Task_instructions'] = getattr(C, f"{task}_instructions")
@@ -238,8 +248,18 @@ class Game_2(MyBasePage):
         bundle = Final_bundle.split('_')
         
         num = 2
+        task = bundle[num]
         
-        variables['Task'] = bundle[num]
+        if task =='Spot':
+            task_name = 'Spot the Difference'
+        elif task == 'Quiz':
+            task_name = 'Quiz'
+        elif task == 'Math':
+            task_name = 'MathMemory'
+        elif task == 'Emotion':
+            task_name = 'Emotion Recognition'
+        
+        variables['Task'] = task_name
         variables['Difficulty'] = num+1
         task = bundle[num].strip('"')
         variables['Task_instructions'] = getattr(C, f"{task}_instructions")
@@ -346,5 +366,5 @@ class Results(MyBasePage):
     
         
 
-page_sequence = [ChosenBundleExplanation, Game_1, Game_2, Game_3,
+page_sequence = [Game_1, Game_2, Game_3,
                  Results]

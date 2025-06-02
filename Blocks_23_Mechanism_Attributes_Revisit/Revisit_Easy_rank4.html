@@ -51,28 +51,24 @@
 <!-- Form -->
 {{ formfields }}
 
-<br><br>
 
 <!-- Navigation -->
 <div class="buttons-container">
-    <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions</a>
+    <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions (Revisit choice)</a>
     <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
 </div>
 
 <!-- Modal -->
-<div id="myModal1" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Study Instructions</h2>
-            <span class="close" onclick="span_click(1)">&times;</span>
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_revisit_path }}
+            </p>
         </div>
-        <p style="padding: 0px">
-            {{ include Instructions }}
-        </p>
     </div>
-</div>
-</div>
 
-
-<br><br>
-{% endblock %}
+{{ endblock }}

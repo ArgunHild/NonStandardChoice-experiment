@@ -31,16 +31,17 @@
 
     
     <div id="myModal1" class="modal">
-        <div class="modal-content">
+        <div class="modal-content modal-content-wide">
             <div class="modal-header">
-              <h2>Instructions</h2>
-              <span class="close" onclick="span_click(1)">&times;</span>
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
             </div>
-          <p style="padding: 0px">
-         {{include C.Instructions_general_path}}
-          </p>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
         </div>
     </div>
+
 
     <br><br>
 {{ endblock }}

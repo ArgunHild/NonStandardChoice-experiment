@@ -7,32 +7,11 @@
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
-<div class="section-box box-neutral">
-    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
-        <span class="icon">🔁</span> Revisiting Your Choices
-    </h3>
-    <div class="section-divider"></div>
-
-    <p>
-        In the next set of pages, you'll revisit the <strong>15 choices</strong> you made earlier in the study.
-    </p>
-
-    <p>
-        For each of the 15 earlier decisions, you’ll now see two bundles: the one originally assigned and an alternative. 
-        You’ll be asked to <strong>choose which bundle you would prefer to receive as your final outcome</strong>.
-    </p>
-
-
-
-    <p>
-        Your final selection for each choice will be recorded and used as your outcome for the study.
-    </p>
+{{include C.Instructions_revisit_path}}
 
     <p>
         Click <strong>Next</strong> to begin.
     </p>
-
-
 
 {% for field in form %}
     {% if field.name not in hidden_fields %}
@@ -50,7 +29,7 @@
     <br><br>
 
       <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions</a>
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions (Revisit choice)</a>
 
         <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
     </div>
@@ -62,7 +41,7 @@
                 <span class="close" onclick="span_click(1)">&times;</span>
             </div>
             <p style="padding: 0px">
-                {{ include C.Instructions_general_path }}
+                {{ include C.Instructions_revisit_path }}
             </p>
         </div>
     </div>
