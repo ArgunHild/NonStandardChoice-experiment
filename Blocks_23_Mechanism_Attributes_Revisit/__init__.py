@@ -313,7 +313,15 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1    
     
-    Instructions_path = "_templates/global/Instructions.html"
+    Instructions_general_path = "_templates/global/Instructions.html"
+    Instructions_attributes_path = "_templates/global/Instructions_attributes.html"
+    Instructions_mechanism_path = "_templates/global/Instructions_mechanism.html"
+    Instructions_revisit_path = "_templates/global/Instructions_revisit.html"
+     
+    Comprehension_password = 'MARGUN' #if changed here, needs to be changed in the js.js as well
+    
+    Bonus_max = 7.5 #TODO: adjust bonus
+
     
     # bundle icons
     Bundle_icons = {
@@ -705,8 +713,9 @@ class MyBasePage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {'hidden_fields': [], #hide the browser field from the participant, see the page to see how this works. #user_clicked_out
-                'Instructions': C.Instructions_path,
-                'MechanismPage': "_templates/global/Mechanism.html",} 
+                'Instructions': C.Instructions_general_path,
+                'MechanismPage': "_templates/global/Mechanism.html",
+                'mechanism': player.participant.Treatment} 
   
 #%% Pages
 
@@ -1002,6 +1011,14 @@ class Comprehension_check_1(MyBasePage):
         # save at the participant level
         if player_passed_comprehension:
             player.participant.vars['Comprehension_passed'] = True
+            
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        # Add or modify variables specific to ExtendedPage
+        variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
+        return variables
 
         
 class Comprehension_check_2(MyBasePage):
@@ -1018,6 +1035,7 @@ class Comprehension_check_2(MyBasePage):
 
         # Add or modify variables specific to ExtendedPage
         variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
         return variables
 
     @staticmethod   
@@ -1057,6 +1075,7 @@ class Comprehension_check_3(MyBasePage):
 
         # Add or modify variables specific to ExtendedPage
         variables['Comprehension_wrong_answers'] = player.Comprehension_wrong_answers
+        variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
         return variables
 
     @staticmethod   
@@ -1112,6 +1131,7 @@ def get_variables_for_template(player: Player, rank: int, difficulty: str):
     else:
         variables['Note'] = f"This players decisions have a bearing on others ({player.participant.ID_in_Treatment}th player in treatment)"
     variables['rank_sentence'] = C.Rank_sentence[rank]
+    variables['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
     return variables
 
 def get_js_vars(player: Player, rank: int, difficulty: str):
@@ -1603,41 +1623,82 @@ class Revisit_Difficult_rank5(MyBasePage):
 
 
 class Revisit_complete(MyBasePage):
+    extra_fields = [] 
+    form_fields = MyBasePage.form_fields + extra_fields
+    
     @staticmethod
-    def vars_for_template(player: Player, timeout_happened=False):
+    def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
+
+        Final_bundle = player.participant.Final_bundle.strip('"')
+        bundle = Final_bundle.split('_')
         
-        random_bundle = player.participant.Random_bundle
-        
-        # check if player switched in Random_bundle[0] difficulty, Random_bundle[1] rank
-        selected_difficulty = random_bundle.split('_')[0]
-        selected_rank = int(random_bundle.split('_')[1])
-        MechanismOutcome = getattr(player, f'{selected_difficulty}_rank{selected_rank}_choice')
-        
-        switched = getattr(player, f'{selected_difficulty}_rank_{selected_rank}_revisit_choice_switch')
-        available_bundles_scores = getattr(player, f"Available_bundles_{selected_difficulty}_rank{selected_rank}_score")
-        available_bundles_scores = json.loads(available_bundles_scores)
-        available_bundles_scores.pop(MechanismOutcome, None)  # Remove the mechanism outcome bundle
-        offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
-        
-        # if player switched assign offered bundle otherwise mechanismOutcome
-        if switched == 0:
-            player.participant.Final_bundle = MechanismOutcome
-        else:
-            player.participant.Final_bundle = offered_bundle
+        bundle_1 = get_icon(bundle[0], int(bundle[1]))  
+        final_bundle = f'{bundle_1}'
+        try: 
+            bundle_2 = get_icon(bundle[2], int(bundle[3]))
+            final_bundle += f'+{bundle_2}'
+        except:
+            bundle_2 = False
+        try:
+            bundle_3 = get_icon(bundle[4], int(bundle[5]))
+            final_bundle += f'+{bundle_3}'
+        except:
+            bundle_3 = False
             
-        # print(f'Player {player.participant.id_in_session} has been randomly selected to choose bundle {offered_bundle}')
-        variables['RandomDifficulty'] = selected_difficulty
-        variables['RandomRank'] = selected_rank
+            
+        Bundle_text = f'''
+            To earn the bonus of <strong>{C.Bonus_max}€</strong>, you must reach the required minimum score in <strong>each</strong> of the tasks in this bundle. Failing to meet the cutoff in any one task means no bonus will be paid.
+            
+            <br><br>
+            On the next page, you will begin working on your assigned bundle. 
+        '''
+
         
+        variables['Bundle_text'] = Bundle_text
         def format_bundle_icon(bundle_str):
             clean = bundle_str.strip('"')
             parts = clean.split('_')
-            return ' + '.join([get_icon(parts[i], parts[i+1]) for i in range(0, len(parts), 2)])
+            return ' + '.join([get_icon(parts[i], int(parts[i+1])) for i in range(0, len(parts), 2)])
 
-        variables['AssignedBundle'] = format_bundle_icon(player.participant.Final_bundle)
-        
+        variables['Final_bundle'] = format_bundle_icon(Final_bundle)
+    
         return variables
+    
+        
+        # random_bundle = player.participant.Random_bundle
+        
+        # # check if player switched in Random_bundle[0] difficulty, Random_bundle[1] rank
+        # selected_difficulty = random_bundle.split('_')[0]
+        # selected_rank = int(random_bundle.split('_')[1])
+        # MechanismOutcome = getattr(player, f'{selected_difficulty}_rank{selected_rank}_choice')
+        
+        # switched = getattr(player, f'{selected_difficulty}_rank_{selected_rank}_revisit_choice_switch')
+        # available_bundles_scores = getattr(player, f"Available_bundles_{selected_difficulty}_rank{selected_rank}_score")
+        # available_bundles_scores = json.loads(available_bundles_scores)
+        # available_bundles_scores.pop(MechanismOutcome, None)  # Remove the mechanism outcome bundle
+        # offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
+        
+        # # if player switched assign offered bundle otherwise mechanismOutcome
+        # if switched == 0:
+        #     player.participant.Final_bundle = MechanismOutcome
+        # else:
+        #     player.participant.Final_bundle = offered_bundle
+            
+        # # print(f'Player {player.participant.id_in_session} has been randomly selected to choose bundle {offered_bundle}')
+        # variables['RandomDifficulty'] = selected_difficulty
+        # variables['RandomRank'] = selected_rank
+        
+        # def format_bundle_icon(bundle_str):
+        #     clean = bundle_str.strip('"')
+        #     parts = clean.split('_')
+        #     return ' + '.join([get_icon(parts[i], parts[i+1]) for i in range(0, len(parts), 2)])
+
+        # variables['AssignedBundle'] = format_bundle_icon(player.participant.Final_bundle)
+        
+        # return variables
+    
+    
 
 
 

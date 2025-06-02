@@ -26,6 +26,21 @@
   color: var(--text-dark);
 }
 
+/* === Wide Modal Content === */
+.modal-content-wide {
+  background-color: var(--neutral);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 30px;
+  width: 95%;              /* wider than the 80% default */
+  max-width: 1000px;       /* allow more space on large screens */
+  margin: 100px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  color: var(--text-dark);
+}
+
+
 /* === Modal Header === */
 .modal-header {
   display: flex;
@@ -34,6 +49,15 @@
   border-bottom: 2px solid #ccc;
   margin-bottom: 15px;
 }
+
+/* .modal-header-wide {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 2px solid #bbb;
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+} */
+
 
 .modal-header h2 {
   font-size: 1.5rem;

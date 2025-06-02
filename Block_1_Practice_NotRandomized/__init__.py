@@ -20,7 +20,7 @@ class C(BaseConstants):
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
-    Instructions_path = "_templates/global/Instructions.html"
+    Instructions_general_path = "_templates/global/Instructions.html"
     
     # Games paths
     Emotion_recognition_template = "_templates/global/Task_templates/Emotion.html"

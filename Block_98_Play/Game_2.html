@@ -172,23 +172,11 @@
   </div>
 
   <div class="buttons-container" style="justify-content:center;margin-top:30px;">
-    <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
     <button id="NextButton" class="btn btn-primary">Continue</button>
   </div>
 </div>
 
-<!-- modal -->
-<div id="myModal1" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><span class="icon">📘</span> Instructions</h2>
-      <span class="close" onclick="span_click(1)">&times;</span>
-    </div>
-    <div class="modal-body">
-      {{ include C.Instructions_path }}
-    </div>
-  </div>
-</div>
+
 {{ endblock }}
 
 

@@ -20,7 +20,7 @@ class C(BaseConstants):
     Reject_redirect = "https://www.wikipedia.org/" #TODO: adjust reject redirect
     Return_redirect = "https://www.wikipedia.org/" #TODO: adjust return redirect
     
-    Instructions_path = "_templates/global/Instructions.html"
+    Instructions_general_path = "_templates/global/Instructions.html"
     
     Comprehension_password = 'MARGUN'
 
@@ -211,7 +211,7 @@ class MyBasePage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {'hidden_fields': ['blur_event_counts'], #fields to be hidden from the participant e.g. browser, blur_event_counts, see the page to see how this works. #user_clicked_out
-                'Instructions': C.Instructions_path} 
+                'Instructions': C.Instructions_general_path} 
 
 #%% Pages
 

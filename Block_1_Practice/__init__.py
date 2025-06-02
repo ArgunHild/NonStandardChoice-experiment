@@ -20,7 +20,7 @@ class C(BaseConstants):
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
-    Instructions_path = "_templates/global/Instructions.html"
+    Instructions_general_path = "_templates/global/Instructions.html"
     
     # Games paths
     Emotion_recognition_template = "_templates/global/Task_templates/Emotion.html"
@@ -124,7 +124,7 @@ class Instruction_1(Page):
         player.participant.vars['task'] = task
         # print(instructions)
         return {
-            'Instructions_path': instructions,
+            'Instructions_general_path': instructions,
             'task': task,
         }
         
@@ -157,7 +157,7 @@ class Game_1(Page):
         template, instructions = get_task_Template(task, 1)
         
         return {
-            'Instructions_path': instructions,
+            'Instructions_general_path': instructions,
             'task': task,
             'template_path': template,
         }

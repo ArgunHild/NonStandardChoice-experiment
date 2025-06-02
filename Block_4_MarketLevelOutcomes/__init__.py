@@ -29,7 +29,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Instructions_path = "_templates/global/Instructions.html"
+    Instructions_general_path = "_templates/global/Instructions.html"
 
     Return_redirect = "https://www.wikipedia.org/" #TODO: adjust return redirect
     
@@ -58,7 +58,7 @@ class MyBasePage(Page):
     @staticmethod
     def vars_for_template(player: Player):
         return {'hidden_fields': ['bullshit'], #hide the browser field from the participant, see the page to see how this works. #user_clicked_out
-                'Instructions': C.Instructions_path} 
+                'Instructions': C.Instructions_general_path} 
 
 #%% Pages
 

@@ -9,27 +9,32 @@
 
 <div class="content-box box-neutral">
     
-    <h3 class="section-title">🎯 Final Outcome</h3>
+    <h3 class="section-title">🎯 Your Assigned Bundle</h3>
     <div class="section-divider"></div>
     <div class="section-box box-info">
-        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 16px;">
-            The following bundle was randomly selected to determine your final outcome:
-        </p>
 
-        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 16px;">
+            You have been assigned the following bundle:</p>
+        <div style="display: flex; justify-content: center; margin: 16px 0;">
             <div class="highlight-bundle">
-                {{ AssignedBundle }}
+                {{ Final_bundle|safe}}
             </div>
         </div>
 
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 16px;">
+            {{ Bundle_text|safe }}
+        </p>
+
+
         <p style="text-align: center; color: #555;">
-            You will now complete the tasks shown in this bundle. Good luck!
+            Your performance on the next task(s) will determine your final bonus.
         </p>
     </div>
 
-   <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions</a>
 
+<br>
+
+      <div class="buttons-container">
         <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
     </div>
 
@@ -40,14 +45,13 @@
                 <span class="close" onclick="span_click(1)">&times;</span>
             </div>
             <p style="padding: 0px">
-                {{ include C.Instructions_path }}
+                {{ include C.Instructions_general_path }}
             </p>
         </div>
     </div>
 </div>
-
 </div>
-{{ endblock }}
 
+{{ endblock }}
 
 
