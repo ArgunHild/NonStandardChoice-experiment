@@ -10,6 +10,25 @@
   --text-light: #ffffff;    /* Light text for dark buttons */
 }
 
+/* Otree hide timer. */
+.otree-timer {
+    display: none !important;
+}
+
+.otree-timer_2 {
+    font-size: 20px;
+    text-align: center;
+    background-color: #f0f8ff;
+    color: #333;
+    padding: 10px 20px;
+    margin: 20px auto; /* center horizontally */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    width: fit-content;
+    display: block;
+}
+
+
 
 /* BOXES */
 

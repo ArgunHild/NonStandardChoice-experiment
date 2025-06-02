@@ -153,6 +153,11 @@
       <h3>{{ Task }}</h3>
     </div>
 
+   <div class="otree-timer_2" style="margin-top: 10px;">
+        Time remaining: <span id="time-left"></span> seconds
+    </div>
+
+
     <!--{% include Task_instructions %}-->
     {{ include GameTemplate }}
   </div>
@@ -189,6 +194,21 @@
     </div>
   </div>
 </div>
+
+
+
+    
+    <script>
+        let customTimerEle = document.getElementById('time-left');
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $('.otree-timer__time-left').on('update.countdown', function (event) {
+                customTimerEle.innerText = event.offset.totalSeconds;
+            });
+        });
+
+    </script>
+
 {{ endblock }}
 
 

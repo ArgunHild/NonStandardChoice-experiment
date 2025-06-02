@@ -50,6 +50,8 @@ class C(BaseConstants):
     Quiz_instructions = "_templates/global/Task_instructions/Quiz.html"
     Spot_instructions = "_templates/global/Task_instructions/Spot.html"
 
+    
+    Completion_fee = 5 #TODO: adjust completion fee
     Bonus_max = 7.5 #TODO: adjust bonus
     
     # TODO: minimum scores need to be adjusted
@@ -93,6 +95,7 @@ class Player(BasePlayer):
     Game_2_performance = models.IntegerField(min=0, max=100, initial=0)
     Game_3_performance = models.IntegerField(min=0, max=100, initial=0)
     
+    Bonus_final_bundle = models.FloatField(min=0, max=100, initial=0)
     Bonus_2_1 = models.FloatField(min=0, max=100, initial=0)
     Bonus_2_2 = models.FloatField(min=0, max=100, initial=0)
     Bonus_2_3 = models.FloatField(min=0, max=100, initial=0)
@@ -176,10 +179,9 @@ def calculate_bonus(player, field_num):
     bonus = 0
     print('DEBUGGING:', Final_bundle, task, difficulty)
     if performance > C.Minimum_scores[task][difficulty]:
-        bonus = C.Bonus_max
+        bonus = 1
     
     setattr(player, f'Bonus_2_{game_num}', bonus)
-    print(f'Player {player.id_in_group} earned {bonus} for {task} {difficulty}. He scored {performance} and cutoff is {C.Minimum_scores[task][difficulty]}')
     
 
 class Game_1(MyBasePage):
@@ -307,10 +309,20 @@ class Game_3(MyBasePage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         calculate_bonus(player, 4)
+        
+        if player.Bonus_2_1 == 1 and player.Bonus_2_2 == 1 and player.Bonus_2_3 == 1:
+            player.Bonus_final_bundle == C.Bonus_max
 
 
         
 class Results(MyBasePage):
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.participant.vars['Bonus_2'] = player.Bonus_final_bundle
+        player.participant.vars['Total_Bonus'] = player.participant.Bonus_1 + player.Bonus_final_bundle
+        player.participant.vars['Total_payment'] = player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee
+        player.participant.payoff = player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee
+    
     @staticmethod
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
@@ -335,33 +347,60 @@ class Results(MyBasePage):
         variables['Final_bundle'] = final_bundle
         #TODO: test this for multiple different bundle sizes i.e. if there are 2 or 1 bundle only
         if bundle_2 and bundle_3:
-            bonuses = f'''
+            Performance_Text = f'''
             <ol>
-            <li> {bundle_1}: {player.Bonus_2_1}€ </li>
-            <li> {bundle_2}: {player.Bonus_2_2}€ </li>
-            <li> {bundle_3}: {player.Bonus_2_3}€ </li>
+            <li> {bundle_1}: {player.Game_1_performance} points </li>
+            <li> {bundle_2}: {player.Game_2_performance} points </li>
+            <li> {bundle_3}: {player.Game_3_performance} points </li>
             </ol>
             '''
         elif bundle_2:
-            bonuses = f'''
+            Performance_Text = f'''
             <ol>
-            <li> {bundle_1}: {player.Bonus_2_1}€ </li>
-            <li> {bundle_2}: {player.Bonus_2_2}€ </li>
+            <li> {bundle_1}: {player.Game_1_performance} points </li>
+            <li> {bundle_2}: {player.Game_2_performance} points </li>
             </ol>
             '''
         else:
-            bonuses = f'''
+            Performance_Text = f'''
             <ol>
-            <li> {bundle_1}: {player.Bonus_2_1}€ </li>
+            <li> {bundle_1}: {player.Game_1_performance} points </li>
             </ol>
             '''
         
-        variables['ResultsText'] = f'''
-        You have earned the following bonus:
-        {bonuses}
-        '''
+        if player.Bonus_final_bundle >0:
+            results_text = f'''
+            <strong>Congratulations!</strong> You have successfully completed the tasks in your bundle and earned a bonus of <strong>{player.Bonus_final_bundle}€</strong>.
+            '''
+        else:
+            results_text = f'''
+            <strong>Unfortunately, you did not meet the required minimum scores in all tasks.</strong> Therefore, you will not receive a bonus for this bundle.
+            '''
+            
+        payments =  f'''
+            <ol>
+            <li> Participation payment: {C.Completion_fee}€ </li>
+            <li> Bonus from practice stage: {player.Bonus_final_bundle}€ </li>
+            <li> Bonus from bundle performance: {player.participant.Bonus_1}€ </li>
+            </ol>
+            <strong>Total payment: {player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee}€</strong>
+            
+            <br><br>
+            Thank you for participating in this experiment! Your total payment will be processed shortly.
+             
+            '''
         
+        variables['Performance_Text'] = Performance_Text
+        variables['ResultsText'] = results_text
+        
+        variables['Payments'] = payments
+        
+
+
         return variables
+    
+    
+   
         
     
         
