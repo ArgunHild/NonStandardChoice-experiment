@@ -6,10 +6,6 @@ doc = """
 Your app description
 """
 
-#TODO: create two rounds of trial stages each 180 seconds
-#TODO: create more games for the emotion recognition
-#TODO randomize the order of mechanism and attribute-survey.
-# TODO: market level outcomes app: Add WTA questions for 1 out of 15 outcomes (for now)
 
 class C(BaseConstants):
     NAME_IN_URL = 'Learning_stage'

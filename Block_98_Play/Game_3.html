@@ -153,6 +153,11 @@
       <h3>{{ Task }}</h3>
     </div>
 
+   <div class="otree-timer_2" style="margin-top: 10px;">
+        Time remaining: <span id="time-left"></span> seconds
+    </div>
+
+
     <!--{% include Task_instructions %}-->
     {{ include GameTemplate }}
   </div>
@@ -173,6 +178,7 @@
 
   <div class="buttons-container" style="justify-content:center;margin-top:30px;">
     <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
+    <!-- TODO: delete continue button-->
     <button id="NextButton" class="btn btn-primary">Continue</button>
   </div>
 </div>
@@ -189,6 +195,21 @@
     </div>
   </div>
 </div>
+
+
+
+    
+    <script>
+        let customTimerEle = document.getElementById('time-left');
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $('.otree-timer__time-left').on('update.countdown', function (event) {
+                customTimerEle.innerText = event.offset.totalSeconds;
+            });
+        });
+
+    </script>
+
 {{ endblock }}
 
 

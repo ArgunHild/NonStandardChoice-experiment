@@ -6,7 +6,7 @@
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
 <div class="content-box box-neutral">
-    <h2 class="section-title">Emotion Recognition Task</h2>
+    <h2 class="section-title">Emotion Recognition Task (Round 2)</h2>
     <hr class="section-divider">
 
     <!-- Refresh warning -->
@@ -18,6 +18,10 @@
         <p>
             <strong>Refreshing your browser will not stop the timer but will reset your score.</strong>
         </p>
+    </div>
+
+    <div class="otree-timer_2" style="margin-top: 10px;">
+        Time remaining: <span id="time-left"></span> seconds
     </div>
 
     <!-- Task content -->
@@ -49,6 +53,7 @@
     <!-- Navigation Buttons -->
     <div class="buttons-container" style="text-align: center; margin-top: 30px;">
         <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
+        <!-- TODO: remove the continue button -->
         <button id="NextButton" class="btn btn-primary">Continue</button>
     </div>
 </div>
@@ -66,4 +71,15 @@
     </div>
 </div>
 
+
+    <script>
+        let customTimerEle = document.getElementById('time-left');
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $('.otree-timer__time-left').on('update.countdown', function (event) {
+                customTimerEle.innerText = event.offset.totalSeconds;
+            });
+        });
+
+    </script>
 {{ endblock }}

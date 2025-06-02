@@ -16,7 +16,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 60 #TODO: adjust time 
+    Round_length = 360 #TODO: adjust time 
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
@@ -109,7 +109,7 @@ class Quiz(Page):
     
     timeout_seconds = C.Round_length
     timer_text = C.Timer_text
-    
+        
     @staticmethod
     def vars_for_template(player: Player):
         variables = {
