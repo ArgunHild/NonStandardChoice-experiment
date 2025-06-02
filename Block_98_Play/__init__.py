@@ -21,6 +21,14 @@ def readable_task(token: str) -> str:
 def clean_split(bundle_str: str):
     return bundle_str.strip('"').split('_')
 
+PLAIN_ICONS = {
+    'Math':    '🔢',
+    'Spot':    '🔍',
+    'Quiz':    '📚',
+    'Emotion': '😃',
+}
+
+
 def get_icon(task, level):
     """
     Returns the icon for a given task and difficulty level.
@@ -194,7 +202,7 @@ def calculate_bonus(player, field_num):
     print('DEBUGGING:', Final_bundle, task, difficulty)
     if performance > C.Minimum_scores[task][difficulty]:
         bonus = 1
-    
+    print('DEBUGGING:', Final_bundle, task, difficulty, bonus)
     setattr(player, f'Bonus_2_{game_num}', bonus)
     
 
@@ -216,6 +224,8 @@ class Game_1(MyBasePage):
         num         = 0                       # <- Game_1 always reads the 1st task
         task_code   = bundle[num].strip('"')  # strip errant quotes once
         task_name   = readable_task(task_code)
+        variables['Icon'] = PLAIN_ICONS[task_code]
+
 
         variables['Task']            = task_name
         variables['Difficulty']      = int(bundle[num + 1])  # true level 1-3
@@ -253,6 +263,8 @@ class Game_2(MyBasePage):
         num       = 2                       # Game_2 reads the 2nd task (index 2)
         task_code = bundle[num].strip('"')
         task_name = readable_task(task_code)
+        variables['Icon'] = PLAIN_ICONS[task_code]
+
 
         variables['Task']            = task_name
         variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
@@ -288,9 +300,11 @@ class Game_3(MyBasePage):
         variables = MyBasePage.vars_for_template(player)
 
         bundle    = clean_split(player.participant.Final_bundle)
-        num       = 2                       # Game_2 reads the 2nd task (index 2)
+        num       = 4                       # Game_2 reads the 2nd task (index 2)
         task_code = bundle[num].strip('"')
         task_name = readable_task(task_code)
+        variables['Icon'] = PLAIN_ICONS[task_code]
+
 
         variables['Task']            = task_name
         variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
@@ -307,8 +321,94 @@ class Game_3(MyBasePage):
             player.Bonus_final_bundle == C.Bonus_max
 
 
-        
 class Results(MyBasePage):
+
+    # ───────────────── bookkeeping AFTER the page ──────────────────
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        # Compute the bundle bonus again for payoff records
+        tokens = clean_split(player.participant.Final_bundle)
+        task_slots = range(0, len(tokens), 2)          # 0, 2, 4 …
+
+        passed_every_task = all(
+            getattr(player, f'Bonus_2_{i//2 + 1}') == 1 for i in task_slots
+        )
+
+        player.Bonus_final_bundle = C.Bonus_max if passed_every_task else 0
+
+        player.participant.payoff = (
+            C.Completion_fee
+            + player.participant.Bonus_1
+            + player.Bonus_final_bundle
+        )
+
+    # ───────────── variables FOR the template (shown immediately) ─────────────
+    @staticmethod
+    def vars_for_template(player: Player):
+        v = MyBasePage.vars_for_template(player)
+
+        # ---------- recompute pass/fail *here* so display is correct ----------
+        tokens = clean_split(player.participant.Final_bundle)
+        task_slots = range(0, len(tokens), 2)
+
+        passed_every_task = all(
+            getattr(player, f'Bonus_2_{i//2 + 1}') == 1 for i in task_slots
+        )
+        player.Bonus_final_bundle = C.Bonus_max if passed_every_task else 0
+
+        # ---------- build per-task list ----------
+        list_items = []
+        for i in task_slots:
+            t_code   = tokens[i]
+            diff     = int(tokens[i + 1])
+            icon     = get_icon(t_code, diff)
+            game_no  = i // 2 + 1
+            achieved = getattr(player, f'Game_{game_no}_performance')
+            required = C.Minimum_scores[t_code][diff]
+            passed   = getattr(player, f'Bonus_2_{game_no}') == 1
+
+            status = (
+                '<span style="color:green">Yes</span>'
+                if passed else
+                '<span style="color:red">No</span>'
+            )
+            list_items.append(
+                f'<li>{icon}: {status} '
+                f'({achieved}&nbsp;/&nbsp;{required})</li>'
+            )
+
+        v['Performance_Text'] = '<ol>' + ''.join(list_items) + '</ol>'
+
+        # ---------- bundle-bonus message ----------
+        v['ResultsText'] = (
+            f'✔️ <strong>Congratulations!</strong> All tasks passed – '
+            f'you earn <strong>{player.Bonus_final_bundle} €</strong>.'
+            if player.Bonus_final_bundle else
+            '❌ <strong>No bonus.</strong> At least one task did not meet '
+            'its required score.'
+        )
+
+        # ---------- payment breakdown ----------
+        total_pay = (
+            C.Completion_fee
+            + player.participant.Bonus_1
+            + player.Bonus_final_bundle
+        )
+
+        v['Payments'] = (
+            f'<ol>'
+            f'<li>Participation fee: {C.Completion_fee} €</li>'
+            f'<li>Practice-stage bonus: {player.participant.Bonus_1} €</li>'
+            f'<li>Bundle bonus: {player.Bonus_final_bundle} €</li>'
+            f'</ol>'
+            f'<strong>Total payment: {total_pay} €</strong>'
+        )
+
+        return v
+
+
+# Results2 is just as a safety backup for the moment.
+class Results2(MyBasePage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         player.participant.vars['Bonus_2'] = player.Bonus_final_bundle
@@ -373,8 +473,8 @@ class Results(MyBasePage):
         payments =  f'''
             <ol>
             <li> Participation payment: {C.Completion_fee}€ </li>
-            <li> Bonus from practice stage: {player.Bonus_final_bundle}€ </li>
-            <li> Bonus from bundle performance: {player.participant.Bonus_1}€ </li>
+            <li> Bonus from practice stage: {player.participant.Bonus_1}€ </li>
+            <li> Bonus from bundle performance: {player.Bonus_final_bundle}€ </li>
             </ol>
             <strong>Total payment: {player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee}€</strong>
             

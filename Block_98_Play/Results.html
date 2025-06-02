@@ -10,43 +10,32 @@
   <h2 class="section-title">Your Results</h2>
   <hr class="section-divider">
 
-  <!-- ────────── Bonus summary ────────── -->
+  <!-- ────────── Performance summary ────────── -->
   <div class="section-box box-info">
     <div class="section-header">
       <span class="icon">🏅</span>
       <h3 class="instructions-title">Performance</h3>
     </div>
-    
     {{ Performance_Text|safe }}
-
   </div>
 
-  <div class="section-box box-info">
-
+  <!-- ────────── Bundle‑bonus outcome ────────── -->
+  <div class="section-box box-calm">
     <div class="section-header">
-      <span class="icon">🏅</span>
+      <span class="icon">💰</span>
       <h3 class="instructions-title">Bundle Bonus</h3>
     </div>
-
-        <!-- ResultsText already contains a nicely-formatted list ➜ keep markup -->
     {{ ResultsText|safe }}
-
-  </div>  
+  </div>
   
+  <!-- ────────── Overall payments ────────── -->
   <div class="section-box box-warn">
-
     <div class="section-header">
-      <span class="icon">🏅</span>
-      <h3 class="instructions-title">Total payments</h3>
+      <span class="icon">🧾</span>
+      <h3 class="instructions-title">Total Payments</h3>
     </div>
-
-        <!-- ResultsText already contains a nicely-formatted list ➜ keep markup -->
     {{ Payments|safe }}
-
   </div>  
-
-
-
 
   <!-- ────────── Hidden & visible form fields (if any) ────────── -->
   {% for field in form %}
