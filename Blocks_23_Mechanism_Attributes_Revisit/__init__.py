@@ -1644,6 +1644,8 @@ class Revisit_Difficult_rank5(MyBasePage):
         player.participant.Random_bundle = f"{difficulty}_{rank}"
 
 
+#TODO: fix bug. in the mechanism pages, clicking the mechanism button multiple times opens multiple popups
+
 
 class Revisit_complete(MyBasePage):
     extra_fields = [] 
