@@ -1,55 +1,53 @@
 <div class="section-box box-neutral">
-  <div class="section-header">
-      <div class="icon">🧠</div>
-      <h3>The MathMemory Game</h3>
-  </div>
-  <p>
-      On your screen, you will see <strong>16 gray boxes</strong>. Each box hides:
-  </p>
-  <ul>
-      <li>A simple addition problem (e.g., <code>1+1</code>, <code>2+3</code>)</li>
-      <li>A colored heart (either <span style="color: red;">❤️ red</span> or <span style="color: black;">🖤 black</span>)</li>
-  </ul>
-  <p>
-      Your task is to <strong>find matching pairs</strong> of boxes by clicking to reveal them.
-      A pair is a match if:
-  </p>
-  <ol>
-      <li>The <strong>sums are the same</strong>, and</li>
-      <li>The <strong>heart color is the same</strong></li>
-  </ol>
+    <div class="section-header">
+        <div class="icon">🧠</div>
+        <h3>The Math‑Memory Game</h3>
+    </div>
+    <p>
+        You will see <strong>16 grey boxes</strong> arranged in a grid. Hidden inside every box are:
+    </p>
+    <ul>
+        <li>a simple addition (for example <code>1 + 1</code> or <code>2 + 3</code>)</li>
+        <li>a heart that is either <span style="color:red;">❤️ red</span> or <span style="color:black;">🖤 black</span></li>
+    </ul>
+    <p>
+        Your goal is to <strong>find matching pairs</strong>. Two boxes are a pair when <em>both</em> the <strong>sum</strong> and the <strong>heart color</strong> are the same.
+    </p>
 </div>
 
 <div class="section-box box-info">
-  <div class="section-header">
-      <div class="icon">🖼️</div>
-      <h3>Visual Example</h3>
-  </div>
-  <p style="text-align: center;"><strong>Top:</strong> non-matching pair – <strong>Bottom:</strong> matching pair</p>
-  <div class="task-example" style="text-align: center;">
-      <img src="{{ static 'Game_explanation_pics/Math.png' }}" style="width: 80%; height: auto;">
-  </div>
+    <div class="section-header">
+        <div class="icon">🖼️</div>
+        <h3>Example Pair</h3>
+    </div>
+    <p style="text-align:center;">Top: not a match &nbsp;•&nbsp; Bottom: a correct match</p>
+    <div class="task-example" style="text-align:center;">
+        <img src="{{ static 'Game_explanation_pics/Math.png' }}" alt="Screenshot showing an example of matching and non‑matching pairs" style="width:80%; height:auto;">
+    </div>
 </div>
 
 <div class="section-box box-calm">
-  <div class="section-header">
-      <div class="icon">🧩</div>
-      <h3>Sets</h3>
-  </div>
-  <ul>
-      <li>Each set consists of <strong>16 boxes</strong> → 8 possible matching pairs.</li>
-      <li>Once you find all matches, a <strong>new set</strong> will appear automatically.</li>
-      <li>You can complete up to <strong>3 sets</strong> total.</li>
-  </ul>
+    <div class="section-header">
+        <div class="icon">🧩</div>
+        <h3>Rounds</h3>
+    </div>
+    <ul>
+        <li>Each <strong>round</strong> starts with 16 closed boxes → 8 possible pairs.</li>
+        <li>Click one box to reveal it, then click a second box.</li>
+        <li>If the two boxes make a pair, they stay open. If not, they close again after a short pause.</li>
+        <li>When you have found all 8 pairs, the next round appears automatically.</li>
+        <li>You can play up to <strong>3 rounds</strong> in total.</li>
+    </ul>
 </div>
 
 <div class="section-box box-warn">
-  <div class="section-header">
-      <div class="icon">🎯</div>
-      <h3>Scoring</h3>
-  </div>
-  <ul>
-      <li>Each correctly matched pair earns you <strong>1 point</strong>.</li>
-      <li>Maximum score: <strong>24 points</strong> (8 per set × 3 sets)</li>
-  </ul>
+    <div class="section-header">
+        <div class="icon">💰</div>
+        <h3>Scoring</h3>
+    </div>
+    <ul>
+        <li>Every correctly matched pair earns <strong>1 point</strong>.</li>
+        <li>Maximum possible score: <strong>24 points</strong> (8 pairs × 3 rounds).</li>
+        <li>The more points you collect, the higher your <strong>bonus for this part</strong> of the study.</li>
+    </ul>
 </div>
