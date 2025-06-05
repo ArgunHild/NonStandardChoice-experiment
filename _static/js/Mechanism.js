@@ -141,10 +141,12 @@ function Binary() {
 
     function startComparison(bundle1, bundle2) {
         let key1 = Array.isArray(bundle1) ? bundle1.join("_") : bundle1;
-        let emoji1 = bundleIcons[bundle1] || bundle1;
+        let emoji1 = bundleIcons[key1]      || bundle1.join(" + ");
+        //let emoji1 = bundleIcons[bundle1] || bundle1;
 
         let key2 = Array.isArray(bundle2) ? bundle2.join("_") : bundle2;
-        let emoji2 = bundleIcons[bundle2] || bundle2;
+        let emoji2 = bundleIcons[key2]      || bundle2.join(" + ");
+        //let emoji2 = bundleIcons[bundle2] || bundle2;
 
         // console.log("→ [Binary] bundle1:", bundle1);
         // console.log("→ [Binary] key1:", key1);

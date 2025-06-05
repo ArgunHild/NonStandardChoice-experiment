@@ -416,14 +416,14 @@ class C(BaseConstants):
             "Quiz_1_Spot_2": "📚<sub>1</sub> + 🔍<sub>2</sub>",
             "Spot_1_Math_2": "🔍<sub>1</sub> + 🔢<sub>2</sub>"
         },
-        "5": { #TODO: change order of tasks within bundles
+        "5": { 
             "Math_2_Emotion_3": "🔢<sub>2</sub> + 😃<sub>3</sub>",
-            "Spot_2_Emotion_3": "🔍<sub>2</sub> + 😃<sub>3</sub>",
+            "Spot_2_Emotion_3": "😃<sub>3</sub> + 🔍<sub>2</sub>",
             "Quiz_2_Emotion_3": "📚<sub>2</sub> + 😃<sub>3</sub>",
-            "Emotion_2_Emotion_3": "😃<sub>2</sub> + 😃<sub>3</sub>",
-            "Math_1_Emotion_3": "🔢<sub>1</sub> + 😃<sub>3</sub>",
+            "Emotion_2_Emotion_3": "😃<sub>3</sub> + 😃<sub>2</sub>",
+            "Math_1_Emotion_3": "😃<sub>3</sub> + 🔢<sub>1</sub>",
             "Quiz_1_Emotion_3": "📚<sub>1</sub> + 😃<sub>3</sub>",
-            "Spot_1_Emotion_3": "🔍<sub>1</sub> + 😃<sub>3</sub>"
+            "Spot_1_Emotion_3": "😃<sub>3</sub> + 🔍<sub>1</sub>"
         }
     }
 
@@ -718,7 +718,7 @@ class Player(BasePlayer):
             [True,  '≥ 75 % correct'],   # ✅ correct
         ],
         initial=True,
-        label='If a task is labelled with the sub-script “3” (hard), what percentage of answers must you get right?',
+        label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?',
         widget=widgets.RadioSelect,
     )
     # -----------------------------------------------------------------
