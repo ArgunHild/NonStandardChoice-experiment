@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function Sequential() {
     console.log('Sequential mechanism triggered!');
     const availableBundles = js_vars.AvailableBundles;
+    
     const bundleIcons = js_vars.BundleIcons;
     const Field_name = 'id_' + js_vars.Field_name;
     console.log("→ [Mechanism] Loaded bundleIcons:", bundleIcons);
@@ -57,7 +58,10 @@ function Sequential() {
         console.log("→ [Sequential] Lookup key:", bundleKey);
         console.log("→ [Sequential] Icon for key:", bundleIcons[bundleKey]);
 
-        let emoji = bundleIcons[bundle] || bundle;
+        //let emoji = bundleIcons[bundle] || bundle;
+        let key   = Array.isArray(bundle) ? bundle.join("_") : bundle;
+        let emoji = bundleIcons[key]      || (Array.isArray(bundle) ? bundle.join(" + ") : bundle);
+
 
         let bundleDiv = document.createElement("div");
         bundleDiv.classList.add("bundle-option");
@@ -89,6 +93,7 @@ function Binary() {
     console.log('Binary mechanism triggered!');
     const availableBundles = js_vars.AvailableBundles;
     const bundleIcons = js_vars.BundleIcons;
+
     const Field_name = 'id_' + js_vars.Field_name;
     const rank = js_vars.Rank || "1";
     console.log("→ [Mechanism] Loaded bundleIcons:", bundleIcons);
@@ -146,6 +151,7 @@ function Binary() {
 
         let key2 = Array.isArray(bundle2) ? bundle2.join("_") : bundle2;
         let emoji2 = bundleIcons[key2]      || bundle2.join(" + ");
+
         //let emoji2 = bundleIcons[bundle2] || bundle2;
 
         // console.log("→ [Binary] bundle1:", bundle1);

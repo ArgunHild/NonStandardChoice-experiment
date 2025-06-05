@@ -418,12 +418,12 @@ class C(BaseConstants):
         },
         "5": { 
             "Math_2_Emotion_3": "🔢<sub>2</sub> + 😃<sub>3</sub>",
-            "Spot_2_Emotion_3": "😃<sub>3</sub> + 🔍<sub>2</sub>",
+            "Emotion_3_Spot_2": "😃<sub>3</sub> + 🔍<sub>2</sub>",
             "Quiz_2_Emotion_3": "📚<sub>2</sub> + 😃<sub>3</sub>",
-            "Emotion_2_Emotion_3": "😃<sub>3</sub> + 😃<sub>2</sub>",
-            "Math_1_Emotion_3": "😃<sub>3</sub> + 🔢<sub>1</sub>",
+            "Emotion_3_Emotion_2": "😃<sub>3</sub> + 😃<sub>2</sub>",
+            "Emotion_3_Math_1": "😃<sub>3</sub> + 🔢<sub>1</sub>",
             "Quiz_1_Emotion_3": "📚<sub>1</sub> + 😃<sub>3</sub>",
-            "Spot_1_Emotion_3": "😃<sub>3</sub> + 🔍<sub>1</sub>"
+            "Emotion_3_Spot_1": "😃<sub>3</sub> + 🔍<sub>1</sub>"
         }
     }
 
@@ -431,48 +431,48 @@ class C(BaseConstants):
     BUNDLES_HIGH = {
         "1": { #done
             "Math_2_Emotion_2_Spot_2": "🔢<sub>2</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub>",
-            "Spot_1_Quiz_2_Spot_2": "🔍<sub>2</sub> + 🔍<sub>1</sub> + 📚<sub>2</sub>",
+            "Spot_2_Spot_1_Quiz_2": "🔍<sub>2</sub> + 🔍<sub>1</sub> + 📚<sub>2</sub>",
             "Quiz_2_Emotion_1_Spot_2": "📚<sub>2</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub>",
-            "Emotion_2_Quiz_1_Spot_2": "😃<sub>2</sub> + 🔍<sub>2</sub> + 📚<sub>1</sub>",
-            "Math_1_Emotion_2_Spot_2": "🔍<sub>2</sub> + 🔢<sub>1</sub> + 😃<sub>2</sub>",
+            "Emotion_2_Spot_2_Quiz_1": "😃<sub>2</sub> + 🔍<sub>2</sub> + 📚<sub>1</sub>",
+            "Spot_2_Math_1_Emotion_2": "🔍<sub>2</sub> + 🔢<sub>1</sub> + 😃<sub>2</sub>",
             "Quiz_1_Emotion_1_Spot_2": "📚<sub>1</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub>",
-            "Spot_1_Quiz_1_Spot_2": "🔍<sub>1</sub> + 🔍<sub>2</sub> + 📚<sub>1</sub>"
+            "Spot_1_Spot_2_Quiz_1": "🔍<sub>1</sub> + 🔍<sub>2</sub> + 📚<sub>1</sub>"
         },
         "2": { #done
-            "Math_2_Spot_2_Emotion_1": "🔢<sub>2</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub> ",
+            "Math_2_Emotion_1_Spot_2": "🔢<sub>2</sub> + 😃<sub>1</sub> + 🔍<sub>2</sub> ",
             "Spot_1_Math_2_Emotion_1": "🔍<sub>1</sub> + 🔢<sub>2</sub> + 😃<sub>1</sub>",
-            "Quiz_2_Spot_1_Emotion_1": "😃<sub>1</sub> + 📚<sub>2</sub> + 🔍<sub>1</sub>",
+            "Emotion_1_Quiz_2_Spot_1": "😃<sub>1</sub> + 📚<sub>2</sub> + 🔍<sub>1</sub>",
             "Emotion_2_Math_1_Emotion_1": "😃<sub>2</sub> + 🔢<sub>1</sub> + 😃<sub>1</sub>",
             "Math_1_Spot_2_Emotion_1": "🔢<sub>1</sub> + 🔍<sub>2</sub> + 😃<sub>1</sub>",
-            "Quiz_1_Spot_1_Emotion_1": "📚<sub>1</sub> + 😃<sub>1</sub> + 🔍<sub>1</sub>",
-            "Spot_1_Math_1_Emotion_1": "😃<sub>1</sub> + 🔍<sub>1</sub> + 🔢<sub>1</sub>"
+            "Quiz_1_Emotion_1_Spot_1": "📚<sub>1</sub> + 😃<sub>1</sub> + 🔍<sub>1</sub>",
+            "Emotion_1_Spot_1_Math_1": "😃<sub>1</sub> + 🔍<sub>1</sub> + 🔢<sub>1</sub>"
         },
         "3": { #done
             "Math_2_Emotion_3_Math_3": "🔢<sub>2</sub> + 😃<sub>3</sub> + 🔢<sub>3</sub>",
             "Spot_1_Quiz_3_Math_3": "🔍<sub>1</sub> + 📚<sub>3</sub> + 🔢<sub>3</sub>",
-            "Quiz_2_Emotion_2_Math_3": "🔢<sub>3</sub> + 📚<sub>2</sub> + 😃<sub>2</sub> ",
-            "Spot_2_Quiz_2_Math_3": "🔍<sub>2</sub> + 🔢<sub>3</sub> + 📚<sub>2</sub>",
-            "Math_1_Emotion_3_Math_3": "🔢<sub>1</sub> + 🔢<sub>3</sub> + 😃<sub>3</sub>",
+            "Math_3_Quiz_2_Emotion_2": "🔢<sub>3</sub> + 📚<sub>2</sub> + 😃<sub>2</sub> ",
+            "Spot_2_Math_3_Quiz_2": "🔍<sub>2</sub> + 🔢<sub>3</sub> + 📚<sub>2</sub>",
+            "Math_1_Math_3_Emotion_3": "🔢<sub>1</sub> + 🔢<sub>3</sub> + 😃<sub>3</sub>",
             "Quiz_1_Emotion_2_Math_3": "📚<sub>1</sub> + 😃<sub>2</sub> + 🔢<sub>3</sub>",
             "Spot_1_Quiz_2_Math_3": "🔍<sub>1</sub> + 📚<sub>2</sub> + 🔢<sub>3</sub>"
         },
         "4": { #done
-            "Math_2_Spot_3_Quiz_2": "🔢<sub>2</sub> + 📚<sub>2</sub> + 🔍<sub>3</sub>",
+            "Math_2_Quiz_2_Spot_3": "🔢<sub>2</sub> + 📚<sub>2</sub> + 🔍<sub>3</sub>",
             "Spot_1_Math_3_Quiz_2": "🔍<sub>1</sub> + 🔢<sub>3</sub> + 📚<sub>2</sub>",
-            "Quiz_2_Spot_2_Quiz_2": "📚<sub>2</sub> + 📚<sub>2</sub> + 🔍<sub>2</sub> ",
-            "Emotion_2_Math_2_Quiz_2": "📚<sub>2</sub> +😃<sub>2</sub> + 🔢<sub>2</sub>",
-            "Math_1_Spot_3_Quiz_2": "📚<sub>2</sub> + 🔢<sub>1</sub> + 🔍<sub>3</sub>",
+            "Quiz_2_Quiz_2_Spot_2": "📚<sub>2</sub> + 📚<sub>2</sub> + 🔍<sub>2</sub> ",
+            "Quiz_2_Emotion_2_Math_2": "📚<sub>2</sub> +😃<sub>2</sub> + 🔢<sub>2</sub>",
+            "Quiz_2_Math_1_Spot_3": "📚<sub>2</sub> + 🔢<sub>1</sub> + 🔍<sub>3</sub>",
             "Quiz_1_Spot_2_Quiz_2": "📚<sub>1</sub> + 🔍<sub>2</sub> + 📚<sub>2</sub>",
             "Spot_1_Math_2_Quiz_2": "🔍<sub>1</sub> + 🔢<sub>2</sub> + 📚<sub>2</sub>"
         },
         "5": {
             "Math_2_Emotion_2_Spot_3": "🔢<sub>2</sub> + 😃<sub>2</sub> + 🔍<sub>3</sub>",
-            "Spot_1_Quiz_2_Spot_3": "🔍<sub>1</sub> + 🔍<sub>3</sub> + 📚<sub>2</sub> ",
-            "Quiz_2_Emotion_1_Spot_3": "🔍<sub>3</sub> + 📚<sub>2</sub> + 😃<sub>1</sub> ",
+            "Spot_1_Spot_3_Quiz_2": "🔍<sub>1</sub> + 🔍<sub>3</sub> + 📚<sub>2</sub> ",
+            "Spot_3_Quiz_2_Emotion_1": "🔍<sub>3</sub> + 📚<sub>2</sub> + 😃<sub>1</sub> ",
             "Emotion_2_Quiz_1_Spot_3": "😃<sub>2</sub> + 📚<sub>1</sub> + 🔍<sub>3</sub>",
-            "Math_1_Emotion_2_Spot_2": "🔢<sub>1</sub> + 😃<sub>2</sub> + 🔍<sub>2</sub>",
-            "Quiz_1_Emotion_1_Spot_2": "+ 🔍<sub>2</sub> + 📚<sub>1</sub> + 😃<sub>1</sub> ",
-            "Spot_1_Quiz_1_Spot_2": "🔍<sub>1</sub> + 📚<sub>1</sub> + 🔍<sub>2</sub>"
+            "Math_1_Emotion_2_Spot_3": "🔢<sub>1</sub> + 😃<sub>2</sub> + 🔍<sub>3</sub>",
+            "Spot_3_Quiz_1_Emotion_1": "🔍<sub>3</sub> + 📚<sub>1</sub> + 😃<sub>1</sub> ",
+            "Spot_1_Quiz_1_Spot_3": "🔍<sub>1</sub> + 📚<sub>1</sub> + 🔍<sub>3</sub>"
         }
     }
 
