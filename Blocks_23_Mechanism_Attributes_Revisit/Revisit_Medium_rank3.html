@@ -7,14 +7,16 @@
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
 
-<!-- Optional Debug Info -->
-<div class="section-box box-warn">
-    <strong>FOR DEBUG</strong><br>
-    Rank: {{ rank }} &nbsp;|&nbsp; Difficulty: {{ difficulty }}<br>
-    Mechanism outcome: {{ MechanismOutcome }}<br>
-    Scores: {{ Scores_bundles }}<br>
-    Offered bundle: {{ OfferedBundle }}<br>
-</div>
+    <div class="section-box box-info-debug">
+    <p>
+        <strong>FOR DEBUG</strong>
+        <br>
+        Rank:{{rank}}; Difficulty:{{difficulty}} <br>
+        Mechanism outcome: {{MechanismOutcome}} <br>
+        Scores: {{Scores_bundles}} <br>
+        Offered bundle: {{OfferedBundle}} <br>
+    </p>
+    </div>
 
 <!-- Instruction Block -->
 <div class="section-box box-neutral">

@@ -15,10 +15,9 @@
 
     <br><br>
     
-<!-- TODO: hide this->change to none -->
-<strong>debug only</strong>
 
-<div style="display:inline">
+<!-- <strong>debug only</strong> -->
+<div style="display:none">
     {% for field in form %}
         {% if field.name not in hidden_fields %}
             {{ formfield field.name }}

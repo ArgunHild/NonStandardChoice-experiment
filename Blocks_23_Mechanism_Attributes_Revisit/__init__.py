@@ -154,7 +154,7 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False, ret
     
     if save_to_player:
         setattr(player, f"Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
-        print(f"Saved to player: Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
+        # print(f"Saved to player: Available_bundles_{difficulty}_rank{rank}", json.dumps(list(available_bundles.keys())))
     
     if return_unavailable_bundles:
         return available_bundles, menu_current, unavailable_bundles
@@ -566,7 +566,7 @@ class Player(BasePlayer):
     cardinality_Dimension_4 = models.IntegerField(blank=True) # time efficiency #TODO: remove blank 
     
     taste_variety = models.FloatField(
-        initial=1,
+        # initial=1,
         label = '',
         choices = [[1.2, 'I strongly prefer a bundle with different tasks'],
                    [1.1, 'I mildly prefer a bundle with different tasks'],  
@@ -691,7 +691,7 @@ class Player(BasePlayer):
             [False,
             'You can decide which menu counts after you see your results.'],
         ],
-        initial=True,
+        # initial=True, #TODO: remove initial true
         label='How is the bundle you will actually work on selected?',
         widget=widgets.RadioSelect,
     )
@@ -706,7 +706,7 @@ class Player(BasePlayer):
             [False,
             'You receive the bonus just for completing all tasks, regardless of score.'],
         ],
-        initial=True,
+        # initial=True, #TODO: remove initial true
         label='What must happen for you to receive the bonus of XX EUR?', #TODO: make bonus amount dynamic
         widget=widgets.RadioSelect,
     )
@@ -717,7 +717,7 @@ class Player(BasePlayer):
             [False, '≥ 50 % correct'],
             [True,  '≥ 75 % correct'],   # ✅ correct
         ],
-        initial=True,
+        # initial=True, #TODO: remove initial true
         label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?',
         widget=widgets.RadioSelect,
     )
@@ -1498,7 +1498,7 @@ def get_variables_for_template_revisit(player: Player, rank: int, difficulty: st
     available_bundles_scores = json.loads(available_bundles_scores)
     variables['Scores_bundles'] = available_bundles_scores
     
-    print(f"Available Bundle Scores_before: {available_bundles_scores}")
+    # print(f"Available Bundle Scores_before: {available_bundles_scores}")
     
     mechanism_outcome = getattr(player, f'{difficulty}_rank{rank}_choice')
 
@@ -1509,9 +1509,9 @@ def get_variables_for_template_revisit(player: Player, rank: int, difficulty: st
     available_bundles_scores.pop(mechanism_outcome, None)  # Remove the mechanism outcome bundle
     offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
     
-    print(f"Mechanism Outcome: {mechanism_outcome}")
-    print(f"Available Bundle Scores_after: {available_bundles_scores}")
-    print(f"Offered Bundle: {offered_bundle}")
+    # print(f"Mechanism Outcome: {mechanism_outcome}")
+    # print(f"Available Bundle Scores_after: {available_bundles_scores}")
+    # print(f"Offered Bundle: {offered_bundle}")
     
 
     MechanismOutcome = getattr(player, f'{difficulty}_rank{rank}_choice')

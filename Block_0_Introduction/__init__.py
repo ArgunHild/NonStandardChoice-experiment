@@ -119,29 +119,8 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):      
-    # Demographics
     prolific_id = models.StringField(default=str("None")) #prolific id, will be fetched automatically.
-    age = models.IntegerField(blank=True, #TODO: remove blank=True
-                                label="Age", min=18, max=100)
-    gender = models.StringField(blank=True, #TODO: remove blank=True
-                                label='Gender at birth',
-                                choices=['Male', 'Female', 'Other/Prefer not to say'], widget=widgets.RadioSelect)
-    education = models.StringField(blank=True, #TODO: remove blank=True
-                                label = 'Education level',
-                                   choices=['Haven’t graduated high school','GED','High school graduate','Bachelors','Masters','Professional degree (JD, MD, MBA)','Doctorate', 'Other'], widget=widgets.RadioSelect) 
-    # education = models.StringField(label = 'Education level',
-    #                                choices=['High school or lower','Bachelors degree','Masters degree','PhD','Other'], widget=widgets.RadioSelect) 
-    
-    employment = models.StringField(blank=True, #TODO: remove blank=True
-                                label='Employment status',
-                                    choices=['Employed full-time', 'Employed part-time', 'Self-employed', 'Out of work, or seeking work',
-                                             'Student', 'Out of labor force (e.g. retired or parent raising one or more children)'], widget=widgets.RadioSelect)
-    
-    income = models.StringField(blank=True, #TODO: remove blank=True
-                                label='Approximately, what was your <strong>total household income</strong> in the last year, before taxes?',
-                            choices=['$0-$10.000', '$10.000-$20.000','$20.000-$30.000','$30.000-$40.000','$40.000-$50.000','$50.000-$60.000',
-                                     '$50.000-$75.000', '$75.000-$100.000', '$100.000-$150.000', '$150.000-$200.000', '$200.000+', 'Prefer not to answer',
-                                     ],)
+
     # Data quality. 
     #browser used by the participant This variable is saved in the demographics page.
     browser = models.StringField(blank=True) 
@@ -222,19 +201,7 @@ class Consent(Page):
         # TODO: in prolific use https://.../room/your_prolific_study?participant_label={{%PROLIFIC_PID%}}
         player.prolific_id = player.participant.label #save prolific id
 
-class Demographics(MyBasePage):
-    # TODO: move demographics to the end of the experiment
-    extra_fields = ['age', 'gender', 'education', 'employment', 'income','browser'] 
-    form_fields = MyBasePage.form_fields + extra_fields
 
-        
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
-
-        variables['hidden_fields'].append('browser') 
-        return variables
-    
 class Instructions(MyBasePage):
     pass        
 

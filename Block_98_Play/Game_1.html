@@ -166,12 +166,13 @@
     {{ include GameTemplate }}
   </div>
 
-  <!-- visible form fields (debug) -->
-  {% for field in form %}
-    {% if field.name not in hidden_fields %}
-      {{ formfield field.name }}
-    {% endif %}
-  {% endfor %}
+    <div style="display:none">
+    {% for field in form %}
+      {% if field.name not in hidden_fields %}
+        {{ formfield field.name }}
+      {% endif %}
+    {% endfor %}
+   </div>
 
   <!-- hidden fields -->
   <div style="display:none">
@@ -185,7 +186,7 @@
   <!-- buttons -->
   <div class="buttons-container" style="justify-content:center;margin-top:30px;">
     <!-- TODO: delete continue button-->
-    <button id="NextButton" class="btn btn-primary">Continue</button>
+    <!-- <button id="NextButton" class="btn btn-primary">Continue</button> -->
   </div>
 </div>
 

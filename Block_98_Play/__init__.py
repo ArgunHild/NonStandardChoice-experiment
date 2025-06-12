@@ -54,7 +54,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 18000 #TODO: adjust round length to 180?
+    Round_length = 180 #TODO: adjust round length to 180?
     Timer_text = "Time left to complete this round:" 
     
     Instructions_general_path = "_templates/global/Instructions.html"
@@ -111,6 +111,32 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    # Demographics
+    prolific_id = models.StringField(default=str("None")) #prolific id, will be fetched automatically.
+    age = models.IntegerField(blank=False, #TODO: remove blank=True
+                                label="Age", min=18, max=100)
+    gender = models.StringField(blank=False, #TODO: remove blank=True
+                                label='Gender at birth',
+                                choices=['Male', 'Female', 'Other/Prefer not to say'], widget=widgets.RadioSelect)
+    education = models.StringField(blank=False, #TODO: remove blank=True
+                                label = 'Education level',
+                                   choices=['Haven’t graduated high school','GED','High school graduate','Bachelors','Masters','Professional degree (JD, MD, MBA)','Doctorate', 'Other'], widget=widgets.RadioSelect) 
+    # education = models.StringField(label = 'Education level',
+    #                                choices=['High school or lower','Bachelors degree','Masters degree','PhD','Other'], widget=widgets.RadioSelect) 
+    
+    employment = models.StringField(blank=False, #TODO: remove blank=True
+                                label='Employment status',
+                                    choices=['Employed full-time', 'Employed part-time', 'Self-employed', 'Out of work, or seeking work',
+                                             'Student', 'Out of labor force (e.g. retired or parent raising one or more children)'], widget=widgets.RadioSelect)
+    
+    income = models.StringField(blank=False, #TODO: remove blank=True
+                                label='Approximately, what was your <strong>total household income</strong> in the last year, before taxes?',
+                            choices=['$0-$10.000', '$10.000-$20.000','$20.000-$30.000','$30.000-$40.000','$40.000-$50.000','$50.000-$60.000',
+                                     '$50.000-$75.000', '$75.000-$100.000', '$100.000-$150.000', '$150.000-$200.000', '$200.000+', 'Prefer not to answer',
+                                     ],)
+    
+    
+    
     Attention_2 = models.IntegerField(min=0, max=100, initial=0)
     
     Game_1_performance = models.IntegerField(min=0, max=100, initial=0)
@@ -199,10 +225,10 @@ def calculate_bonus(player, field_num):
     performance = getattr(player, f'Game_{game_num}_performance')
     
     bonus = 0
-    print('DEBUGGING:', Final_bundle, task, difficulty)
+    # print('DEBUGGING:', Final_bundle, task, difficulty)
     if performance > C.Minimum_scores[task][difficulty]:
         bonus = 1
-    print('DEBUGGING:', Final_bundle, task, difficulty, bonus)
+    # print('DEBUGGING:', Final_bundle, task, difficulty, bonus)
     setattr(player, f'Bonus_2_{game_num}', bonus)
     
 
@@ -319,6 +345,15 @@ class Game_3(MyBasePage):
         
         if player.Bonus_2_1 == 1 and player.Bonus_2_2 == 1 and player.Bonus_2_3 == 1:
             player.Bonus_final_bundle == C.Bonus_max
+
+
+class ResultsWaitPage(WaitPage):
+    """
+    This is a wait page that is used to ensure that all players have completed
+    the tasks before proceeding to the results page.
+    """
+    body_text = "Please wait for all players to complete their tasks."
+
 
 
 class Results(MyBasePage):
@@ -493,10 +528,23 @@ class Results2(MyBasePage):
         return variables
     
     
-   
-        
-    
-        
+class Demographics(MyBasePage):
+    # TODO: move demographics to the end of the experiment
+    extra_fields = ['age', 'gender', 'education', 'employment', 'income'] 
+    form_fields = MyBasePage.form_fields + extra_fields
 
-page_sequence = [Game_1, Game_2, Game_3,
-                 Results]
+        
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        variables['hidden_fields'].append('browser') 
+        return variables
+       
+        
+class Study_complete(MyBasePage):
+    pass
+        
+#TODO: finish the study complete page
+page_sequence = [Game_1, Game_2, Game_3, Demographics, ResultsWaitPage,
+                 Results,]

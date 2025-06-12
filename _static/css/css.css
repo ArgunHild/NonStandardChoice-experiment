@@ -69,6 +69,11 @@
   border-color: #99d6f2; /* soft blue border */
 }
 
+/* Debug info box */
+.section-box.box-info-debug {
+  display:none;
+}
+
 .box-neutral {
   background-color: var(--neutral);
   border-color: #ddd;
@@ -104,6 +109,7 @@
   margin: 0 auto;
   display: block;
 }
+
 
 
 
