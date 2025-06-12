@@ -547,4 +547,4 @@ class Study_complete(MyBasePage):
         
 #TODO: finish the study complete page
 page_sequence = [Game_1, Game_2, Game_3, Demographics, ResultsWaitPage,
-                 Results,]
+                 Results, Study_complete]

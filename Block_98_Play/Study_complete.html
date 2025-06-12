@@ -6,67 +6,18 @@
 <link rel="stylesheet" href="{{ static 'css/modal.css' }}">
 <script src="{{ static 'js/Script_modal.js' }}"></script>
 
-<div class="content-box box-neutral">
-  <h2 class="section-title">Your Results</h2>
-  <hr class="section-divider">
 
-  <!-- ────────── Performance summary ────────── -->
-  <div class="section-box box-info">
-    <div class="section-header">
-      <span class="icon">🏅</span>
-      <h3 class="instructions-title">Performance</h3>
-    </div>
-    {{ Performance_Text|safe }}
-  </div>
 
-  <!-- ────────── Bundle‑bonus outcome ────────── -->
-  <div class="section-box box-calm">
-    <div class="section-header">
-      <span class="icon">💰</span>
-      <h3 class="instructions-title">Bundle Bonus</h3>
-    </div>
-    {{ ResultsText|safe }}
-  </div>
-  
-  <!-- ────────── Overall payments ────────── -->
+
   <div class="section-box box-warn">
     <div class="section-header">
       <span class="icon">🧾</span>
-      <h3 class="instructions-title">Total Payments</h3>
+      <h3 class="instructions-title">Study Complete</h3>
     </div>
-    {{ Payments|safe }}
+    <p>
+    Thank you for participating in this study! Your responses have been recorded.
+    </p>
   </div>  
+  <!-- TODO: add more text if needed -->
 
-  <!-- ────────── Hidden & visible form fields (if any) ────────── -->
-  {% for field in form %}
-    {% if field.name not in hidden_fields %}
-      {{ formfield field.name }}
-    {% endif %}
-  {% endfor %}
-  <div style="display:none">
-    {% for field in form %}
-      {% if field.name in hidden_fields %}
-        {{ formfield field.name }}
-      {% endif %}
-    {% endfor %}
-  </div>
-
-  <!-- ────────── Navigation buttons ────────── -->
-  <div class="buttons-container" style="justify-content:center;margin-top:30px;">
-    <button id="NextButton" class="btn btn-primary">Next</button>
-  </div>
-</div>
-
-<!-- (Optional) modal with full instructions -->
-<div id="myModal1" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><span class="icon">📘</span> Instructions</h2>
-      <span class="close" onclick="span_click(1)">&times;</span>
-    </div>
-    <div class="modal-body">
-      {{ include C.Instructions_general_path }}
-    </div>
-  </div>
-</div>
 {% endblock %}
