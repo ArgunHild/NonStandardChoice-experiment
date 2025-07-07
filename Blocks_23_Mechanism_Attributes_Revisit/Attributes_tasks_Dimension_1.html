@@ -11,11 +11,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 
   <div class="section-box box-neutral">
-        <h3 class="section-title" style="font-size: 1.6em; text-align: center;">Rank the Tasks by {{ DimensionAtHand }}  <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 3/11)</span></h3></h3>
+        <h3 class="section-title" style="font-size: 1.6em; text-align: center;">Rank the Games by {{ DimensionAtHand }}  <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 3/11)</span></h3></h3>
         <div class="section-divider"></div>
 
         <p>
-            Please rank the four tasks below based on how well they reflect the attribute of <strong>{{ DimensionAtHand }}</strong>. This ranking is based on your own experience with each task.
+            Please rank the four games below based on how well they reflect the attribute of <strong>{{ DimensionAtHand }}</strong>. This ranking is based on your own experience with each game.
         </p>
 
         <p>
@@ -23,11 +23,11 @@
         </p>
 
         <p>
-            Drag each task from the left into a ranking slot on the right. <strong>Rank 1</strong> should reflect the task that best fits this attribute, and <strong>Rank 4</strong> the one that fits least.
+            Drag each game from the left into a ranking slot on the right. <strong>Rank 1</strong> should reflect the game that best fits this attribute, and <strong>Rank 4</strong> the one that fits least.
         </p>
 
         <p>
-            You may continue once all tasks have been ranked.
+            You may continue once all games have been ranked.
         </p>
 
 
@@ -35,7 +35,7 @@
     <div class="boxes-container">
         <!-- Left List (Unsorted Items) -->
         <div class="box">
-            <h4>Tasks to Rank</h4>
+            <h4>Games to Rank</h4>
             <ul id="left-list" class="sortable">
                 {% for item in items %}
                     <li class="sortable-item" data-value="{{ item }}">{{ item }}</li>
@@ -59,7 +59,7 @@
     <br><br>
 
     <!-- Hidden input to store the ranking order -->
-    <input type='hidden' name=ranking_order_CognitiveLoad id=ranking_order_CognitiveLoad>
+    <input type='hidden' name=ranking_order_CognitiveEase id=ranking_order_CognitiveEase>
 
 
     <div class="buttons-container">

@@ -164,12 +164,12 @@ def return_available_bundles(player, rank, difficulty, save_to_player=False, ret
 def calculate_task_scores(player):
     """
     Calculates and updates the player's scores for different tasks based on weighted dimensions.
-    This function evaluates a player's performance across four dimensions: Cognitive Load, Engagement, 
+    This function evaluates a player's performance across four dimensions: Cognitive Ease, Engagement, 
     Confidence, and Time Efficiency. Each dimension is assigned a weight based on the player's 
     cardinality values for that dimension. These weights are then used to calculate weighted scores 
     for each task. The tasks include Quiz, MathMemory, EmotionRecognition, and SpotTheDifference.
     The process for calculating the scores is as follows:
-    1. Retrieve the player's cardinality values for each dimension (Cognitive Load, Engagement, 
+    1. Retrieve the player's cardinality values for each dimension (Cognitive Ease, Engagement, 
        Confidence, and Time Efficiency).
     2. Compute the total score by summing up the cardinality values of all dimensions.
     3. Normalize each dimension's score by dividing it by the total score to obtain weights.
@@ -179,15 +179,15 @@ def calculate_task_scores(player):
     7. Update the player's task scores with the calculated values.
     Example (Quiz task):
     - Suppose the player's cardinality values are:
-        Cognitive Load: 10, Engagement: 20, Confidence: 30, Time Efficiency: 40.
+        Cognitive Ease: 10, Engagement: 20, Confidence: 30, Time Efficiency: 40.
     - The total score is 10 + 20 + 30 + 40 = 100.
     - The weights are:
-        Cognitive Load: 10/100 = 0.1, Engagement: 20/100 = 0.2, 
+        Cognitive Ease: 10/100 = 0.1, Engagement: 20/100 = 0.2, 
         Confidence: 30/100 = 0.3, Time Efficiency: 40/100 = 0.4.
     - If the player's Quiz-specific scores are:
-        Cognitive Load: 5, Engagement: 10, Confidence: 15, Time Efficiency: 20.
+        Cognitive Ease: 5, Engagement: 10, Confidence: 15, Time Efficiency: 20.
     - The weighted scores for Quiz are:
-        Cognitive Load: 0.1 * 5 = 0.5, Engagement: 0.2 * 10 = 2.0,
+        Cognitive Ease: 0.1 * 5 = 0.5, Engagement: 0.2 * 10 = 2.0,
         Confidence: 0.3 * 15 = 4.5, Time Efficiency: 0.4 * 20 = 8.0.
     - The final Quiz score is the sum of the weighted scores:
         0.5 + 2.0 + 4.5 + 8.0 = 15.0.
@@ -202,39 +202,39 @@ def calculate_task_scores(player):
         player.score_SpotTheDifference (float): The calculated score for the SpotTheDifference task.
     """
     '''
-    The calculate_task_scores function takes a player object and calculates their scores for different tasks based on various dimensions like cognitive load, engagement, confidence, and time efficiency. 
+    The calculate_task_scores function takes a player object and calculates their scores for different tasks based on various dimensions like Cognitive Ease, engagement, confidence, and time efficiency. 
     It then updates the player's scores for each task by considering these dimensions.
     
     
     
     '''
     
-    score_CognitiveLoad = player.cardinality_Dimension_1
+    score_CognitiveEase = player.cardinality_Dimension_1
     score_Engagement = player.cardinality_Dimension_2
     score_Confidence = player.cardinality_Dimension_3
     score_TimeEfficiency = player.cardinality_Dimension_4
     
     # weight scores
-    total_score = score_CognitiveLoad + score_Engagement + score_Confidence + score_TimeEfficiency
-    score_CognitiveLoad /= total_score
+    total_score = score_CognitiveEase + score_Engagement + score_Confidence + score_TimeEfficiency
+    score_CognitiveEase /= total_score
     score_Engagement /= total_score
     score_Confidence /= total_score
     score_TimeEfficiency /= total_score
     
-    Quiz_scores = [player.cardinality_Dimension_CognitiveLoad_Quiz, player.cardinality_Dimension_Engagement_Quiz,
+    Quiz_scores = [player.cardinality_Dimension_CognitiveEase_Quiz, player.cardinality_Dimension_Engagement_Quiz,
                    player.cardinality_Dimension_Confidence_Quiz, player.cardinality_Dimension_TimeEfficiency_Quiz]
-    MathMemory_scores = [player.cardinality_Dimension_CognitiveLoad_MathMemory, player.cardinality_Dimension_Engagement_MathMemory,
+    MathMemory_scores = [player.cardinality_Dimension_CognitiveEase_MathMemory, player.cardinality_Dimension_Engagement_MathMemory,
                             player.cardinality_Dimension_Confidence_MathMemory, player.cardinality_Dimension_TimeEfficiency_MathMemory]
-    EmotionRecognition_scores = [player.cardinality_Dimension_CognitiveLoad_EmotionRecognition, player.cardinality_Dimension_Engagement_EmotionRecognition,
+    EmotionRecognition_scores = [player.cardinality_Dimension_CognitiveEase_EmotionRecognition, player.cardinality_Dimension_Engagement_EmotionRecognition,
                             player.cardinality_Dimension_Confidence_EmotionRecognition, player.cardinality_Dimension_TimeEfficiency_EmotionRecognition]
-    SpotTheDifference_scores = [player.cardinality_Dimension_CognitiveLoad_SpotTheDifference, player.cardinality_Dimension_Engagement_SpotTheDifference,
+    SpotTheDifference_scores = [player.cardinality_Dimension_CognitiveEase_SpotTheDifference, player.cardinality_Dimension_Engagement_SpotTheDifference,
                             player.cardinality_Dimension_Confidence_SpotTheDifference, player.cardinality_Dimension_TimeEfficiency_SpotTheDifference]
     
     # calculate weighted scores
-    Quiz_scores = [score_CognitiveLoad * Quiz_scores[0], score_Engagement * Quiz_scores[1], score_Confidence * Quiz_scores[2], score_TimeEfficiency * Quiz_scores[3]]
-    MathMemory_scores = [score_CognitiveLoad * MathMemory_scores[0], score_Engagement * MathMemory_scores[1], score_Confidence * MathMemory_scores[2], score_TimeEfficiency * MathMemory_scores[3]]
-    EmotionRecognition_scores = [score_CognitiveLoad * EmotionRecognition_scores[0], score_Engagement * EmotionRecognition_scores[1], score_Confidence * EmotionRecognition_scores[2], score_TimeEfficiency * EmotionRecognition_scores[3]]
-    SpotTheDifference_scores = [score_CognitiveLoad * SpotTheDifference_scores[0], score_Engagement * SpotTheDifference_scores[1], score_Confidence * SpotTheDifference_scores[2], score_TimeEfficiency * SpotTheDifference_scores[3]]
+    Quiz_scores = [score_CognitiveEase * Quiz_scores[0], score_Engagement * Quiz_scores[1], score_Confidence * Quiz_scores[2], score_TimeEfficiency * Quiz_scores[3]]
+    MathMemory_scores = [score_CognitiveEase * MathMemory_scores[0], score_Engagement * MathMemory_scores[1], score_Confidence * MathMemory_scores[2], score_TimeEfficiency * MathMemory_scores[3]]
+    EmotionRecognition_scores = [score_CognitiveEase * EmotionRecognition_scores[0], score_Engagement * EmotionRecognition_scores[1], score_Confidence * EmotionRecognition_scores[2], score_TimeEfficiency * EmotionRecognition_scores[3]]
+    SpotTheDifference_scores = [score_CognitiveEase * SpotTheDifference_scores[0], score_Engagement * SpotTheDifference_scores[1], score_Confidence * SpotTheDifference_scores[2], score_TimeEfficiency * SpotTheDifference_scores[3]]
     
     player.score_Quiz = sum(Quiz_scores)
     player.score_MathMemory = sum(MathMemory_scores)
@@ -478,22 +478,22 @@ class C(BaseConstants):
 
     
     # texts
-    CognitiveLoad_text = "<strong>Place the task that is least mentally exhausting at the top. </strong>"
+    CognitiveEase_text = "<strong>Place the task that is least mentally exhausting at the top. </strong>"
     Engagement_text = "<strong>Place the task that you find most engaging at the top.</strong>"
     Confidence_text = "<strong>Place the task that you find yourself most confident with at the top.</strong>"
     TimeEfficiency_text = "<strong>Place the task that you think takes fewest amount of mouse-clicks at the top.</strong>"
     
-    CognitiveLoad_text_2 = "<strong>If a task is mentally exhausting, assign it a lower score. </strong>"
+    CognitiveEase_text_2 = "<strong>If a task is mentally exhausting, assign it a lower score. </strong>"
     Engagement_text_2 = "<strong>If a task is engaging, assign it a higher score.</strong>"
     Confidence_text_2 = "<strong>If you feel confident in your ability in the task, assign it a higher score.</strong>"
     TimeEfficiency_text_2 = "<strong>If a task takes few amount of mouse-clicks, assign it a higher score.</strong>"
     
     Rank_sentence = {
-    1: "You are <strong>rank 1</strong>: the first to choose. Select your preferred bundle from all available options.",
-    2: "You are <strong>rank 2</strong>: the second to choose. Select your preferred bundle from the remaining options.",
-    3: "You are <strong>rank 3</strong>: the third to choose. Select your preferred bundle from the remaining options.",
-    4: "You are <strong>rank 4</strong>: the fourth to choose. Select your preferred bundle from the remaining options.",
-    5: "You are <strong>rank 5</strong>: the last to choose. Select your preferred bundle from the remaining options.",
+    1: "Select your preferred bundle from all available options.",
+    2: "Select your preferred bundle from the remaining options.",
+    3: "Select your preferred bundle from the remaining options.",
+    4: "Select your preferred bundle from the remaining options.",
+    5: "Select your preferred bundle from the remaining options.",
     }
 
     
@@ -560,7 +560,7 @@ class Player(BasePlayer):
     
     ## Dimension scores
     ranking_order = models.StringField(blank=True)  #TODO: remove blank 
-    cardinality_Dimension_1 = models.IntegerField(blank=True)  #cognitive load  #TODO: remove blank 
+    cardinality_Dimension_1 = models.IntegerField(blank=True)  #Cognitive Ease  #TODO: remove blank 
     cardinality_Dimension_2 = models.IntegerField(blank=True) # engagement  #TODO: remove blank 
     cardinality_Dimension_3 = models.IntegerField(blank=True) # confidence #TODO: remove blank 
     cardinality_Dimension_4 = models.IntegerField(blank=True) # time efficiency #TODO: remove blank 
@@ -568,37 +568,37 @@ class Player(BasePlayer):
     taste_variety = models.FloatField(
         # initial=1,
         label = '',
-        choices = [[1.2, 'I strongly prefer a bundle with different tasks'],
-                   [1.1, 'I mildly prefer a bundle with different tasks'],  
+        choices = [[1.2, 'I strongly prefer a bundle with different games'],
+                   [1.1, 'I mildly prefer a bundle with different games'],  
                    [1, 'I am indifferent'],
-                   [0.9, 'I mildly prefer a bundle with the same task'],  
-                   [0.8, 'I strongly prefer a bundle with the same task'],
+                   [0.9, 'I mildly prefer a bundle with the same games'],  
+                   [0.8, 'I strongly prefer a bundle with the same games'],
                      ],
         widget=widgets.RadioSelect
     )
     
     ## Task_dimension scores
-    ranking_order_CognitiveLoad = models.StringField(blank=True) # TODO: remove all blank trues
+    ranking_order_CognitiveEase = models.StringField(blank=True) # TODO: remove all blank trues
     ranking_order_Engagement = models.StringField(blank=True) #
     ranking_order_Confidence = models.StringField(blank=True) #
     ranking_order_TimeEfficiency = models.StringField(blank=True) #
     
-    cardinality_Dimension_CognitiveLoad_SpotTheDifference =  models.IntegerField(blank=True)   #TODO: remove all blank true
+    cardinality_Dimension_CognitiveEase_SpotTheDifference =  models.IntegerField(blank=True)   #TODO: remove all blank true
     cardinality_Dimension_Engagement_SpotTheDifference =      models.IntegerField(blank=True) 
     cardinality_Dimension_Confidence_SpotTheDifference =    models.IntegerField(blank=True) 
     cardinality_Dimension_TimeEfficiency_SpotTheDifference = models.IntegerField(blank=True) 
      
-    cardinality_Dimension_CognitiveLoad_Quiz =  models.IntegerField(blank=True)    #TODO: remove all blank true
+    cardinality_Dimension_CognitiveEase_Quiz =  models.IntegerField(blank=True)    #TODO: remove all blank true
     cardinality_Dimension_Engagement_Quiz =      models.IntegerField(blank=True)
     cardinality_Dimension_Confidence_Quiz =    models.IntegerField(blank=True)
     cardinality_Dimension_TimeEfficiency_Quiz = models.IntegerField(blank=True)
     
-    cardinality_Dimension_CognitiveLoad_MathMemory =  models.IntegerField(blank=True)   #TODO: remove all blank true
+    cardinality_Dimension_CognitiveEase_MathMemory =  models.IntegerField(blank=True)   #TODO: remove all blank true
     cardinality_Dimension_Engagement_MathMemory =      models.IntegerField(blank=True)
     cardinality_Dimension_Confidence_MathMemory =    models.IntegerField(blank=True)
     cardinality_Dimension_TimeEfficiency_MathMemory = models.IntegerField(blank=True)
     
-    cardinality_Dimension_CognitiveLoad_EmotionRecognition =  models.IntegerField(blank=True)  #TODO: remove all blank true
+    cardinality_Dimension_CognitiveEase_EmotionRecognition =  models.IntegerField(blank=True)  #TODO: remove all blank true
     cardinality_Dimension_Engagement_EmotionRecognition =      models.IntegerField(blank=True)
     cardinality_Dimension_Confidence_EmotionRecognition =    models.IntegerField(blank=True)
     cardinality_Dimension_TimeEfficiency_EmotionRecognition = models.IntegerField(blank=True)
@@ -699,7 +699,7 @@ class Player(BasePlayer):
     Comprehension_question_2 = models.BooleanField(
         choices=[
             [True,
-            'You must reach the required score on every task in the selected '
+            'You must reach the required score on every game in the selected '
             'bundle.'],                               # ✅ correct
             [False,
             'You must reach the required score on at least one task in the bundle.'],
@@ -757,7 +757,7 @@ class Attributes_rank(MyBasePage):
         # Add or modify variables specific to ExtendedPage
         
         # variables['items'] = ["Dimension 1", "Dimension 2", "Dimension 3", "Dimension 4", "Dimension 5"]
-        variables['items'] = ["Cognitive Load", "Engagement", "Confidence", "Time Efficiency", ]
+        variables['items'] = ["Cognitive Ease", "Engagement", "Confidence", "Time Efficiency", ]
         return variables
     
     @staticmethod
@@ -769,8 +769,9 @@ class Attributes_rank(MyBasePage):
     @staticmethod   
     def before_next_page(player: Player, timeout_happened):
         'FOR DEBUG ONLY: choose a random ranking order'
+        #TODO: delete these to remove the bug.
         pass
-        player.ranking_order = json.dumps(["Cognitive Load", "Engagement", "Confidence", "Time Efficiency"])
+        player.ranking_order = json.dumps(["Cognitive Ease", "Engagement", "Confidence", "Time Efficiency"])
     
 class Attributes_rank_cardinality(MyBasePage):
     extra_fields = ['cardinality_Dimension_1', 'cardinality_Dimension_2', 
@@ -787,9 +788,9 @@ class Attributes_rank_cardinality(MyBasePage):
         return variables
 
 # Attributes and tasks
-## Cognitive load
+## Cognitive Ease
 class Attributes_tasks_Dimension_1(MyBasePage):
-    extra_fields = ['ranking_order_CognitiveLoad'] 
+    extra_fields = ['ranking_order_CognitiveEase'] 
     form_fields = MyBasePage.form_fields + extra_fields
 
     @staticmethod
@@ -799,35 +800,35 @@ class Attributes_tasks_Dimension_1(MyBasePage):
         # Add or modify variables specific to ExtendedPage
         
         variables['items'] = ["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"]
-        variables['DimensionAtHand'] = "Cognitive Load"
-        variables['DimensionText'] = C.CognitiveLoad_text
+        variables['DimensionAtHand'] = "Cognitive Ease"
+        variables['DimensionText'] = C.CognitiveEase_text
         
-        variables['field_name'] = "ranking_order_CognitiveLoad"
+        variables['field_name'] = "ranking_order_CognitiveEase"
         return variables
     
     @staticmethod
     def js_vars(player: Player):
         return dict(
-            field_name = 'ranking_order_CognitiveLoad',
+            field_name = 'ranking_order_CognitiveEase',
         )
     
 class Attributes_tasks_Dimension_1_cardinality(MyBasePage):
     extra_fields = [
-        'cardinality_Dimension_CognitiveLoad_SpotTheDifference', 
-        'cardinality_Dimension_CognitiveLoad_Quiz',
-        'cardinality_Dimension_CognitiveLoad_MathMemory',
-        'cardinality_Dimension_CognitiveLoad_EmotionRecognition',
+        'cardinality_Dimension_CognitiveEase_SpotTheDifference', 
+        'cardinality_Dimension_CognitiveEase_Quiz',
+        'cardinality_Dimension_CognitiveEase_MathMemory',
+        'cardinality_Dimension_CognitiveEase_EmotionRecognition',
     ] 
     form_fields = MyBasePage.form_fields + extra_fields
     
     @staticmethod
     def vars_for_template(player: Player):
-        ranking_order = player.ranking_order_CognitiveLoad 
+        ranking_order = player.ranking_order_CognitiveEase 
         
         variables = MyBasePage.vars_for_template(player)
         
-        variables['DimensionAtHand'] = "Cognitive Load"
-        variables['DimensionText'] = C.CognitiveLoad_text_2
+        variables['DimensionAtHand'] = "Cognitive Ease"
+        variables['DimensionText'] = C.CognitiveEase_text_2
         
         # TODO: remove the next 2 lines (DEBUG ONLY)
         if not ranking_order:
@@ -999,7 +1000,7 @@ class Attributes_variety(MyBasePage):
             if not player.field_maybe_none(dimension_field):
                 setattr(player, dimension_field, random.randint(1, 10))
                 
-        for attribute in ['cardinality_Dimension_CognitiveLoad_Quiz', 'cardinality_Dimension_CognitiveLoad_SpotTheDifference', 'cardinality_Dimension_CognitiveLoad_MathMemory', 'cardinality_Dimension_CognitiveLoad_EmotionRecognition',
+        for attribute in ['cardinality_Dimension_CognitiveEase_Quiz', 'cardinality_Dimension_CognitiveEase_SpotTheDifference', 'cardinality_Dimension_CognitiveEase_MathMemory', 'cardinality_Dimension_CognitiveEase_EmotionRecognition',
                   'cardinality_Dimension_Engagement_Quiz', 'cardinality_Dimension_Engagement_SpotTheDifference', 'cardinality_Dimension_Engagement_MathMemory', 'cardinality_Dimension_Engagement_EmotionRecognition',
                   'cardinality_Dimension_Confidence_Quiz', 'cardinality_Dimension_Confidence_SpotTheDifference', 'cardinality_Dimension_Confidence_MathMemory', 'cardinality_Dimension_Confidence_EmotionRecognition',
                   'cardinality_Dimension_TimeEfficiency_Quiz', 'cardinality_Dimension_TimeEfficiency_SpotTheDifference', 'cardinality_Dimension_TimeEfficiency_MathMemory', 'cardinality_Dimension_TimeEfficiency_EmotionRecognition']:

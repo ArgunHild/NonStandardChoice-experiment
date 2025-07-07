@@ -19,9 +19,9 @@ class C(BaseConstants):
     Instructions_general_path = "_templates/global/Instructions.html"
     
     # Games paths
-    Emotion_recognition_template = "_templates/global/Task_templates/Emotion.html"
-    Quiz_template_path = "_templates/global/Task_templates/Quiz.html"
-    Math_template_path = "_templates/global/Task_templates/Math.html"
+    Emotion_recognition_template = "_templates/global/Game_templates/Emotion.html"
+    Quiz_template_path = "_templates/global/Game_templates/Quiz.html"
+    Math_template_path = "_templates/global/Game_templates/Math.html"
     Spot_the_difference_template_path = "_templates/global/Task_templates/Spot.html"
     Spot_the_difference_template_path_2 = "_templates/global/Task_templates/Spot_2.html"
     

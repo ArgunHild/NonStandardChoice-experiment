@@ -18,38 +18,40 @@ new Sortable(leftList, {
 
 // Initialize sortable for each ranking slot (only one item per slot)
 rightSlots.forEach(slot => {
-    new Sortable(slot, {
-        group: "shared",
-        animation: 150,
-        swapThreshold: 1,
-        onAdd: function (evt) {
-            let item = evt.item;
-            
-            // Remove placeholder when an item is added
-            let placeholder = slot.querySelector(".placeholder");
-            if (placeholder) {
-                placeholder.remove();
-            }
+  new Sortable(slot, {
+    group: "shared",
+    animation: 150,
+    swapThreshold: 1,
+    onAdd(evt) {
+      const incoming = evt.item;                  // the element just dropped in
+      const itemsInSlot = slot.querySelectorAll('.sortable-item');
 
-            // Move previous item back to left list if slot already had an item
-            if (slot.children.length > 1) {
-                leftList.appendChild(slot.children[0]);  // Move first item back (originally in slot)
-            }
+      // Remove placeholder if it’s still there
+      const placeholder = slot.querySelector('.placeholder');
+      if (placeholder) placeholder.remove();
 
-            updateRankingOrder();
-        },
-        onRemove: function (evt) {
-            // Restore placeholder if slot becomes empty
-            if (slot.children.length === 0) {
-                let placeholderSpan = document.createElement("span");
-                placeholderSpan.classList.add("placeholder");
-                placeholderSpan.textContent = "[Drag&Drop here]";
-                slot.appendChild(placeholderSpan);
-            }
-            updateRankingOrder();
-        }
-    });
+      // If there was already an item here, it will now be in itemsInSlot too.
+      // Find the one that *isn't* the incoming element, and send it back.
+      if (itemsInSlot.length > 1) {
+        const toReturn = Array.from(itemsInSlot).find(el => el !== incoming);
+        leftList.appendChild(toReturn);
+      }
+
+      updateRankingOrder();
+    },
+    onRemove(evt) {
+      // If that drop left the slot empty, re-add the placeholder
+      if (!slot.querySelector('.sortable-item')) {
+        const placeholderSpan = document.createElement("span");
+        placeholderSpan.classList.add("placeholder");
+        placeholderSpan.textContent = "[Drag & Drop here]";
+        slot.appendChild(placeholderSpan);
+      }
+      updateRankingOrder();
+    }
+  });
 });
+
 
 function updateRankingOrder() {
     var order = [];
@@ -62,6 +64,8 @@ function updateRankingOrder() {
 
     // Enable submit button only if all slots are filled
     submitBtn.disabled = order.includes(null);
+
+    // console.log("🔥 Current ranking order:", order);
 }
 
 submitBtn.addEventListener("click", function () {

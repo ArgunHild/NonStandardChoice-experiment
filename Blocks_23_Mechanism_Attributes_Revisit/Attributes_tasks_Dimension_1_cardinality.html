@@ -12,19 +12,19 @@
 
 <div class="section-box box-neutral">
     <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
-        Score Tasks by {{ DimensionAtHand }} <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 4/11)</span>
+        Score Games by {{ DimensionAtHand }} <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 4/11)</span>
     </h3>
     <div class="section-divider"></div>
 
     <p>
-        Based on your experience, please assign each task a score from <strong>1 to 10</strong> 
+        Based on your experience, please assign each game a score from <strong>1 to 10</strong> 
         reflecting how well it aligns with the attribute <strong>{{ DimensionAtHand }}  </strong>.
     </p>
 
     <p><em>{{ DimensionText }}</em></p>
 
     <p>
-        These scores should reflect your personal view of how strongly each task expresses this attribute —
+        These scores should reflect your personal view of how strongly each game expresses this attribute —
         not just in comparison to each other, but in absolute terms.
     </p>
 
@@ -32,7 +32,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Task</th>
+                    <th>Game</th>
                     <th>Score (1–10)</th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@
                 <tr>
                     <td>{{ item }}</td>
                     <td>
-                        <select class="likert-scale" name="cardinality_Dimension_CognitiveLoad_{{ item }}" required>
+                        <select class="likert-scale" name="cardinality_Dimension_CognitiveEase_{{ item }}" required>
                             <option value="">Select</option>
                             {% for i in range(1, 11) %}
                                 <option value="{{ i }}">{{ i }}</option>

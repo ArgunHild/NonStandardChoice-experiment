@@ -144,11 +144,11 @@ class Player(BasePlayer):
     #         [False, 'Once'],
     #         [False, 'Three times'],],
     #     initial=True,
-    #     label = 'How many times will you practice each task during the learning stage?',
+    #     label = 'How many times will you practice each Game during the learning stage?',
     #     widget=widgets.RadioSelect)
     # Comprehension_question_2 = models.BooleanField(choices=[
     #     [True, 'Performance in the learning stage'],  
-    #     [False, 'Number of tasks shown'],
+    #     [False, 'Number of Games shown'],
     #     [False, 'Number of times you click'],],
     #     initial=True,
     #     label = 'What contributes to your final bonus payment?',
@@ -156,7 +156,7 @@ class Player(BasePlayer):
     # Comprehension_question_3 = models.BooleanField(choices=[
     #     [True, 'Right before the main stage begins'],
     #     [False, 'At the very end of the experiment'],
-    #     [False, 'During the first practice task'],],
+    #     [False, 'During the first practice Game'],],
     #     initial=True,
     #     label = 'When will you receive more detailed information about the main stage choices?',
     #     widget=widgets.RadioSelect)

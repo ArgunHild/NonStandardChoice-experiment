@@ -134,7 +134,7 @@
   <hr class="section-divider">
 
   <!-- warning / timer -->
-  <div class="section-box box-calm">
+  <!-- <div class="section-box box-calm">
     <div class="section-header">
       <span class="icon">⚠️</span>
       <h3>Please pay attention</h3>
@@ -144,14 +144,14 @@
       Doing so will not stop the timer but may reset your score.
     </p>
     <p id="timer" style="font-weight:bold;"></p>
-  </div>
+  </div> -->
 
       
     <div class="otree-timer_2" style="margin-top: 10px;">
         Time remaining: <span id="time-left"></span> seconds
     </div>
 
-  <!-- task intro + game board -->
+  <!-- Game intro + game board -->
   <div class="section-box box-info">
     <div class="section-header">
       <span class="icon">{{ Icon }}</span>
@@ -159,8 +159,7 @@
     </div>
 
 
-    <!-- brief instructions for Math-Memory (replace if you like) -->
-   <!-- {% include Task_instructions %}-->
+
 
     <!-- actual game HTML / JS -->
     {{ include GameTemplate }}

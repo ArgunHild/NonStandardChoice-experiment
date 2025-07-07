@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ensure canvas is properly sized
+    const canvas = document.getElementById('overlayCanvas');
+    const img    = document.getElementById('image2');
 
+    function resizeCanvas() {
+        canvas.width  = img.clientWidth;
+        canvas.height = img.clientHeight;
+    }
+
+    // If image is already loaded (cache hit), size immediately:
+    if (img.complete && img.naturalWidth) {
+        resizeCanvas();
+    } else {
+        // Otherwise wait for it:
+        img.addEventListener('load', resizeCanvas);
+    }
+
+
+
+    // Clear all cookies on page load
     window.onload = function() {
         document.cookie.split(";").forEach(function(cookie) {
             document.cookie = cookie
@@ -8,8 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Disable the continue button initially
+    const nextBtn = document.getElementById('NextButton');
+    nextBtn.disabled = true;
 
-    console.log('Game started!');
+
+    // console.log('Game started!');
 
     // the game_field variable
     const game_field_name = 'id_'+js_vars.field_name;
@@ -19,9 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxScore = 10; // Assuming there are 10 differences
     
     const circlesCountElement = document.getElementById('circlesCount'); // The new element for displaying count
-    const canvas = document.getElementById('overlayCanvas'); // where the differences are drawn
     const ctx = canvas.getContext('2d');
-    const img = document.getElementById('image2');
 
     let matchedDifferences = new Set(); // Store indexes of matched differences
     // list of coordinates of correct places
@@ -83,7 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
         circlesCountElement.innerText = `Circles placed: ${userMarks.length}/10`;
         if (userMarks.length >= maxScore) {
             circlesCountElement.innerText = `Circles placed: ${userMarks.length}/10. \n Maximum number of circles reached. You can unclick some if you want to make changes.`;
-    }
+
+            // Enable the continue button when the maximum number of marks is reached
+            nextBtn.disabled = false;
+        }
 }
 
     function redrawCanvas() {
@@ -97,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     userMarks.forEach(mark => {
         let isCorrect = false;
         for (let diff of actual_differences) {
-            if (Math.hypot(diff.x - mark.x, diff.y - mark.y) < 20) { // Threshold for being considered correct
+            if (Math.hypot(diff.x - mark.x, diff.y - mark.y) < 30) { // Threshold for being considered correct
                 isCorrect = true;
                 break; // Stop checking further if this mark is already correct
             }
@@ -120,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Update score and circles count display
-    console.log(game_field_name, game_field_name.value)
+    // console.log(game_field_name, game_field_name.value)
     document.getElementById(game_field_name).value = score;
 
 
@@ -154,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        console.log(`Click at (${x}, ${y})`);
+        // console.log(`Click at (${x}, ${y})`);
     
         // First, check if the click is near an actual difference
         if (isClickNearActualDifference(x, y)) {

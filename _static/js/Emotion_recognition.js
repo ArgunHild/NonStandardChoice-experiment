@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
         {"q": "Emotion_recognition/Surprise.png", "choices": ['Fear','Surprise','Interest','Compassion'], "answer": "Surprise"},
         
 ];
-    
+    // disable the continue button
+    const nextBtn = document.getElementById('NextButton');
+    nextBtn.disabled = true;
     // Reset the local variables
     localStorage.removeItem("currentQuestion");
     // localStorage.removeItem("timer"); // TODO: uncomment to have a timer
@@ -90,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
         if (currentQuestion < questions.length) {
+
             currentQuestion_idx = currentQuestion+1;
             MaxQuestions_idx = questions.length-1;
             // document.getElementById('question').textContent = 'Question ' + currentQuestion_idx + '. '  + questions[currentQuestion].q;
@@ -115,7 +118,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('quiz-container').innerHTML = '<div>Quiz completed!</div>';
             // Clear local storage as the quiz is completed
             localStorage.removeItem("currentQuestion");
-            // localStorage.removeItem("timer");// TODO: uncomment to have a timer
+            // localStorage.removeItem("timer");
+            // HERE: enable Continue
+            nextBtn.disabled = false;
         }
     }
 

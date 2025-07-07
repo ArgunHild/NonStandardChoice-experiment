@@ -87,12 +87,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Reset the local variables
     localStorage.removeItem("currentQuestion");
-    localStorage.removeItem("timer");
+    // localStorage.removeItem("timer");
 
     const game_field_name = 'id_'+js_vars.field_name;
     let currentQuestion = 0;
-    let timer = 10;
-    let interval;
+    // let timer = 10;
+    // let interval;
     var questions = questions1
     
     const trial = js_vars.type
@@ -121,9 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if(localStorage.getItem("currentQuestion") && currentQuestion === 0) {
             currentQuestion = parseInt(localStorage.getItem("currentQuestion"), 10);
             // Load timer only if it's not already counting down
-            if (!interval) {
-                timer = parseInt(localStorage.getItem("timer"), 5);
-            }
+            // if (!interval) {
+            //     timer = parseInt(localStorage.getItem("timer"), 5);
+            // }
         }
     
         if (currentQuestion < questions.length) {
@@ -140,16 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 choicesContainer.appendChild(button);
             });
             // Update the timer display without resetting it
-            document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`;
+            // document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`;
             // Only start the interval if it's not already running
-            if (!interval) {
-                interval = setInterval(updateTimer, 1000);
-            }
+            // if (!interval) {
+            //     interval = setInterval(updateTimer, 1000);
+            // }
         } else {
             document.getElementById('quiz-container').innerHTML = '<div>Quiz completed!</div>';
             // Clear local storage as the quiz is completed
             localStorage.removeItem("currentQuestion");
-            localStorage.removeItem("timer");
+            // localStorage.removeItem("timer");
         }
     }
 
@@ -167,25 +167,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    function updateTimer() {
-        timer--;
-        document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`;
-        if (timer <= 0) {
-            moveToNextQuestion();
-        }
-        // Save current state
-        localStorage.setItem("currentQuestion", currentQuestion);
-        localStorage.setItem("timer", timer);
-    }
+    // function updateTimer() {
+    //     timer--;
+    //     document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`;
+    //     if (timer <= 0) {
+    //         moveToNextQuestion();
+    //     }
+    //     // Save current state
+    //     localStorage.setItem("currentQuestion", currentQuestion);
+    //     localStorage.setItem("timer", timer);
+    // }
 
     function moveToNextQuestion() {
-        clearInterval(interval);
+        // clearInterval(interval);
         interval = null; // Clear interval ID
         currentQuestion++;
         // Reset the timer for the next question
-        timer = 10;
+        // timer = 10;
         localStorage.setItem("currentQuestion", currentQuestion);
-        localStorage.setItem("timer", timer);
+        // localStorage.setItem("timer", timer);
         showQuestion();
     }
 
