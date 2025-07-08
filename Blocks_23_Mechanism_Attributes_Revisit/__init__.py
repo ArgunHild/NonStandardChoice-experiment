@@ -317,6 +317,7 @@ class C(BaseConstants):
     Instructions_attributes_path = "_templates/global/Instructions_attributes.html"
     Instructions_mechanism_path = "_templates/global/Instructions_mechanism.html"
     Instructions_revisit_path = "_templates/global/Instructions_revisit.html"
+    Instructions_Example_Games_path = "_templates/global/Example_games.html"
      
     Comprehension_password = 'MARGUN' #if changed here, needs to be changed in the js.js as well
     
@@ -534,23 +535,23 @@ class Player(BasePlayer):
     Difficult_rank_5_revisit_choice = models.StringField(label='')
     
     ### switch dummies. these are dictionaries 
-    Easy_rank_1_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Easy_rank_2_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Easy_rank_3_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Easy_rank_4_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Easy_rank_5_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
+    Easy_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Easy_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Easy_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Easy_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Easy_rank_5_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     
-    Medium_rank_1_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Medium_rank_2_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Medium_rank_3_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Medium_rank_4_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Medium_rank_5_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
+    Medium_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Medium_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Medium_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Medium_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Medium_rank_5_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     
-    Difficult_rank_1_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Difficult_rank_2_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Difficult_rank_3_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Difficult_rank_4_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
-    Difficult_rank_5_revisit_choice_switch = models.IntegerField(label='Please choose which of the two bundles you would prefer to receive as your final outcome for this round.', choices=[[1, 'Alternative bundle'], [0, 'Original bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_5_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
         
     ### Outcome of the random choice
     Outcome_bundle = models.StringField()

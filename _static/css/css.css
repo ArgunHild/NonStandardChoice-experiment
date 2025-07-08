@@ -28,7 +28,13 @@
     display: block;
 }
 
-
+.instructions-box {
+  border: 1px solid #ccc; /* Light gray border */
+  padding: 16px;          /* Adds space inside the box */
+  border-radius: 8px;     /* Rounds the corners */
+  background-color: #f9f9f9; /* Light background color */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+}
 
 /* BOXES */
 

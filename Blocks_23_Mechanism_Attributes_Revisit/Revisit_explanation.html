@@ -9,9 +9,7 @@
 
 {{include C.Instructions_revisit_path}}
 
-    <p>
-        Click <strong>Next</strong> to begin.
-    </p>
+
 
 {% for field in form %}
     {% if field.name not in hidden_fields %}
@@ -29,7 +27,7 @@
     <br><br>
 
       <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions (Revisit choice)</a>
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions (shows this page)</a>
 
         <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
     </div>

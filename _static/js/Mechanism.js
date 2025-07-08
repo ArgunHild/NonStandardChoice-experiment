@@ -47,6 +47,17 @@ function Sequential() {
             <p>Which of these bundles do you prefer?</p>
             <div id="bundleContainer"></div>
         </div>
+
+
+        
+
+            <!-- Emoji legend -->
+            <div class="emoji-legend">
+                <div class="legend-item"><span style="font-size:1.2em;">🔢</span> Math</div>
+                <div class="legend-item"><span style="font-size:1.2em;">🔍</span> Spot the Difference</div>
+                <div class="legend-item"><span style="font-size:1.2em;">📚</span> Quiz</div>
+                <div class="legend-item"><span style="font-size:1.2em;">😃</span> Emotion Recognition</div>
+            </div>
     `;
 
     document.body.appendChild(popup);
@@ -110,6 +121,16 @@ function Binary() {
         </div>
         <div id="comparisonContainer"></div>
     </div>
+
+    
+
+            <!-- Emoji legend -->
+            <div class="emoji-legend">
+                <div class="legend-item"><span style="font-size:1.2em;">🔢</span> Math</div>
+                <div class="legend-item"><span style="font-size:1.2em;">🔍</span> Spot the Difference</div>
+                <div class="legend-item"><span style="font-size:1.2em;">📚</span> Quiz</div>
+                <div class="legend-item"><span style="font-size:1.2em;">😃</span> Emotion Recognition</div>
+            </div>
     `;
 
     document.body.appendChild(popup);

@@ -54,15 +54,9 @@
     </div>
     
     
-    <!-- Emoji legend -->
-    <div class="emoji-legend">
-        <div class="legend-item"><span style="font-size:1.2em;">🔢</span> Math</div>
-        <div class="legend-item"><span style="font-size:1.2em;">🔍</span> Spot the Difference</div>
-        <div class="legend-item"><span style="font-size:1.2em;">📚</span> Quiz</div>
-        <div class="legend-item"><span style="font-size:1.2em;">😃</span> Emotion Recognition</div>
-    </div>
 
-    <div class="section-box box-calm" style="text-align: center; padding: 20px;">
+
+    <!-- <div class="section-box box-calm" style="text-align: center; padding: 20px;">
         <h4 style="margin-bottom: 20px;">Available Bundles</h4>
         <div class="bundle-table" style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
             {% for bundle in AvailableBundles %}
@@ -72,7 +66,7 @@
                 </div>
             {% endfor %}
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -82,8 +76,12 @@
     </button>
 </div>
 
+
 <div class="buttons-container">
-    <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-info">Open Instructions (Bundle choice)</a>
+        <div class="Instructions">
+            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-info">Open Instructions (Bundle choice)</a>
+            <a id="myBtn" onclick="open_modal(2)" class="btn btn-info">Remind me the games</a>
+        </div>
 </div>
 
 </div>
@@ -91,6 +89,33 @@
 <div style="display: none;">
     <button id="HiddenNextButton" class="otree-btn-next btn btn-primary">Next</button>
 </div>
+
+
+        <div id="myModal2" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Reminder for the games</h2>
+                        <span class="close" onclick="span_click(2)">&times;</span>
+                    </div>
+                    <p style="padding: 0px">
+                        {{ include C.Instructions_Example_Games_path}}
+                    </p>
+            </div>
+        </div>
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+              <h2><span class="icon">📘</span>Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
+        </div>
+    </div>
+
+
 
 <style>
     #progressContainer {
@@ -109,3 +134,4 @@
       transition: width 0.4s ease;
     }
   </style>
+

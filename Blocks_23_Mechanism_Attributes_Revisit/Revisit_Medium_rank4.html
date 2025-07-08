@@ -2,7 +2,7 @@
 
 {{ endblock }}
 
-{% block content %}
+{{ block content }}
 <link rel="stylesheet" href="{{static 'css/css.css'}}">
 <link rel="stylesheet" href="{{static 'css/modal.css'}}">
 <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
@@ -17,38 +17,28 @@
         Offered bundle: {{OfferedBundle}} <br>
     </p>
     </div>
-<!-- Instruction Block -->
-<div class="section-box box-neutral">
-    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
-        <span class="icon">🎯</span> Your Choice for Round {{ rank }} ({{ difficulty }})
-    </h3>
-    <div class="section-divider"></div>
 
-    <p>
-        In this round, your previous choice resulted in the bundle shown on the left.
-        If this round is randomly selected at the end of the study, that bundle will determine your outcome.
-    </p>
+       <div class="section-box box-neutral">
+            <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+                <span class="icon">🎯</span> Choice: 9/15
+            </h3>
+            <div class="section-divider"></div>
 
-    <p>
-        You now have the opportunity to review that outcome and choose between it and an alternative bundle shown on the right.
-    </p>
+            <div class="section-box box-info">
+                <div style="display: flex; gap: 30px; justify-content: center; align-items: flex-start; margin-top: 20px;">
+                    <div class="highlight-bundle" style="text-align: center;">
+                        <p style="margin-bottom: 8px;"><strong>Left bundle</strong></p>
+                        <span style="font-size: 2.2em;">{{ OfferedBundle }}</span>
 
-    <p><strong>Please choose the bundle you would prefer as your final outcome for this round.</strong></p>
+                    </div>
+                    <div class="highlight-bundle" style="text-align: center;">
+                        <p style="margin-bottom: 8px;"><strong>Right bundle</strong></p>
+                        <span style="font-size: 2.2em;">{{ MechanismOutcome }}</span>
+                    </div>
+                </div>
+            </div>
 
 
-<!-- Bundle Comparison -->
-<div class="section-box box-info">
-    <div style="display: flex; gap: 30px; justify-content: center; align-items: flex-start; margin-top: 20px;">
-        <div class="highlight-bundle" style="text-align: center;">
-            <p style="margin-bottom: 8px;"><strong>Original Bundle</strong></p>
-            <span style="font-size: 2.2em;">{{ MechanismOutcome }}</span>
-        </div>
-        <div class="highlight-bundle" style="text-align: center;">
-            <p style="margin-bottom: 8px;"><strong>Alternative Bundle</strong></p>
-            <span style="font-size: 2.2em;">{{ OfferedBundle }}</span>
-        </div>
-    </div>
-</div>
 
 <!-- Form -->
 {{ formfields }}
@@ -61,11 +51,11 @@
 </div>
 
 <!-- Modal -->
-<div id="myModal1" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2><span class="icon">📘</span> Instructions</h2>
-            <span class="close" onclick="span_click(1)">&times;</span>
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📘</span> Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
             </div>
             <p style="padding: 0px">
                 {{ include C.Instructions_revisit_path }}

@@ -1,0 +1,83 @@
+<div class="content-box box-neutral">
+  <div class="section-box box-neutral">
+    <div class="examples-grid">
+      
+      <!-- Emotion recognition -->
+      <div class="example-card">
+        <div class="section-header">
+          <span class="icon">😃</span>
+          <h3 class="instructions-title">Emotion Recognition</h3>
+        </div>
+        <img src="{{ static 'Game_explanation_pics/Emotion.png' }}"
+             alt="Screenshot of a sample emotion-recognition question">
+      </div>
+
+      <!-- MathMemory -->
+      <div class="example-card">
+        <div class="section-header">
+          <span class="icon">🔢</span>
+          <h3 class="instructions-title">MathMemory</h3>
+        </div>
+        <img src="{{ static 'Game_explanation_pics/Math.png' }}"
+             alt="Screenshot of a sample math-memory question">
+      </div>
+
+      <!-- Quiz -->
+      <div class="example-card">
+        <div class="section-header">
+          <span class="icon">📚</span>
+          <h3 class="instructions-title">Quiz</h3>
+        </div>
+        <img src="{{ static 'Game_explanation_pics/Quiz.png' }}"
+             alt="Screenshot of a sample quiz question">
+      </div>
+
+      <!-- Spot the differences -->
+      <div class="example-card">
+        <div class="section-header">
+          <span class="icon">🔍</span>
+          <h3 class="instructions-title">Spot the Differences</h3>
+        </div>
+        <img src="{{ static 'Game_explanation_pics/Spot.png' }}"
+             alt="Screenshot of a sample spot-the-difference question">
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+  /* A responsive 2-column grid */
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* two columns */
+    gap: 24px;                               /* space between cards */
+    margin-top: 20px;
+  }
+
+  /* Each “card” */
+  .example-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .example-card .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .example-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+</style>

@@ -24,6 +24,7 @@
 
         <p>
             Drag each game from the left into a ranking slot on the right. <strong>Rank 1</strong> should reflect the game that best fits this attribute, and <strong>Rank 4</strong> the one that fits least.
+            If you want to refresh your memory about each game, you can click the "Remind me the games" button below.
         </p>
 
         <p>
@@ -63,12 +64,27 @@
 
 
     <div class="buttons-container">
-        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>
+        <div class="Instructions">
+            <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>
+            <a id="myBtn" onclick="open_modal(2)" class="btn btn-info">Remind me the games</a>
+        </div>
         <!-- TODO: remove debug next -->
         <!-- <button id="submit-btn" class="otree-btn-next btn btn-primary" >DEBUG Next</button> -->
         <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
     </div>
 
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reminder for the games</h2>
+                <span class="close" onclick="span_click(2)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_Example_Games_path}}
+            </p>
+        </div>
+    </div>
+    
     <div id="myModal1" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -80,7 +96,6 @@
             </p>
         </div>
     </div>
-
 
     
 </div>
