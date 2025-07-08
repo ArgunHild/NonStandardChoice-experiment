@@ -12,6 +12,27 @@
         transform: translateY(-3px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+
+    .emoji-legend {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    gap: 24px;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+  .emoji-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
 </style>
 
 <div class="content-box">
@@ -30,6 +51,15 @@
     <div class="section-box box-contrast" style="text-align: center;">
         <h4>Your current rank</h4>
         <p>{{ rank_sentence|safe }}</p>
+    </div>
+    
+    
+    <!-- Emoji legend -->
+    <div class="emoji-legend">
+        <div class="legend-item"><span style="font-size:1.2em;">🔢</span> Math</div>
+        <div class="legend-item"><span style="font-size:1.2em;">🔍</span> Spot the Difference</div>
+        <div class="legend-item"><span style="font-size:1.2em;">📚</span> Quiz</div>
+        <div class="legend-item"><span style="font-size:1.2em;">😃</span> Emotion Recognition</div>
     </div>
 
     <div class="section-box box-calm" style="text-align: center; padding: 20px;">

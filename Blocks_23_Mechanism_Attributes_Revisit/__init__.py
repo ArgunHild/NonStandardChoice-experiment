@@ -684,27 +684,27 @@ class Player(BasePlayer):
     Comprehension_question_1 = models.BooleanField(
         choices=[
             [True,
-            'The computer randomly picks one of the menus you faced and the '
-            'bundle you chose in that menu.'],        # ✅ correct
+            'The computer will randomly pick and implement one of the choices I faced and the '
+            'bundle I chose in that menu.'],        # ✅ correct
             [False,
-            'The last menu you saw is automatically selected.'],
+            'The last menu I will see is automatically selected to be the bundle I will work at.'],
             [False,
-            'You can decide which menu counts after you see your results.'],
+            'I can decide which choice counts after I see my results.'],
         ],
         # initial=True, #TODO: remove initial true
-        label='How is the bundle you will actually work on selected?',
+        label='At the end you will work on a bundle. How is this bundle selected?',
         widget=widgets.RadioSelect,
     )
 
     Comprehension_question_2 = models.BooleanField(
         choices=[
             [True,
-            'You must reach the required score on every game in the selected '
+            'I must reach the required score on every game in the selected '
             'bundle.'],                               # ✅ correct
             [False,
-            'You must reach the required score on at least one task in the bundle.'],
+            'I must reach the required score on at least one task in the bundle.'],
             [False,
-            'You receive the bonus just for completing all tasks, regardless of score.'],
+            'I receive the bonus just for completing all tasks, regardless of score.'],
         ],
         # initial=True, #TODO: remove initial true
         label='What must happen for you to receive the bonus of XX EUR?', #TODO: make bonus amount dynamic
