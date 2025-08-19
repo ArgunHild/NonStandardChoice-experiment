@@ -150,7 +150,7 @@
   <div class="section-box box-info">
     <div class="section-header">
       <span class="icon">{{ Icon }}</span>
-      <h3>{{ Game }}</h3>
+      <h3>{{ Task }}</h3>
     </div>
 
    <div class="otree-timer_2" style="margin-top: 10px;">
@@ -158,7 +158,6 @@
     </div>
 
 
-    <!--{% include Game_instructions %}-->
     {{ include GameTemplate }}
   </div>
 
@@ -179,9 +178,8 @@
   </div>
 
   <div class="buttons-container" style="justify-content:center;margin-top:30px;">
-    <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
-    <!-- TODO: delete continue button-->
-    <!-- <button id="NextButton" class="btn btn-primary">Continue</button> -->
+    <!-- <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a> -->
+    <button id="NextButton" class="btn btn-primary">Submit answers and continue</button>
   </div>
 </div>
 

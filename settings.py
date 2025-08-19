@@ -49,7 +49,6 @@ PARTICIPANT_FIELDS = [
     'Total_bonus', 'Total_payment',
 ]
 
-#TODO: add the treatments here
 SESSION_FIELDS = {
                     'Male_quotas':{}, 'Female_quotas':{} 
                  }

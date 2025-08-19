@@ -1,5 +1,3 @@
-# TODO: add use_browser_bots = True to session config and open devserver
-# TODO: alternatively use otree test --export without needing to open the browser
 from . import *
 import random
 

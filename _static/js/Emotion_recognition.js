@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     nextBtn.disabled = true;
     // Reset the local variables
     localStorage.removeItem("currentQuestion");
-    // localStorage.removeItem("timer"); // TODO: uncomment to have a timer
+    // localStorage.removeItem("timer"); // uncomment to have a timer
 
     const game_field_name = 'id_'+js_vars.field_name;
     const round = js_vars.round;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         questions = question2
     }
 
-    // TODO: uncomment to have a timer
+    // uncomment to have a timer
     // let timer = 10;
     // let interval;
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(localStorage.getItem("currentQuestion") && currentQuestion === 0) {
             const savedIndex = parseInt(localStorage.getItem("currentQuestion"), 10);
             // Load timer only if it's not already counting down
-            // if (!interval) { // TODO: uncomment to have a timer
+            // if (!interval) { // uncomment to have a timer
             //     timer = parseInt(localStorage.getItem("timer"), 5);
             // }
             if (savedIndex < questions.length) {
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
         if (currentQuestion < questions.length) {
-
+            console.log('Loading question:', currentQuestion);
             currentQuestion_idx = currentQuestion+1;
             MaxQuestions_idx = questions.length-1;
             // document.getElementById('question').textContent = 'Question ' + currentQuestion_idx + '. '  + questions[currentQuestion].q;
@@ -109,9 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 choicesContainer.appendChild(button);
             });
             // Update the timer display without resetting it
-            // document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`; // TODO: uncomment to have a timer
+            // document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`; // uncomment to have a timer
             // Only start the interval if it's not already running
-            // if (!interval) { // TODO: uncomment to have a timer
+            // if (!interval) { // uncomment to have a timer
             //     interval = setInterval(updateTimer, 1000);
             // }
         } else {
@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem("currentQuestion");
             // localStorage.removeItem("timer");
             // HERE: enable Continue
+            console.log('enable next button')
             nextBtn.disabled = false;
         }
     }
@@ -128,16 +129,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedAnswer = event.target.textContent;
         const correctAnswer = questions[currentQuestion].answer;
         if (selectedAnswer === correctAnswer) {
-            console.log(currentQuestion,  'is Correct!');
+            // console.log(currentQuestion,  'is Correct!');
             document.getElementById(game_field_name).value ++;
         } else {
-            console.log(currentQuestion, 'is Wrong!');
+            // console.log(currentQuestion, 'is Wrong!');
         }
         moveToNextQuestion();
         setChoiceButtonsDisabled(true);
     }
 
-    // TODO: uncomment to have a timer
+    // uncomment to have a timer
     // function updateTimer() {
     //     timer--;
     //     document.getElementById('timer').textContent = `Time left for this question: ${timer} seconds`;
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //     localStorage.setItem("timer", timer);
     // }
 
-    // TODO: to have a timer replace the function below with this one
+    // to have a timer replace the function below with this one
     // function moveToNextQuestion() {
     //     clearInterval(interval);
     //     interval = null; // Clear interval ID
@@ -168,6 +169,10 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             document.getElementById('quiz-container').innerHTML = '<div>Quiz completed!</div>';
             localStorage.removeItem("currentQuestion"); // Ensure quiz progress resets
+            // localStorage.removeItem("timer");
+            // HERE: enable Continue
+            console.log('enable next button')
+            nextBtn.disabled = false;
         }
     }
 

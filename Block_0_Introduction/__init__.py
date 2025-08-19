@@ -14,11 +14,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'Introduction'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    
-    # Prolific links:
-    Completion_redirect = "https://www.wikipedia.org/" #TODO: adjust completion redirect
-    Reject_redirect = "https://www.wikipedia.org/" #TODO: adjust reject redirect
-    Return_redirect = "https://www.wikipedia.org/" #TODO: adjust return redirect
+
     
     Instructions_general_path = "_templates/global/Instructions.html"
     
@@ -32,7 +28,7 @@ class Subsession(BaseSubsession):
 def creating_session(subsession):
     players = subsession.get_players()
     
-    #TODO: remove this code below. FOr now this is there to allow me to bypass comprehension
+    #remove this code below. FOr now this is there to allow me to bypass comprehension
     # for p in players:
         
     #     # randomly select one of the 15 bundles to be relevant
@@ -69,7 +65,7 @@ def creating_session(subsession):
 
             
     
-    #TODO: remove this code below. FOr now this is there to allow me to bypass comprehension
+    #remove this code below. FOr now this is there to allow me to bypass comprehension
     # for debugging purposes, remove this code below
     # for p in players:
     #     p.participant.Treatment = 'Sequential'
@@ -80,14 +76,6 @@ def creating_session(subsession):
     treatment1_players = [p for p in players if p.participant.Treatment == 'Binary']
     treatment2_players = [p for p in players if p.participant.Treatment == 'Sequential']
     
-    
-    def assign_groups(player_list):
-        #TODO: check that treatment assignment works well
-        
-        '''
-	    1. Each player is assigned randomly an id from 1 till N (session size//2 - given 2 mechanisms). 
-	    2. For the first 5 participants, each player is in a group with the other 4 participants. for the remaining players, their choices have no bearing on the first 5 players, but the first 5 players choies affect the available bundles of these players. (Remember that group id assignment is random.)
-        '''
                
     def assign_groups(player_list):
         group_ids = [p.participant.id_in_session for p in player_list]  # session-wide IDs
@@ -124,7 +112,6 @@ class Player(BasePlayer):
     # Data quality. 
     #browser used by the participant This variable is saved in the demographics page.
     browser = models.StringField(blank=True) 
-    # logs how often user clicked out of the page #TODO: ensure that this is added to all the pages
     blur_event_counts = models.StringField(initial=0, blank=True) 
     
     
@@ -198,7 +185,6 @@ class MyBasePage(Page):
 class Consent(Page):   
     @staticmethod
     def before_next_page(player: Player, timeout_happened=False):
-        # TODO: in prolific use https://.../room/your_prolific_study?participant_label={{%PROLIFIC_PID%}}
         player.prolific_id = player.participant.label #save prolific id
 
 

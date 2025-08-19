@@ -1646,7 +1646,6 @@ class Revisit_Difficult_rank5(MyBasePage):
         player.participant.Random_bundle = f"{difficulty}_{rank}"
 
 
-#TODO: fix bug. in the mechanism pages, clicking the mechanism button multiple times opens multiple popups
 
 
 class Revisit_complete(MyBasePage):
@@ -1732,8 +1731,6 @@ class Revisit_complete(MyBasePage):
 
 
 
-# TODO: randomize whether mechanism or attributes comes first  
-#TODO: discuss. I really dont like the ordinality pages. I think they are unnecessary and unintuitive. 
 pages_Attributes = [
     Attributes_explanation,
     Attributes_rank, Attributes_rank_cardinality, 

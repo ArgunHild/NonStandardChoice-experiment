@@ -54,12 +54,12 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 120
+    Round_length = 120 
     Timer_text = "Time left to complete this round:" 
     
     Instructions_general_path = "_templates/global/Instructions.html"
 
-    Return_redirect = "https://www.wikipedia.org/" #TODO: adjust redirect
+    Return_redirect = "https://www.wikipedia.org/" 
     
     # Task instruction paths
     Emotion_template = "_templates/global/Task_templates/Emotion.html"
@@ -113,23 +113,23 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     # Demographics
     prolific_id = models.StringField(default=str("None")) #prolific id, will be fetched automatically.
-    age = models.IntegerField(blank=False, #TODO: remove blank=True
+    age = models.IntegerField(blank=False, 
                                 label="Age", min=18, max=100)
-    gender = models.StringField(blank=False, #TODO: remove blank=True
+    gender = models.StringField(blank=False, 
                                 label='Gender at birth',
                                 choices=['Male', 'Female', 'Other/Prefer not to say'], widget=widgets.RadioSelect)
-    education = models.StringField(blank=False, #TODO: remove blank=True
+    education = models.StringField(blank=False, 
                                 label = 'Education level',
                                    choices=['Haven’t graduated high school','GED','High school graduate','Bachelors','Masters','Professional degree (JD, MD, MBA)','Doctorate', 'Other'], widget=widgets.RadioSelect) 
     # education = models.StringField(label = 'Education level',
     #                                choices=['High school or lower','Bachelors degree','Masters degree','PhD','Other'], widget=widgets.RadioSelect) 
     
-    employment = models.StringField(blank=False, #TODO: remove blank=True
+    employment = models.StringField(blank=False, 
                                 label='Employment status',
                                     choices=['Employed full-time', 'Employed part-time', 'Self-employed', 'Out of work, or seeking work',
                                              'Student', 'Out of labor force (e.g. retired or parent raising one or more children)'], widget=widgets.RadioSelect)
     
-    income = models.StringField(blank=False, #TODO: remove blank=True
+    income = models.StringField(blank=False, 
                                 label='Approximately, what was your <strong>total household income</strong> in the last year, before taxes?',
                             choices=['$0-$10.000', '$10.000-$20.000','$20.000-$30.000','$30.000-$40.000','$40.000-$50.000','$50.000-$60.000',
                                      '$50.000-$75.000', '$75.000-$100.000', '$100.000-$150.000', '$150.000-$200.000', '$200.000+', 'Prefer not to answer',
@@ -265,7 +265,6 @@ class Game_1(MyBasePage):
         calculate_bonus(player, 0)
 
 class Game_2(MyBasePage):
-    #TODO: make sure player doesnt see this page if there are only 1 task in his bundle
     extra_fields = ['Game_2_performance'] 
     form_fields = MyBasePage.form_fields + extra_fields
     
@@ -305,7 +304,6 @@ class Game_2(MyBasePage):
         calculate_bonus(player, 2)
 
 class Game_3(MyBasePage):
-    #TODO: make sure player doesnt see this page if there are only 2 tasks in his bundle
     extra_fields = ['Game_3_performance'] 
     form_fields = MyBasePage.form_fields + extra_fields
     
@@ -473,7 +471,6 @@ class Results2(MyBasePage):
         final_bundle = f'{bundle_1}+{bundle_2}+{bundle_3}'
         
         variables['Final_bundle'] = final_bundle
-        #TODO: test this for multiple different bundle sizes i.e. if there are 2 or 1 bundle only
         if bundle_2 and bundle_3:
             Performance_Text = f'''
             <ol>
@@ -529,7 +526,6 @@ class Results2(MyBasePage):
     
     
 class Demographics(MyBasePage):
-    # TODO: move demographics to the end of the experiment
     extra_fields = ['age', 'gender', 'education', 'employment', 'income'] 
     form_fields = MyBasePage.form_fields + extra_fields
 
@@ -545,6 +541,5 @@ class Demographics(MyBasePage):
 class Study_complete(MyBasePage):
     pass
         
-#TODO: finish the study complete page
 page_sequence = [Game_1, Game_2, Game_3, Demographics, ResultsWaitPage,
                  Results, Study_complete]

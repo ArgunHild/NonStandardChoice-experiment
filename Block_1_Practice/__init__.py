@@ -6,17 +6,12 @@ doc = """
 Your app description
 """
 
-#TODO: create two rounds of trial stages each 180 seconds
-#TODO: create more games for the emotion recognition
-#TODO randomize the order of mechanism and attribute-survey.
-# TODO: market level outcomes app: Add WTA questions for 1 out of 15 outcomes (for now)
-
 class C(BaseConstants):
     NAME_IN_URL = 'Practice'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 1200 #TODO: adjust time to 120 seconds
+    Round_length = 120
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
@@ -46,7 +41,7 @@ class C(BaseConstants):
     Max_Emotion = 10      # TODO: Make dynamic based on actual task settings
 
     Bonus_cutoffs = {
-        'Quiz': 1, #TODO: adjust these
+        'Quiz': 1, #TODO: [Practice stage cutoffs] adjust these
         'Emotion': 1,
         'Math': 1,
         'Spot': 1,
@@ -330,7 +325,7 @@ class Practice_Results(Page):
 # page_sequence = [Spot_instructions, Spot,
 #                  Spot_instructions_2, Spot_2,
 #                  Practice_Results] 
-#TODO: uncomment below
+
 page_sequence = [Quiz_instructions, Quiz, Emotion_instructions, Emotion, Math_instructions, Math, Spot_instructions, Spot,
                 Quiz_instructions_2, Quiz_2, Emotion_instructions_2, Emotion_2, Math_instructions_2, Math_2, Spot_instructions_2, Spot_2,
                 Practice_Results] 
