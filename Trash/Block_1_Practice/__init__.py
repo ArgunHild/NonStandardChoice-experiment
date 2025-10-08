@@ -40,6 +40,7 @@ class C(BaseConstants):
     Max_Spot = 10         # TODO: Make dynamic based on actual task settings
     Max_Emotion = 10      # TODO: Make dynamic based on actual task settings
 
+    #TODO: no more cutoffs for practice.
     Bonus_cutoffs = {
         'Quiz': 1, #TODO: adjust these
         'Emotion': 1,

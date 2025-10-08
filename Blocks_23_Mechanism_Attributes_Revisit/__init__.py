@@ -209,18 +209,20 @@ def calculate_task_scores(player):
     
     '''
     
-    score_CognitiveEase = player.cardinality_Dimension_1
-    score_Engagement = player.cardinality_Dimension_2
+    score_CognitiveEase = player.cardinality_Dimension_1 # e.g., 10 - Cognitive ease is most improtant for this player...
+    score_Engagement = player.cardinality_Dimension_2 # e.g., 1 - Engagement is least important for this player...
     score_Confidence = player.cardinality_Dimension_3
     score_TimeEfficiency = player.cardinality_Dimension_4
     
     # weight scores
-    total_score = score_CognitiveEase + score_Engagement + score_Confidence + score_TimeEfficiency
-    score_CognitiveEase /= total_score
-    score_Engagement /= total_score
-    score_Confidence /= total_score
-    score_TimeEfficiency /= total_score
+    total_score = score_CognitiveEase + score_Engagement + score_Confidence + score_TimeEfficiency #sum of all scores, for normalization
+    weight_CognitiveEase = score_CognitiveEase / total_score # weight for this attribute 
+    weight_Engagement = score_Engagement / total_score
+    weight_Confidence = score_Confidence / total_score
+    weight_TimeEfficiency = score_TimeEfficiency / total_score
     
+    # E.g., Quiz scores for each of the attributes. Order: CognitiveEase, Engagement, Confidence, TimeEfficiency
+    ## The higher the cardinality the better the task along this dimension
     Quiz_scores = [player.cardinality_Dimension_CognitiveEase_Quiz, player.cardinality_Dimension_Engagement_Quiz,
                    player.cardinality_Dimension_Confidence_Quiz, player.cardinality_Dimension_TimeEfficiency_Quiz]
     MathMemory_scores = [player.cardinality_Dimension_CognitiveEase_MathMemory, player.cardinality_Dimension_Engagement_MathMemory,
@@ -231,10 +233,10 @@ def calculate_task_scores(player):
                             player.cardinality_Dimension_Confidence_SpotTheDifference, player.cardinality_Dimension_TimeEfficiency_SpotTheDifference]
     
     # calculate weighted scores
-    Quiz_scores = [score_CognitiveEase * Quiz_scores[0], score_Engagement * Quiz_scores[1], score_Confidence * Quiz_scores[2], score_TimeEfficiency * Quiz_scores[3]]
-    MathMemory_scores = [score_CognitiveEase * MathMemory_scores[0], score_Engagement * MathMemory_scores[1], score_Confidence * MathMemory_scores[2], score_TimeEfficiency * MathMemory_scores[3]]
-    EmotionRecognition_scores = [score_CognitiveEase * EmotionRecognition_scores[0], score_Engagement * EmotionRecognition_scores[1], score_Confidence * EmotionRecognition_scores[2], score_TimeEfficiency * EmotionRecognition_scores[3]]
-    SpotTheDifference_scores = [score_CognitiveEase * SpotTheDifference_scores[0], score_Engagement * SpotTheDifference_scores[1], score_Confidence * SpotTheDifference_scores[2], score_TimeEfficiency * SpotTheDifference_scores[3]]
+    Quiz_scores = [weight_CognitiveEase * Quiz_scores[0], weight_Engagement * Quiz_scores[1], weight_Confidence * Quiz_scores[2], weight_TimeEfficiency * Quiz_scores[3]]
+    MathMemory_scores = [weight_CognitiveEase * MathMemory_scores[0], weight_Engagement * MathMemory_scores[1], weight_Confidence * MathMemory_scores[2], weight_TimeEfficiency * MathMemory_scores[3]]
+    EmotionRecognition_scores = [weight_CognitiveEase * EmotionRecognition_scores[0], weight_Engagement * EmotionRecognition_scores[1], weight_Confidence * EmotionRecognition_scores[2], weight_TimeEfficiency * EmotionRecognition_scores[3]]
+    SpotTheDifference_scores = [weight_CognitiveEase * SpotTheDifference_scores[0], weight_Engagement * SpotTheDifference_scores[1], weight_Confidence * SpotTheDifference_scores[2], weight_TimeEfficiency * SpotTheDifference_scores[3]]
     
     player.score_Quiz = sum(Quiz_scores)
     player.score_MathMemory = sum(MathMemory_scores)
@@ -275,7 +277,7 @@ def calculate_bundle_scores(player, difficulty, rank):
     for bundle in Available_bundles:
         # Split bundle into tasks (assuming tasks are separated by " + ")
         tasks = bundle.split(" + ")
-        
+        # TODO: do a print statement and checkout whether this is working properly...
         # Compute bundle score
         total_score = 0
         task_types = set()  # To track unique task types
@@ -286,15 +288,16 @@ def calculate_bundle_scores(player, difficulty, rank):
 
             # Get task score from the dictionary
             task_score = task_scores.get(base_task, 0)  # Default to 0 if task not found
-            total_score += task_score
+            total_score += task_score #calculate the total score of the tasks in the bundle by summing them.
         # # print('total score before variety', total_score)
         # # print('variety', score_variety)
         # Apply variety modifier
-        if len(tasks)>1:
+        if len(tasks)>1: #if there is more than one task in the bundle with same task type e.g., math_3 and Math_2
+            #if someone likes variety, score_variety = 1.2, if they dislike variety 0.8
             if len(task_types) > 1:  # Tasks are different
-                total_score *= score_variety
+                total_score *= score_variety #if they like variety -> total score will be multiplied by 1.2; if they dislike (0.8), multiply by 0.8
             else:  # Tasks are the same
-                total_score *= (1 - score_variety)
+                total_score *= (2 - score_variety) #if they like variety -> total score will be multiplied by 0.8; if they dislike (0.8), multiply by 1.2
             # # print('total score after variety', total_score)
 
         # Store score in rank dictionary
@@ -319,9 +322,10 @@ class C(BaseConstants):
     Instructions_revisit_path = "_templates/global/Instructions_revisit.html"
     Instructions_Example_Games_path = "_templates/global/Example_games.html"
      
-    Comprehension_password = 'MARGUN' #if changed here, needs to be changed in the js.js as well
     
-    Bonus_max = 7.5 #TODO: adjust bonus
+    Completion_fee = 5 
+    Bonus_max_practice = 4.50 
+    Bonus_max = 20 
 
     
     # bundle icons
@@ -559,7 +563,8 @@ class Player(BasePlayer):
     Performance_final_task_Attempts = models.IntegerField(blank=True, min=0, max=100)
     Earnings_final_task = models.FloatField()
     
-    ## Dimension scores
+    ## Dimension scores. 
+    ### Cardinalities are between 1 and 10
     ranking_order = models.StringField(blank=True)  #TODO: remove blank 
     cardinality_Dimension_1 = models.IntegerField(blank=True)  #Cognitive Ease  #TODO: remove blank 
     cardinality_Dimension_2 = models.IntegerField(blank=True) # engagement  #TODO: remove blank 
@@ -579,6 +584,17 @@ class Player(BasePlayer):
     )
     
     ## Task_dimension scores
+    ### Cardinalities are between 1 and 10
+    '''
+    1. Cognitive Ease: How effortless the game felt—how little mental effort, memory load, or switching between steps it required.
+        - Higher score -> better i.e., Least mentally exhausting gets top score
+    2. Engagement: How enjoyable or stimulating the game felt—whether it was fun or kept your interest.
+        - Higher score -> better i.e., Most engaging gets top score
+    3. Confidence: How sure you felt that you could do the game well.
+        - Higher score -> better i.e., Most confident gets top score
+    4. Time Efficiency: How quick and smooth the game felt—how long it took and how many clicks it needed.
+        - Higher score -> better i.e., Fewest mouse-clicks gets top score
+    '''
     ranking_order_CognitiveEase = models.StringField(blank=True) # TODO: remove all blank trues
     ranking_order_Engagement = models.StringField(blank=True) #
     ranking_order_Confidence = models.StringField(blank=True) #
@@ -708,7 +724,7 @@ class Player(BasePlayer):
             'I receive the bonus just for completing all tasks, regardless of score.'],
         ],
         # initial=True, #TODO: remove initial true
-        label='What must happen for you to receive the bonus of XX EUR?', #TODO: make bonus amount dynamic
+        label='What must happen for you to receive the bonus of 20 EUR?', #TODO: Adjust if changing bonus
         widget=widgets.RadioSelect,
     )
 
@@ -719,7 +735,7 @@ class Player(BasePlayer):
             [True,  '≥ 75 % correct'],   # ✅ correct
         ],
         # initial=True, #TODO: remove initial true
-        label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?',
+        label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?', #TODO: adjust if percentages have changed.
         widget=widgets.RadioSelect,
     )
     # -----------------------------------------------------------------
@@ -1069,15 +1085,15 @@ class Comprehension_check_2(MyBasePage):
         # if player has answered a question wrong then I save it in a string
         wrong_answers = ''
         if not player.Comprehension_question_1:
-            player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
+            # player.Comprehension_question_1 = None #reset player answer so it doesnt show up in the next page
             wrong_answers+= 'first question'
         if not player.Comprehension_question_2:
             if not wrong_answers =='': wrong_answers += ', '
-            player.Comprehension_question_2 = None
+            # player.Comprehension_question_2 = None
             wrong_answers+= 'second question'
         if not player.Comprehension_question_3:
             if not wrong_answers =='': wrong_answers += ', '
-            player.Comprehension_question_3 = None
+            # player.Comprehension_question_3 = None
             wrong_answers+= 'third question'
         
         player.Comprehension_wrong_answers_2 = wrong_answers
@@ -1085,9 +1101,11 @@ class Comprehension_check_2(MyBasePage):
         # save at the participant level
         if player_passed_comprehension:
             player.participant.vars['Comprehension_passed'] = True
+        else:
+            player.participant.vars['Comprehension_passed'] = False
             
 class Comprehension_check_3(MyBasePage):
-    extra_fields = ['Comprehension_question_1', 'Comprehension_question_2', 'Comprehension_question_3', 'Comprehension_password']
+    extra_fields = []
     form_fields = MyBasePage.form_fields + extra_fields    
 
     @staticmethod
@@ -1504,11 +1522,18 @@ def get_variables_for_template_revisit(player: Player, rank: int, difficulty: st
     
     mechanism_outcome = getattr(player, f'{difficulty}_rank{rank}_choice')
 
-    # Try to decode only if it starts and ends with a quote
-    if isinstance(mechanism_outcome, str) and mechanism_outcome.startswith('"') and mechanism_outcome.endswith('"'):
-        mechanism_outcome = ast.literal_eval(mechanism_outcome)
+    # # Try to decode only if it starts and ends with a quote
+    # if isinstance(mechanism_outcome, str) and mechanism_outcome.startswith('"') and mechanism_outcome.endswith('"'):
+    #     mechanism_outcome = ast.literal_eval(mechanism_outcome)
+
+    # Try to get rid of the quotation marks
+    mechanism_outcome = str(mechanism_outcome).strip('"')
+    available_bundles_scores = {str(k).strip('"'): v for k, v in available_bundles_scores.items()}
+    
+    # remove the mechanism outcome from available bundles to offer to the participant.
+    if mechanism_outcome in available_bundles_scores:
+        available_bundles_scores.pop(mechanism_outcome)
         
-    available_bundles_scores.pop(mechanism_outcome, None)  # Remove the mechanism outcome bundle
     offered_bundle = max(available_bundles_scores, key=available_bundles_scores.get)
     
     # print(f"Mechanism Outcome: {mechanism_outcome}")
@@ -1733,15 +1758,16 @@ class Revisit_complete(MyBasePage):
 
 pages_Attributes = [
     Attributes_explanation,
-    Attributes_rank, Attributes_rank_cardinality, 
     Attributes_tasks_Dimension_1, Attributes_tasks_Dimension_1_cardinality,
     Attributes_tasks_Dimension_2, Attributes_tasks_Dimension_2_cardinality,
     Attributes_tasks_Dimension_3, Attributes_tasks_Dimension_3_cardinality,
     Attributes_tasks_Dimension_4, Attributes_tasks_Dimension_4_cardinality,
+    Attributes_rank, Attributes_rank_cardinality, 
     Attributes_variety
                     ]
 
 pages_mechanism = [
+    #TODO: add a wait page explain that before mechanism can begin we have to wait for your group members to catch up.
     Mechanism_IntroComplexity,  
     Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
     Mechanism_Easy_rank1, 
@@ -1769,6 +1795,7 @@ pages_revisit = [
     Revisit_Easy_rank1, Revisit_Easy_rank2, Revisit_Easy_rank3, Revisit_Easy_rank4, Revisit_Easy_rank5,
     Revisit_Medium_rank1, Revisit_Medium_rank2, Revisit_Medium_rank3, Revisit_Medium_rank4, Revisit_Medium_rank5,
     Revisit_Difficult_rank1, Revisit_Difficult_rank2, Revisit_Difficult_rank3, Revisit_Difficult_rank4, Revisit_Difficult_rank5,
+    #TODO: add a waitpage explain that we wait for others to catch up. 
     Revisit_complete
 ]
 

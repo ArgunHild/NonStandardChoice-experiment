@@ -31,21 +31,22 @@ class C(BaseConstants):
     Quiz_instructions = "_templates/global/Task_instructions/Quiz.html"
     Spot_the_difference_instructions = "_templates/global/Task_instructions/Spot.html"
         
-    Bonus_1 = 0.5 #TODO: adjust the bonus for practice stage. Make sure participant knows about the bonus in the instructions.
-    
+   
+    Completion_fee = 5 
+    Bonus_max_practice = 4.5
+    Bonus_max = 20 
 
         # Max achievable scores (hardcoded for now)
-    Max_Math = 24         # TODO: Make dynamic based on actual task settings
-    Max_Quiz = 30         # TODO: Make dynamic based on actual task settings
-    Max_Spot = 10         # TODO: Make dynamic based on actual task settings
-    Max_Emotion = 10      # TODO: Make dynamic based on actual task settings
-
-    Bonus_cutoffs = {
-        'Quiz': 1, #TODO: [Practice stage cutoffs] adjust these
-        'Emotion': 1,
-        'Math': 1,
-        'Spot': 1,
-    }
+    Practice_bonus_Math = 15
+    Practice_bonus_Emotion = 40
+    Practice_bonus_Quiz = 15
+    Practice_bonus_Spot = 40
+    
+    # Max scores
+    Max_Math = 24
+    Max_Quiz = 30
+    Max_Spot = 10
+    Max_Emotion = 10
 
 class Subsession(BaseSubsession):
     pass
@@ -63,10 +64,10 @@ class Player(BasePlayer):
     Math_Attempts = models.IntegerField(initial=0) #correct answers
     Spot = models.IntegerField(initial=0) #correct answers
     
-    Bonus_Quiz = models.FloatField(initial=0)
-    Bonus_Emotion = models.FloatField(initial=0)
-    Bonus_Math = models.FloatField(initial=0)
-    Bonus_Spot = models.FloatField(initial=0)
+    # Bonus_Quiz = models.FloatField(initial=0)
+    # Bonus_Emotion = models.FloatField(initial=0)
+    # Bonus_Math = models.FloatField(initial=0)
+    # Bonus_Spot = models.FloatField(initial=0)
 
     Quiz_2 = models.IntegerField(initial=0) #correct answers
     Emotion_2 = models.IntegerField(initial=0) #correct answers
@@ -74,10 +75,13 @@ class Player(BasePlayer):
     Math_Attempts_2 = models.IntegerField(initial=0) #correct answers
     Spot_2 = models.IntegerField(initial=0) #correct answers
     
-    Bonus_Quiz_2 = models.FloatField(initial=0)
-    Bonus_Emotion_2 = models.FloatField(initial=0)
-    Bonus_Math_2 = models.FloatField(initial=0)
-    Bonus_Spot_2 = models.FloatField(initial=0)
+    Practice_bonus = models.FloatField(initial=0)
+    Practice_bonus_task = models.StringField(initial='') 
+    
+    # Bonus_Quiz_2 = models.FloatField(initial=0)
+    # Bonus_Emotion_2 = models.FloatField(initial=0)
+    # Bonus_Math_2 = models.FloatField(initial=0)
+    # Bonus_Spot_2 = models.FloatField(initial=0)
 
 # PAGES
 class Quiz_instructions(Page):
@@ -284,13 +288,46 @@ class Practice_Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         'calculate bonuses'
-        for game in ['Quiz', 'Emotion', 'Math', 'Spot']:
-            if getattr(player, game) >= C.Bonus_cutoffs[game]:
-                setattr(player, f'Bonus_{game}', C.Bonus_1)
-            else:
-                setattr(player, f'Bonus_{game}', 0)
+        randomly_selected_game = random.choice(['Quiz', 'Emotion', 'Math', 'Spot'])
+        randomly_selected_order = random.choice([1, 2])
+
+        game = randomly_selected_game + ('' if randomly_selected_order == 1 else '_2')
         
-        player.participant.Bonus_1 = sum([getattr(player, f'Bonus_{game}') for game in ['Quiz', 'Emotion', 'Math', 'Spot']])
+        bonus_lookup = {
+            'Quiz': C.Practice_bonus_Quiz,
+            'Emotion': C.Practice_bonus_Emotion,
+            'Math': C.Practice_bonus_Math,
+            'Spot': C.Practice_bonus_Spot,
+            'Quiz_2': C.Practice_bonus_Quiz,
+            'Emotion_2': C.Practice_bonus_Emotion,
+            'Math_2': C.Practice_bonus_Math,
+            'Spot_2': C.Practice_bonus_Spot,
+        }
+
+        score = getattr(player, game)
+        bonus = score * bonus_lookup[game] 
+        
+        
+        
+        player.Practice_bonus_task = f"{randomly_selected_game}_{randomly_selected_order}"
+        player.Practice_bonus = bonus
+        player.participant.Bonus_1 = bonus
+        player.participant.Bonus_1_task = player.Practice_bonus_task
+        print(f"the randomly selected rond: {player.Practice_bonus_task}")
+        print(f"the bonus is: {bonus}; players score was {score} and the relevant bonus lookup is {bonus_lookup[game]}")
+        
+        player.Practice_bonus = bonus
+        
+        Game_lookup = {
+            'Quiz_1': 'Quiz',
+            'Emotion_1': 'Emotion Recognition',
+            'Math_1': 'MathMemory',
+            'Spot_1': 'SpotTheDifference',
+            'Quiz_2': 'Quiz',
+            'Emotion_2': 'Emotion Recognition',
+            'Math_2': 'MathMemory',
+            'Spot_2': 'SpotTheDifference',
+        }
         
         variables = {
             'hidden_fields': [],
@@ -303,10 +340,9 @@ class Practice_Results(Page):
             'Math_2': player.Math_2,
             'Spot_2': player.Spot_2,
 
-            'Max_Quiz': C.Max_Quiz,
-            'Max_Emotion': C.Max_Emotion,
-            'Max_Math': C.Max_Math,
-            'Max_Spot': C.Max_Spot,
+            'randomly_selected_order': randomly_selected_order,
+            'Selected_game': Game_lookup[player.Practice_bonus_task],
+            'Practice_bonus': bonus,
             #
             # 'We do not display bonuses at this stage to avoid any sort of wealth effects.'
             # 'QuizBonus': player.Bonus_Quiz + player.Bonus_Quiz_2,

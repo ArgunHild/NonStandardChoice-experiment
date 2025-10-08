@@ -45,7 +45,7 @@ PARTICIPANT_FIELDS = [
     'task_order',
     'Treatment', 'Group', 'ID_in_Group', 'ID_in_Treatment',
     'Random_bundle', 'Final_bundle',
-    'Bonus_1', 'Bonus_2',
+    'Bonus_1','Bonus_1_task',  'Bonus_2',
     'Total_bonus', 'Total_payment',
 ]
 

@@ -20,13 +20,14 @@ function move_to_alert(targetDiv){
 }
 
 function next_button_comprehension(){
-    field1_name = 'id_Comprehension_password'
-    var field1 = document.getElementById(field1_name).value;
-    if (field1=='MARGUN'){
+//     field1_name = 'id_Comprehension_password'
+//     var field1 = document.getElementById(field1_name).value;
+//     if (field1=='MARGUN'){
+//     document.getElementById("submit_button").click();
+// }
+// else{
+//     var targetDiv = document.getElementById("raiseHand");
+//     move_to_alert(targetDiv)
+// }
     document.getElementById("submit_button").click();
-    }
-    else{
-    var targetDiv = document.getElementById("raiseHand");
-    move_to_alert(targetDiv)
-    }
 }

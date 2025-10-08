@@ -1,6 +1,5 @@
 from otree.api import *
 import random
-#TODO: where to put the wait pages?
 doc = '''
 n check
 - Treatment: which treatment they are assigned to
@@ -18,7 +17,10 @@ class C(BaseConstants):
     
     Instructions_general_path = "_templates/global/Instructions.html"
     
-    Comprehension_password = 'MARGUN'
+
+    Completion_fee = 5 
+    Bonus_max_practice = 4.5
+    Bonus_max = 20
 
     
 class Subsession(BaseSubsession):
@@ -116,49 +118,8 @@ class Player(BasePlayer):
     
     
     
-    # 'Comprehension and attention checks'
-    # Comprehension_password = models.StringField(blank=False,
-    #                                     label='Password')
-    # #whether the player got the comprehension questions rigt at the first try
-    # Comprehension_1 = models.BooleanField(initial=True) 
-    # #In the first comprehension check, the questions the player has answered wrong are stored as a string below.
-    # Comprehension_wrong_answers = models.StringField(initial='') 
-    # Comprehension_wrong_answers_2 = models.StringField(initial='') 
-    # Comprehension_2 = models.BooleanField(initial=True) 
     
-    # Comprehension_question_1 = models.BooleanField(choices=[
-    #         [True,'Twice'], # Correct answer here
-    #         [False, 'Once'],
-    #         [False, 'Three times'],],
-    #     initial=True,
-    #     label = 'How many times will you practice each Game during the learning stage?',
-    #     widget=widgets.RadioSelect)
-    # Comprehension_question_2 = models.BooleanField(choices=[
-    #     [True, 'Performance in the learning stage'],  
-    #     [False, 'Number of Games shown'],
-    #     [False, 'Number of times you click'],],
-    #     initial=True,
-    #     label = 'What contributes to your final bonus payment?',
-    #     widget=widgets.RadioSelect)
-    # Comprehension_question_3 = models.BooleanField(choices=[
-    #     [True, 'Right before the main stage begins'],
-    #     [False, 'At the very end of the experiment'],
-    #     [False, 'During the first practice Game'],],
-    #     initial=True,
-    #     label = 'When will you receive more detailed information about the main stage choices?',
-    #     widget=widgets.RadioSelect)
-    
-    # Attention_1 = models.BooleanField(
-    # choices=[
-    #     [False, 'Lion'],
-    #     [False, 'Elephant'],
-    #     [True, 'Unicorn'],
-    #     [False, 'Giraffe']
-    # ],
-    #     initial=True,
-    #     label='Please select the animal described in the text.',
-    #     widget=widgets.RadioSelect
-    # )
+
     
     
     
@@ -202,8 +163,5 @@ class Instructions(MyBasePage):
 #     def before_next_page(player: Player, timeout_happened=False):
 #         player.participant.vars['Attention_1'] = player.Attention_1
 
-
 page_sequence = [Consent, Instructions,
-                #  Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
-                #  Attention_check_1
                 ]

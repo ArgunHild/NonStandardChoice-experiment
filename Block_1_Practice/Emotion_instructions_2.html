@@ -13,6 +13,16 @@
     <!-- Game content (fully styled in included file) -->
     {{ include C.Emotion_instructions }}
 
+        <div class="section-box box-warn">
+    <div class="section-header">
+        <div class="icon">🎯</div>
+        <h3>Bonus rule</h3>
+    </div>
+    <p>
+        If this is randomly selected, for each correct answer, you will earn a bonus of <strong>{{C.Practice_bonus_Emotion}} cents</strong>.
+    </p>
+    </div>
+
     <!-- Hidden fields -->
     {% for field in form %}
         {% if field.name not in hidden_fields %}

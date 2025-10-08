@@ -54,7 +54,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 120 
+    Round_length = 120
     Timer_text = "Time left to complete this round:" 
     
     Instructions_general_path = "_templates/global/Instructions.html"
@@ -73,30 +73,31 @@ class C(BaseConstants):
     Spot_instructions = "_templates/global/Task_instructions/Spot.html"
 
     
-    Completion_fee = 5 #TODO: adjust completion fee
-    Bonus_max = 7.5 #TODO: adjust bonus
+    Completion_fee = 5 
+    Bonus_max_practice = 4.50 
+    Bonus_max = 20 
     
-    # TODO: minimum scores need to be adjusted
+    
     Minimum_scores = {
         "Quiz": {
-            1: 5,
-            2: 5,
-            3: 5
+            1: 8,
+            2: 14,
+            3: 17
         },
         "Math": {
-            1: 5,
-            2: 5,
-            3: 5,
+            1: 12,
+            2: 16,
+            3: 24,
         },
         "Spot": {
-            1: 5,
-            2: 5,
-            3: 5
+            1: 2,
+            2: 6,
+            3: 8
         },
         "Emotion": {
-            1: 5,
+            1: 3,
             2: 5,
-            3: 5
+            3: 8
         }        
     }
     
@@ -226,7 +227,7 @@ def calculate_bonus(player, field_num):
     
     bonus = 0
     # print('DEBUGGING:', Final_bundle, task, difficulty)
-    if performance > C.Minimum_scores[task][difficulty]:
+    if performance >= C.Minimum_scores[task][difficulty]:
         bonus = 1
     # print('DEBUGGING:', Final_bundle, task, difficulty, bonus)
     setattr(player, f'Bonus_2_{game_num}', bonus)
@@ -401,9 +402,9 @@ class Results(MyBasePage):
             passed   = getattr(player, f'Bonus_2_{game_no}') == 1
 
             status = (
-                '<span style="color:green">Yes</span>'
+                '<span style="color:green">Cutoff reached. Your performance/Cutoff:</span>'
                 if passed else
-                '<span style="color:red">No</span>'
+                '<span style="color:red">Cutoff not reached. Your performance/Cutoff:</span>'
             )
             list_items.append(
                 f'<li>{icon}: {status} '
@@ -424,14 +425,16 @@ class Results(MyBasePage):
         # ---------- payment breakdown ----------
         total_pay = (
             C.Completion_fee
-            + player.participant.Bonus_1
+            + player.participant.Bonus_1/100
             + player.Bonus_final_bundle
         )
+        
+        print(total_pay, player.participant.Bonus_1/100, player.Bonus_final_bundle)
 
         v['Payments'] = (
             f'<ol>'
             f'<li>Participation fee: {C.Completion_fee} €</li>'
-            f'<li>Practice-stage bonus: {player.participant.Bonus_1} €</li>'
+            f'<li>Practice-stage bonus: {player.participant.Bonus_1/100} €</li>'
             f'<li>Bundle bonus: {player.Bonus_final_bundle} €</li>'
             f'</ol>'
             f'<strong>Total payment: {total_pay} €</strong>'
@@ -542,4 +545,4 @@ class Study_complete(MyBasePage):
     pass
         
 page_sequence = [Game_1, Game_2, Game_3, Demographics, ResultsWaitPage,
-                 Results, Study_complete]
+                 Results , Study_complete]

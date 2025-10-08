@@ -31,29 +31,40 @@
             <tbody>
                 <tr>
                     <td><span class="icon">🔢</span> MathMemory</td>
-                    <td>{{ Math_1 }} / {{ Max_Math }} pts</td>
-                    <td>{{ Math_2 }} / {{ Max_Math }} pts</td>
+                    <td>{{ Math_1 }} / {{ C.Max_Math }} pts</td>
+                    <td>{{ Math_2 }} / {{ C.Max_Math }} pts</td>
                 </tr>
                 <tr>
                     <td><span class="icon">📚</span> Quiz</td>
-                    <td>{{ Quiz_1 }} / {{ Max_Quiz }} pts</td>
-                    <td>{{ Quiz_2 }} / {{ Max_Quiz }} pts</td>
+                    <td>{{ Quiz_1 }} / {{ C.Max_Quiz }} pts</td>
+                    <td>{{ Quiz_2 }} / {{ C.Max_Quiz }} pts</td>
                 </tr>
                 <tr>
                     <td><span class="icon">🔍</span> Spot the Difference</td>
-                    <td>{{ Spot_1 }} / {{ Max_Spot }} pts</td>
-                    <td>{{ Spot_2 }} / {{ Max_Spot }} pts</td>
+                    <td>{{ Spot_1 }} / {{ C.Max_Spot }} pts</td>
+                    <td>{{ Spot_2 }} / {{ C.Max_Spot }} pts</td>
                 </tr>
                 <tr>
                     <td><span class="icon">😃</span> Emotion Recognition</td>
-                    <td>{{ Emotion_1 }} / {{ Max_Emotion }} pts</td>
-                    <td>{{ Emotion_2 }} / {{ Max_Emotion }} pts</td>
+                    <td>{{ Emotion_1 }} / {{ C.Max_Emotion }} pts</td>
+                    <td>{{ Emotion_2 }} / {{ C.Max_Emotion }} pts</td>
                 </tr>
             </tbody>
         </table>
 
     </div>
 
+        <!-- Next Steps -->
+    <div class="section-box box-warn">
+        <div class="section-header">
+            <div class="icon">💰</div>
+            <h3>Bonus</h3>
+        </div>
+        <p>
+            Round {{randomly_selected_order}} of the {{Selected_game}} game has been randomly selected to determine your bonus from this part.
+            You earned a total of <strong>{{ Practice_bonus }} cents</strong> in this game, which will be added to your final payment.
+        </p>
+    </div>
 
     <!-- Next Steps -->
     <div class="section-box box-calm">
@@ -69,6 +80,9 @@
             Click the "Continue" button below to proceed.
         </p>
     </div>
+
+
+
 
     <div class="buttons-container" style="text-align: center; margin-top: 30px;">
         <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>

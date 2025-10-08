@@ -11,7 +11,7 @@
     <h2 class="section-title">Comprehension Check</h2>
     <hr class="section-divider">
 
-    <div class="section-box box-warn">
+    <div class="section-box box-info">
         <div class="section-header">
             <div class="icon">⚠️</div>
             <h3>Second Attempt Failed</h3>
@@ -21,16 +21,34 @@
             <strong>{{ Comprehension_wrong_answers }}</strong>.
         </p>
         <p>
-            You have failed the comprehension questions twice.
-            Please raise your hand to get the experimenter's attention.
+            You have failed the comprehension questions twice. Please read below the correct answers carefully before proceeding to the next part of the experiment.
         </p>
+    </div>
+
+        <div class="section-box box-warn">
+        <div class="section-header">
+            <div class="icon">✅</div>
+            <h3>                       <strong>Correct answers:</strong></h3>
+        </div>
+
+            <ul>
+                <li>Question 1. At the end you will work on a bundle. How is this bundle selected? <br>
+                    <strong>Correct answer:</strong>The computer will randomly pick and implement one of the choices I faced and the bundle I chose in that menu.
+                </li> <br>
+                <li>Question 2.  What must happen for you to receive the bonus of 20 EUR? ? <br>
+                    <strong>Correct answer:</strong>I must reach the required score on every game in the selected bundle.
+                </li> <br>
+                <li>Question 3.  If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right? <br>
+                    <strong>Correct answer:</strong>≥ 75 % correct (At least 75%).
+                </li>
     </div>
 
 
 
 
+
     <!-- Comprehension form fields (readonly for review or fallback handling) -->
-    <div class="section-box box-info">
+    <!-- <div class="section-box box-info">
         <div class="section-header">
             <div class="icon">🧪</div>
             <h3>Comprehension Questions</h3>
@@ -41,7 +59,7 @@
                 {{ formfield field.name }}
             {% endif %}
         {% endfor %}
-    </div>
+    </div> -->
 
     <div style="display:none">
         {% for field in form %}
@@ -51,9 +69,7 @@
         {% endfor %}
     </div>
 
-    <div id="raiseHand" style="color: red; font-weight: bold; font-size: 1.2em; display: none;">
-        <p>Please raise your hand to get the experimenter's attention.</p>
-    </div>
+
     </div>
 
     <div class="buttons-container">
