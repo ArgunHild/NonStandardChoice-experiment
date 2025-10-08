@@ -263,34 +263,36 @@ def calculate_bundle_scores(player, difficulty, rank):
     # Retrieve individual task scores
     task_scores = {
         "Quiz": player.score_Quiz,
-        "MathMemory": player.score_MathMemory,
-        "EmotionRecognition": player.score_EmotionRecognition,
-        "SpotTheDifference": player.score_SpotTheDifference
+        "Math": player.score_MathMemory,
+        "Emotion": player.score_EmotionRecognition,
+        "Spot": player.score_SpotTheDifference
     }
-    # print(f"\n task_scores: {task_scores}")
     score_variety = player.taste_variety  # Player's preference for variety
 
     # Initialize nested dictionary
     Available_bundles_scores = {}
-
+    
+    print(f"\n player's task_scores: {task_scores}")
+    print('players available bundles', Available_bundles)
+    
     # Loop through each bundle
     for bundle in Available_bundles:
-        # Split bundle into tasks (assuming tasks are separated by " + ")
-        tasks = bundle.split(" + ")
-        # TODO: do a print statement and checkout whether this is working properly...
+        tasks = [x for x in bundle.split("_") if not x.isdigit()] #bundle looks like: Math_2_Emotion_2_Spot_2
+        
+        # print('bundle', bundle, 'tasks', tasks)
         # Compute bundle score
         total_score = 0
         task_types = set()  # To track unique task types
         # # print('tasks', tasks)
         for task in tasks:
+            # print(task)
             base_task = task.split("_")[0]  # Extract task type (e.g., "Math" from "Math_3")
             task_types.add(base_task)
 
             # Get task score from the dictionary
             task_score = task_scores.get(base_task, 0)  # Default to 0 if task not found
             total_score += task_score #calculate the total score of the tasks in the bundle by summing them.
-        # # print('total score before variety', total_score)
-        # # print('variety', score_variety)
+        
         # Apply variety modifier
         if len(tasks)>1: #if there is more than one task in the bundle with same task type e.g., math_3 and Math_2
             #if someone likes variety, score_variety = 1.2, if they dislike variety 0.8
@@ -302,6 +304,7 @@ def calculate_bundle_scores(player, difficulty, rank):
 
         # Store score in rank dictionary
         Available_bundles_scores[bundle] = total_score
+        # print('Available_bundles_scores:', Available_bundles_scores, '\n')
 
 
     # Store the computed scores in the player model
@@ -1185,6 +1188,13 @@ def get_js_vars(player: Player, rank: int, difficulty: str):
         BundleIcons = get_bundle_icons(player, rank, difficulty)
     )
   
+class MechanismIntroWaitPage(WaitPage):
+    """
+    This is a wait page that is used to ensure that all players have completed
+    the tasks before proceeding to the results page.
+    """
+    body_text = "Please wait for all players to catch up before we can continue."
+
 
 class Mechanism_IntroComplexity(MyBasePage):
     @staticmethod
@@ -1671,6 +1681,13 @@ class Revisit_Difficult_rank5(MyBasePage):
         player.participant.Random_bundle = f"{difficulty}_{rank}"
 
 
+class RevisitCompleteWait(WaitPage):
+    """
+    This is a wait page that is used to ensure that all players have completed
+    the tasks before proceeding to the results page.
+    """
+    body_text = "Please wait for all players to catch up before viewing the results."
+
 
 
 class Revisit_complete(MyBasePage):
@@ -1767,7 +1784,8 @@ pages_Attributes = [
                     ]
 
 pages_mechanism = [
-    #TODO: add a wait page explain that before mechanism can begin we have to wait for your group members to catch up.
+    #TODO: Check that this works
+    MechanismIntroWaitPage,
     Mechanism_IntroComplexity,  
     Comprehension_check_1, Comprehension_check_2, Comprehension_check_3,
     Mechanism_Easy_rank1, 
@@ -1795,7 +1813,7 @@ pages_revisit = [
     Revisit_Easy_rank1, Revisit_Easy_rank2, Revisit_Easy_rank3, Revisit_Easy_rank4, Revisit_Easy_rank5,
     Revisit_Medium_rank1, Revisit_Medium_rank2, Revisit_Medium_rank3, Revisit_Medium_rank4, Revisit_Medium_rank5,
     Revisit_Difficult_rank1, Revisit_Difficult_rank2, Revisit_Difficult_rank3, Revisit_Difficult_rank4, Revisit_Difficult_rank5,
-    #TODO: add a waitpage explain that we wait for others to catch up. 
+    RevisitCompleteWait, #TODO: check that this works
     Revisit_complete
 ]
 
