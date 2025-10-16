@@ -61,7 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
         { x: 327, y: 220 }  ,
     ];
 
-    const actual_differences_farm = [
+const actual_differences_farm = [
+    { x: 106, y: 38 },
+    { x: 79,  y: 101 },
+    { x: 295, y: 191 },
+    { x: 50,  y: 222 },
+    { x: 203, y: 179 },
+    { x: 364, y: 94 },
+    { x: 274, y: 75 },
+    { x: 216, y: 93 },
+    { x: 129, y: 145 },
+    { x: 377, y: 208 },
+];
+
+    
+    const actual_differences_grannies = [
         { x: 30, y: 60 }, // Example coordinates, replace with your actual values
         { x: 82, y: 96 }  ,
         { x: 41, y: 179 }  ,
@@ -73,15 +87,55 @@ document.addEventListener('DOMContentLoaded', () => {
         { x: 151, y: 40 }  ,
         { x: 340, y: 58 }  ,
     ];
+    
+    const actual_differences_girls = [
+        { x: 69,  y: 168 },
+        { x: 145, y: 168 },
+        { x: 339, y: 194 },
+        { x: 358, y: 147 },
+        { x: 281, y: 96 },
+        { x: 378, y: 75 },
+        { x: 299, y: 46 },
+        { x: 201, y: 55 },
+        { x: 62,  y: 104 },
+        { x: 208, y: 162 },
+    ];
 
     const trial = js_vars.trial;
-    if (trial == 'trial') {
-        console.log('trial')
-        var actual_differences = actual_differences_farm;
-    }
-    else {
+    var actual_differences = actual_differences_grannies;
+    if (trial == 'trial2') {
         var actual_differences = actual_differences_elephant;
     }
+    else if (trial === 'trial3') {
+        var actual_differences = actual_differences_farm;
+    }
+    else if (trial === 'trial4') {
+        var actual_differences = actual_differences_girls;
+    }
+
+// Optional: to draw the differences on both sides
+function drawDifferencesOnBothSides() {
+    // Draw differences on right image (already positioned under the canvas)
+    ctx.fillStyle = 'red';
+    actual_differences.forEach(d => {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, 5, 0, 2 * Math.PI);
+        ctx.fill();
+    });
+
+    // Draw same markers mirrored on left image
+    const leftCanvas = document.getElementById('leftOverlayCanvas');
+    if (leftCanvas) {
+        const leftCtx = leftCanvas.getContext('2d');
+        leftCtx.fillStyle = 'red';
+        actual_differences.forEach(d => {
+            leftCtx.beginPath();
+            leftCtx.arc(d.x, d.y, 5, 0, 2 * Math.PI);
+            leftCtx.fill();
+        });
+    }
+}
+
 
     // Displayng maximum size to console to make it easy to select the correct coordinates
     img.addEventListener('load', () => {
@@ -178,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        // console.log(`Click at (${x}, ${y})`);
+        console.log(`Click at (${x}, ${y})`);
     
         // First, check if the click is near an actual difference
         if (isClickNearActualDifference(x, y)) {
@@ -214,6 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
         canvas.width = img.clientWidth;
         canvas.height = img.clientHeight;
         redrawCanvas();
+
+        // DEBUG: show actual differences on both images
+        // TODO: delete this or comment
+        drawDifferencesOnBothSides();
     };
 
     if (img.complete && img.naturalWidth) {

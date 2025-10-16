@@ -17,9 +17,17 @@
       <h3 class="instructions-title">What to expect</h3>
     </div>
     On the next few pages, you will be making a series of choices between bundles of Tasks.
+
+    Think of each page as if you are choosing from a menu.
+    <br><br>
+
     When the choice phase is over, the computer will randomly select <strong>one</strong> of those menus and the bundle you chose in that menu. You will then complete every Task in that bundle.
-    You earn a bonus of <strong>{{C.Bonus_max}}</strong> EUR <strong>only if</strong> you hit the required score on <em>every Task</em> in that bundle (see <em>Task difficulty</em> below).
-  </div> 
+    
+    You earn a bonus of <strong>{{C.Bonus_max}} EUR</strong> <strong>only if</strong> you reach the required score on <em>every Task</em> in that bundle (see <em>Task difficulty</em> below).
+    <br><br>    
+    The <strong>bonus</strong> you can earn here is <strong>large</strong>, therefore, try to choose the best fitting bundles for you.
+  </div>
+
 
 
   <!-- ────────── Mechanism explanation ────────── -->
@@ -29,17 +37,17 @@
       <h3 class="instructions-title">How to make a selection</h3>
     </div>
 
-    {% if mechanism == 'binary' %}
-        <p>You will first see a menu containing <strong>3 – 7</strong> bundles; at that point nothing is clickable.  
-        Click <em>Start&nbsp;the&nbsp;mechanism</em> when you are ready to begin.</p>
+    {% if mechanism == 'Binary' %}
+        <p>There will be a menu containing <strong>3 – 7</strong> bundles.
+        </p>
 
-        <p>After that, you will be shown <strong>two bundles at a time</strong>.  
+        <p>Once you click <em>Start&nbsp;the&nbsp;mechanism</em>, you will be shown <strong>two bundles at a time</strong>.  
         In each round simply choose the bundle you prefer.  
-        You will make a handful of these quick comparisons until the system can determine your clear favourite.</p>
+        You will make a handful of these quick comparisons until the system can determine your clear favourite based on your answers.</p>
     {% else %}
-        <p>You will first see a menu containing <strong>3 – 7</strong> bundles (nothing is clickable yet).  
-        When you are ready, click <em>Start&nbsp;the&nbsp;mechanism</em>.  
-        The same bundles will re‑appear and you can then <strong>choose the bundle you prefer</strong>.</p>
+        <p>There will be a menu containing <strong>3 – 7</strong> bundles.  
+        <p>Once you click <em>Start&nbsp;the&nbsp;mechanism</em>, 
+          the bundles will appear and you can then <strong>choose the bundle you prefer</strong>.
     {% endif %}
 
   </div>
@@ -97,9 +105,9 @@
         <tr><th>Subscript</th><th>Label</th><th>Score needed</th></tr>
       </thead>
       <tbody>
-        <tr><td>1</td><td>Easy</td><td>≥ 25 % correct</td></tr>
+        <tr><td>1</td><td>Easy</td><td>≥ 30 % correct</td></tr>
         <tr><td>2</td><td>Medium</td><td>≥ 50 % correct</td></tr>
-        <tr><td>3</td><td>Hard</td><td>≥ 75 % correct</td></tr>
+        <tr><td>3</td><td>Hard</td><td>≥ 80 % correct</td></tr>
       </tbody>
     </table>
 

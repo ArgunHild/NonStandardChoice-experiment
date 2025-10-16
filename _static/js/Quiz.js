@@ -84,7 +84,95 @@ document.addEventListener('DOMContentLoaded', function() {
         {"q": "Who painted the Sistine Chapel ceiling?", "choices": ["Michelangelo", "Raphael", "Donatello", "Leonardo da Vinci"], "answer": "Michelangelo"},
         {"q": "What is the main purpose of the operating system?", "choices": ["Run applications", "Manage hardware", "Play video games", "Browse the internet"], "answer": "Manage Inernet"},
 ];
+
+    const questions3 = [
+        {"q": "What is the largest desert in the world?", "choices": ["Sahara", "Antarctic", "Arabian", "Gobi"], "answer": "Antarctic"},
+        {"q": "Which blood type is known as the universal donor?", "choices": ["A", "B", "AB", "O negative"], "answer": "O negative"},
+        {"q": "Who developed the theory of general relativity?", "choices": ["Isaac Newton", "Albert Einstein", "Niels Bohr", "Galileo Galilei"], "answer": "Albert Einstein"},
+        {"q": "Which instrument measures atmospheric pressure?", "choices": ["Thermometer", "Barometer", "Altimeter", "Hygrometer"], "answer": "Barometer"},
+        {"q": "What is the capital city of Canada?", "choices": ["Toronto", "Vancouver", "Ottawa", "Montreal"], "answer": "Ottawa"},
+        {"q": "Which ocean lies between Africa and Australia?", "choices": ["Atlantic", "Pacific", "Indian", "Arctic"], "answer": "Indian"},
+        {"q": "Who painted the Mona Lisa?", "choices": ["Leonardo da Vinci", "Michelangelo", "Raphael", "Caravaggio"], "answer": "Leonardo da Vinci"},
+        {"q": "What does DNA stand for?", "choices": ["Deoxyribonucleic Acid", "Deoxynitric Acid", "Dynamic Nucleic Acid", "Dioxygen Nitric Acid"], "answer": "Deoxyribonucleic Acid"},
+        {"q": "What planet is known as the Red Planet?", "choices": ["Venus", "Mars", "Mercury", "Jupiter"], "answer": "Mars"},
+        {"q": "How many continents are there on Earth?", "choices": [5, 6, 7, 8], "answer": 7},
+        {"q": "Which gas do humans exhale in higher concentration than they inhale?", "choices": ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], "answer": "Carbon dioxide"},
+        {"q": "Which country invented paper?", "choices": ["Greece", "India", "China", "Egypt"], "answer": "China"},
+        {"q": "What is H2O commonly known as?", "choices": ["Hydrogen", "Water", "Oxygen", "Salt"], "answer": "Water"},
+        {"q": "What is the currency of Japan?", "choices": ["Won", "Yen", "Yuan", "Ringgit"], "answer": "Yen"},
+        {"q": "Which organ pumps blood through the body?", "choices": ["Brain", "Heart", "Lungs", "Liver"], "answer": "Heart"},
+        {"q": "What is the smallest unit of life?", "choices": ["Tissue", "Organ", "Cell", "Molecule"], "answer": "Cell"},
+        {"q": "Who was known as the 'Maid of Orléans'?", "choices": ["Marie Curie", "Joan of Arc", "Catherine the Great", "Queen Victoria"], "answer": "Joan of Arc"},
+        {"q": "Which element has the chemical symbol O?", "choices": ["Gold", "Oxygen", "Osmium", "Oxide"], "answer": "Oxygen"},
+        {"q": "What is the capital of Australia?", "choices": ["Sydney", "Canberra", "Melbourne", "Perth"], "answer": "Canberra"},
+        {"q": "What is the boiling point of water at sea level?", "choices": [50, 90, 100, 120], "answer": 100},
+        {"q": "Which animal is the largest mammal?", "choices": ["Elephant", "Blue Whale", "Giraffe", "Orca"], "answer": "Blue Whale"},
+        {"q": "What is the longest river in the world?", "choices": ["Amazon", "Nile", "Yangtze", "Mississippi"], "answer": "Nile"},
+        {"q": "Who invented the telephone?", "choices": ["Alexander Graham Bell", "Thomas Edison", "Nikola Tesla", "Guglielmo Marconi"], "answer": "Alexander Graham Bell"},
+        {"q": "What is the hardest natural material?", "choices": ["Basalt", "Obsidian", "Diamond", "Granite"], "answer": "Diamond"},
+        {"q": "How many bones are in the adult human body?", "choices": [106, 206, 256, 306], "answer": 206},
+        {"q": "What is the capital of Italy?", "choices": ["Rome", "Venice", "Milan", "Florence"], "answer": "Rome"},
+        {"q": "Which planet has the most moons?", "choices": ["Earth", "Saturn", "Jupiter", "Neptune"], "answer": "Saturn"},
+        {"q": "What color is chlorophyll?", "choices": ["Green", "Blue", "Red", "Yellow"], "answer": "Green"},
+        {"q": "What is the largest internal organ in the human body?", "choices": ["Heart", "Liver", "Lung", "Kidney"], "answer": "Liver"},
+        {"q": "Who discovered penicillin?", "choices": ["Louis Pasteur", "Alexander Fleming", "Marie Curie", "Isaac Newton"], "answer": "Alexander Fleming"},
+        {"q": "Which famous scientist introduced the idea of natural selection?", "choices": ["Charles Darwin", "Gregor Mendel", "Francis Crick", "Carl Linnaeus"], "answer": "Charles Darwin"},
+        {"q": "What is the freezing point of water in Celsius?", "choices": [0, 32, 100, -10], "answer": 0},
+        {"q": "What is the national flower of Japan?", "choices": ["Lotus", "Cherry blossom", "Rose", "Orchid"], "answer": "Cherry blossom"},
+        {"q": "What is the chemical symbol for Iron?", "choices": ["Ir", "In", "Fe", "I"], "answer": "Fe"},
+        {"q": "Which planet is closest to the sun?", "choices": ["Venus", "Mercury", "Earth", "Mars"], "answer": "Mercury"},
+        {"q": "What does the Richter scale measure?", "choices": ["Temperature", "Wind speed", "Earthquake magnitude", "Sound"], "answer": "Earthquake magnitude"},
+        {"q": "Which country is known as the Land of the Rising Sun?", "choices": ["China", "Thailand", "Japan", "Korea"], "answer": "Japan"},
+        {"q": "What is the main language spoken in Brazil?", "choices": ["Spanish", "Portuguese", "French", "English"], "answer": "Portuguese"},
+        {"q": "Who is the Greek god of the sea?", "choices": ["Zeus", "Apollo", "Poseidon", "Hermes"], "answer": "Poseidon"},
+        {"q": "What is the tallest mountain in the world?", "choices": ["K2", "Mount Everest", "Kilimanjaro", "Denali"], "answer": "Mount Everest"}
+        ];
+
     
+    const questions4 = [
+        {"q": "Which metal is liquid at room temperature?", "choices": ["Iron", "Mercury", "Sodium", "Copper"], "answer": "Mercury"},
+        {"q": "Which continent is the largest by land area?", "choices": ["Africa", "Asia", "Europe", "North America"], "answer": "Asia"},
+        {"q": "Who painted 'The Last Supper'?", "choices": ["Michelangelo", "Leonardo da Vinci", "Raphael", "Titian"], "answer": "Leonardo da Vinci"},
+        {"q": "Which planet is known as the Morning Star?", "choices": ["Venus", "Mars", "Mercury", "Jupiter"], "answer": "Venus"},
+        {"q": "Which gas do plants absorb during photosynthesis?", "choices": ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], "answer": "Carbon dioxide"},
+        {"q": "What is the capital of France?", "choices": ["Berlin", "Madrid", "Paris", "Lisbon"], "answer": "Paris"},
+        {"q": "How many players are on a soccer team on the field?", "choices": [9, 10, 11, 12], "answer": 11},
+        {"q": "Who wrote '1984'?", "choices": ["Aldous Huxley", "George Orwell", "Ray Bradbury", "J.D. Salinger"], "answer": "George Orwell"},
+        {"q": "Which ocean is the smallest?", "choices": ["Arctic", "Atlantic", "Indian", "Southern"], "answer": "Arctic"},
+        {"q": "What is the main ingredient in bread?", "choices": ["Yeast", "Flour", "Salt", "Sugar"], "answer": "Flour"},
+        {"q": "What device converts electrical energy into mechanical motion?", "choices": ["Transformer", "Motor", "Generator", "Condenser"], "answer": "Motor"},
+        {"q": "Which organ filters blood in the human body?", "choices": ["Liver", "Lung", "Heart", "Kidney"], "answer": "Kidney"},
+        {"q": "Which color has the shortest wavelength?", "choices": ["Red", "Blue", "Green", "Violet"], "answer": "Violet"},
+        {"q": "Who was the first person to walk on the Moon?", "choices": ["Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin", "Michael Collins"], "answer": "Neil Armstrong"},
+        {"q": "Which country gifted the Statue of Liberty to the USA?", "choices": ["Germany", "France", "Italy", "Spain"], "answer": "France"},
+        {"q": "What is the fastest land animal?", "choices": ["Lion", "Cheetah", "Horse", "Leopard"], "answer": "Cheetah"},
+        {"q": "What is the largest organ of the human body?", "choices": ["Liver", "Skin", "Heart", "Lung"], "answer": "Skin"},
+        {"q": "What is the main gas found in Earth's atmosphere?", "choices": ["Oxygen", "Nitrogen", "Carbon dioxide", "Argon"], "answer": "Nitrogen"},
+        {"q": "How many teeth does a normal adult human have?", "choices": [28, 30, 32, 34], "answer": 32},
+        {"q": "What is the primary language spoken in Argentina?", "choices": ["Portuguese", "Spanish", "English", "French"], "answer": "Spanish"},
+        {"q": "Which famous scientist formulated the three laws of motion?", "choices": ["Isaac Newton", "Albert Einstein", "Galileo", "Kepler"], "answer": "Isaac Newton"},
+        {"q": "What is the capital of Egypt?", "choices": ["Cairo", "Alexandria", "Luxor", "Giza"], "answer": "Cairo"},
+        {"q": "Which chemical element has the symbol Na?", "choices": ["Nitrogen", "Nickel", "Sodium", "Neon"], "answer": "Sodium"},
+        {"q": "How many colors are in a rainbow?", "choices": [5, 6, 7, 8], "answer": 7},
+        {"q": "Who wrote 'Pride and Prejudice'?", "choices": ["Jane Austen", "Emily Brontë", "Louisa May Alcott", "Mary Shelley"], "answer": "Jane Austen"},
+        {"q": "What is the chemical formula for table salt?", "choices": ["NaCl", "KCl", "CaCO3", "H2SO4"], "answer": "NaCl"},
+        {"q": "What is the largest island in the world?", "choices": ["Australia", "Greenland", "New Guinea", "Borneo"], "answer": "Greenland"},
+        {"q": "Which part of the plant conducts photosynthesis?", "choices": ["Root", "Stem", "Leaf", "Flower"], "answer": "Leaf"},
+        {"q": "What is the main ingredient in guacamole?", "choices": ["Tomato", "Avocado", "Onion", "Cucumber"], "answer": "Avocado"},
+        {"q": "What kind of animal is a Komodo dragon?", "choices": ["Mammal", "Bird", "Reptile", "Fish"], "answer": "Reptile"},
+        {"q": "Who was the first woman to win a Nobel Prize?", "choices": ["Rosalind Franklin", "Marie Curie", "Ada Lovelace", "Dorothy Hodgkin"], "answer": "Marie Curie"},
+        {"q": "What is the largest bone in the human body?", "choices": ["Femur", "Tibia", "Humerus", "Spine"], "answer": "Femur"},
+        {"q": "Which instrument is used to measure temperature?", "choices": ["Barometer", "Thermometer", "Altimeter", "Manometer"], "answer": "Thermometer"},
+        {"q": "Which organ in the human body produces insulin?", "choices": ["Liver", "Pancreas", "Kidney", "Spleen"], "answer": "Pancreas"},
+        {"q": "What planet is known for its Great Red Spot?", "choices": ["Mars", "Jupiter", "Saturn", "Neptune"], "answer": "Jupiter"},
+        {"q": "Which sport uses a shuttlecock?", "choices": ["Tennis", "Badminton", "Cricket", "Squash"], "answer": "Badminton"},
+        {"q": "What is the capital of Spain?", "choices": ["Madrid", "Barcelona", "Valencia", "Seville"], "answer": "Madrid"},
+        {"q": "Which element has the atomic number 1?", "choices": ["Helium", "Hydrogen", "Oxygen", "Nitrogen"], "answer": "Hydrogen"},
+        {"q": "How many days are in a leap year?", "choices": [364, 365, 366, 367], "answer": 366}
+        ];
+
+
+
     // Reset the local variables
     localStorage.removeItem("currentQuestion");
     // localStorage.removeItem("timer");
@@ -95,11 +183,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // let interval;
     var questions = questions1
     
-    const trial = js_vars.type
+    const trial = js_vars.trial
+    console.log('Quiz type:', trial, 'field_name:', game_field_name);
 
-    if (trial == 'trial'){
-        // console.log('trial')
-        questions = question2
+    if (trial === 'trial1') {
+        questions = questions1;
+    } else if (trial === 'trial2') {
+        questions = question2;
+    } else if (trial === 'trial3') {
+        questions = questions3;
+    } else if (trial === 'trial4') {
+        questions = questions4;
     }
 
     function setChoiceButtonsDisabled(state) {

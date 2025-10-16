@@ -23,6 +23,14 @@ SESSION_CONFIGS = [
          app_sequence=['Block_98_Play'],
          num_demo_participants=2,
          completionlink='prolific completion link!!!!!!'), 
+    dict(name='PracticeStage', 
+         app_sequence=['Block_1_Practice'],
+         num_demo_participants=2,
+         completionlink='prolific completion link!!!!!!'), 
+    dict(name='FinalStage', 
+         app_sequence=['Block_98_Play'],
+         num_demo_participants=2,
+         completionlink='prolific completion link!!!!!!'), 
     
 ]
 

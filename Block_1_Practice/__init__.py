@@ -123,7 +123,7 @@ class Quiz(Page):
     @staticmethod
     def js_vars(player: Player):
         return {'field_name': 'Quiz',
-                'type': 'trial'} 
+                'type': 'trial1'} 
     
 class Emotion(Page):
     form_model = 'player'
@@ -191,7 +191,8 @@ class Spot(Page):
     @staticmethod
     def js_vars(player: Player):
         return {'field_name': 'Spot',
-                'trial': 'trial'}  
+                'trial': 'trial1'}  
+        
 class Quiz_2(Page):
     form_model = 'player'
     form_fields = ['Quiz_2'] 
@@ -306,7 +307,7 @@ class Practice_Results(Page):
 
         score = getattr(player, game)
         bonus = score * bonus_lookup[game] 
-        
+        bonus_eur = bonus/100
         
         
         player.Practice_bonus_task = f"{randomly_selected_game}_{randomly_selected_order}"
@@ -342,7 +343,7 @@ class Practice_Results(Page):
 
             'randomly_selected_order': randomly_selected_order,
             'Selected_game': Game_lookup[player.Practice_bonus_task],
-            'Practice_bonus': bonus,
+            'Practice_bonus': bonus_eur,
             #
             # 'We do not display bonuses at this stage to avoid any sort of wealth effects.'
             # 'QuizBonus': player.Bonus_Quiz + player.Bonus_Quiz_2,

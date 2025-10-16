@@ -523,39 +523,40 @@ class Player(BasePlayer):
     # Player answers
     ## Attributes Survey
     ### Holds chosen bundle in the revsitit stage
-    Easy_rank_1_revisit_choice = models.StringField(label='')
-    Easy_rank_2_revisit_choice = models.StringField(label='')
-    Easy_rank_3_revisit_choice = models.StringField(label='')
-    Easy_rank_4_revisit_choice = models.StringField(label='')
-    Easy_rank_5_revisit_choice = models.StringField(label='')
+    # Easy_rank_1_revisit_choice = models.StringField(label='')
+    # Easy_rank_2_revisit_choice = models.StringField(label='')
+    # Easy_rank_3_revisit_choice = models.StringField(label='')
+    # Easy_rank_4_revisit_choice = models.StringField(label='')
+    # Easy_rank_5_revisit_choice = models.StringField(label='')
 
-    Medium_rank_1_revisit_choice = models.StringField(label='')
-    Medium_rank_2_revisit_choice = models.StringField(label='')
-    Medium_rank_3_revisit_choice = models.StringField(label='')
-    Medium_rank_4_revisit_choice = models.StringField(label='')
-    Medium_rank_5_revisit_choice = models.StringField(label='')
+    # Medium_rank_1_revisit_choice = models.StringField(label='')
+    # Medium_rank_2_revisit_choice = models.StringField(label='')
+    # Medium_rank_3_revisit_choice = models.StringField(label='')
+    # Medium_rank_4_revisit_choice = models.StringField(label='')
+    # Medium_rank_5_revisit_choice = models.StringField(label='')
 
-    Difficult_rank_1_revisit_choice = models.StringField(label='')
-    Difficult_rank_2_revisit_choice = models.StringField(label='')
-    Difficult_rank_3_revisit_choice = models.StringField(label='')
-    Difficult_rank_4_revisit_choice = models.StringField(label='')
-    Difficult_rank_5_revisit_choice = models.StringField(label='')
+    # Difficult_rank_1_revisit_choice = models.StringField(label='')
+    # Difficult_rank_2_revisit_choice = models.StringField(label='')
+    # Difficult_rank_3_revisit_choice = models.StringField(label='')
+    # Difficult_rank_4_revisit_choice = models.StringField(label='')
+    # Difficult_rank_5_revisit_choice = models.StringField(label='')
     
     ### switch dummies. these are dictionaries 
+    # careful: the order is based off of [0, 0, 1, 0, 0,   0, 0, 0, 1, 0,   1, 1, 0, 0, 0] i.e., for 0 the left bundle is the switch for 1s the right bundle is the switch
     Easy_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     Easy_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
-    Easy_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Easy_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[0, 'Left bundle'], [1, 'Right bundle']], widget=widgets.RadioSelect)
     Easy_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     Easy_rank_5_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     
     Medium_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     Medium_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     Medium_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
-    Medium_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Medium_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[0, 'Left bundle'], [1, 'Right bundle']], widget=widgets.RadioSelect)
     Medium_rank_5_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     
-    Difficult_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
-    Difficult_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_1_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[0, 'Left bundle'], [1, 'Right bundle']], widget=widgets.RadioSelect)
+    Difficult_rank_2_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[0, 'Left bundle'], [1, 'Right bundle']], widget=widgets.RadioSelect)
     Difficult_rank_3_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     Difficult_rank_4_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
     Difficult_rank_5_revisit_choice_switch = models.IntegerField(label='Which bundle do you choose?', choices=[[1, 'Left bundle'], [0, 'Right bundle']], widget=widgets.RadioSelect)
@@ -719,10 +720,10 @@ class Player(BasePlayer):
     Comprehension_question_2 = models.BooleanField(
         choices=[
             [True,
-            'I must reach the required score on every task in the selected '
+            'I must reach at least the required score on every task in the selected '
             'bundle.'],                               # ✅ correct
             [False,
-            'I must reach the required score on at least one task in the bundle.'],
+            'I must reach at least the required score on at least one task in the bundle.'],
             [False,
             'I receive the bonus just for completing all tasks, regardless of score.'],
         ],
@@ -733,16 +734,21 @@ class Player(BasePlayer):
 
     Comprehension_question_3 = models.BooleanField(
         choices=[
-            [False, '≥ 25 % correct'],
+            [False, '≥ 30 % correct'],
             [False, '≥ 50 % correct'],
-            [True,  '≥ 75 % correct'],   # ✅ correct
+            [True,  '≥ 80 % correct'],   # ✅ correct
         ],
         # initial=True, #TODO: remove initial true
         label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?', #TODO: adjust if percentages have changed.
         widget=widgets.RadioSelect,
     )
     # -----------------------------------------------------------------
-
+    How_confident = models.IntegerField( choices = [1,2,3,4,5,6,7],
+        label = 'How confident are you in the 15 choices you just made?',
+        widget=widgets.RadioSelectHorizontal)
+    How_happy = models.IntegerField( choices = [1,2,3,4,5,6,7],
+        label = 'How satisfied are you with these choices?',
+        widget=widgets.RadioSelectHorizontal)
  
  
  #%% Base Pages
@@ -786,12 +792,11 @@ class Attributes_rank(MyBasePage):
             field_name = 'ranking_order',
         )
         
-    # @staticmethod   
-    # def before_next_page(player: Player, timeout_happened):
-    #     'FOR DEBUG ONLY: choose a random ranking order'
-    #     #TODO: delete these to remove the bug.
-    #     pass
-    #     player.ranking_order = json.dumps(["Cognitive Ease", "Engagement", "Confidence", "Time Efficiency"])
+    @staticmethod   
+    def before_next_page(player: Player, timeout_happened):
+        'FOR DEBUG ONLY: choose a random ranking order'
+        #TODO: delete these to remove the bug.
+        player.ranking_order = json.dumps(["Cognitive Ease", "Engagement", "Confidence", "Time Efficiency"])
     
 class Attributes_rank_cardinality(MyBasePage):
     extra_fields = ['cardinality_Dimension_1', 'cardinality_Dimension_2', 
@@ -851,8 +856,8 @@ class Attributes_tasks_Dimension_1_cardinality(MyBasePage):
         variables['DimensionText'] = C.CognitiveEase_text_2
         
         # # TODO: remove the next 2 lines (DEBUG ONLY)
-        # if not ranking_order:
-        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order) 
         return variables
@@ -899,8 +904,8 @@ class Attributes_tasks_Dimension_2_cardinality(MyBasePage):
         variables['DimensionAtHand'] = "Engagement"
         variables['DimensionText'] = C.Engagement_text_2
         # # TODO: remove the next 2 lines (DEBUG ONLY)
-        # if not ranking_order:
-        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -947,8 +952,8 @@ class Attributes_tasks_Dimension_3_cardinality(MyBasePage):
         variables['DimensionAtHand'] = "Confidence"
         variables['DimensionText'] = C.Confidence_text_2
                 # TODO: remove the next 2 lines (DEBUG ONLY)
-        # if not ranking_order:
-        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -995,8 +1000,8 @@ class Attributes_tasks_Dimension_4_cardinality(MyBasePage):
         variables['DimensionAtHand'] = "Time Efficiency"
         variables['DimensionText'] = C.TimeEfficiency_text_2
         # TODO: remove the next 2 lines (DEBUG ONLY)
-        # if not ranking_order:
-        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        if not ranking_order:
+            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -1201,6 +1206,7 @@ class Mechanism_IntroComplexity(MyBasePage):
     def vars_for_template(player: Player):
         version = MyBasePage.vars_for_template(player)
         version['mechanism'] = player.participant.Treatment   # 'Binary' or 'Sequential'
+        print(f"Mechanism is {version['mechanism']}")
         return version
 
 class Mechanism_Easy_rank1(MyBasePage):
@@ -1485,6 +1491,10 @@ class Mechanism_Difficult_rank5_WaitPage(WaitPage):
 
     
 #%% Revisit pages
+class Two_questions(MyBasePage):
+    form_fields = MyBasePage.form_fields + ['How_confident', 'How_happy']
+    
+
 class Revisit_WaitPage(WaitPage):
     pass
 
@@ -1500,14 +1510,14 @@ class Revisit_explanation(MyBasePage):
         # TODO: remove these codes, replace with pass
         '''
         'setting random bundles for the player'
-        # for rank in range(1, 6):
-        #     for difficulty in ['Easy', 'Medium', 'Difficult']:
-        #         choice_field = f"{difficulty}_rank{rank}_choice"
-        #         if not getattr(player, choice_field):
-        #             available_bundles = return_available_bundles(player, rank, difficulty)[0]
-        #             random_choice = random.choice(list(available_bundles.keys()))
-        #             setattr(player, choice_field, random_choice)
-        pass
+        for rank in range(1, 6):
+            for difficulty in ['Easy', 'Medium', 'Difficult']:
+                choice_field = f"{difficulty}_rank{rank}_choice"
+                if not getattr(player, choice_field):
+                    available_bundles = return_available_bundles(player, rank, difficulty)[0]
+                    random_choice = random.choice(list(available_bundles.keys()))
+                    setattr(player, choice_field, random_choice)
+        # pass
         
         
         
@@ -1807,6 +1817,7 @@ pages_mechanism = [
     ]
 
 pages_revisit = [
+    Two_questions,
     Revisit_WaitPage,
     Revisit_explanation,
     Revisit_Easy_rank1, Revisit_Easy_rank2, Revisit_Easy_rank3, Revisit_Easy_rank4, Revisit_Easy_rank5,

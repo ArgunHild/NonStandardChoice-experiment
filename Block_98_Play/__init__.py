@@ -54,7 +54,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 120
+    Round_length = 120 
     Timer_text = "Time left to complete this round:" 
     
     Instructions_general_path = "_templates/global/Instructions.html"
@@ -65,7 +65,8 @@ class C(BaseConstants):
     Emotion_template = "_templates/global/Task_templates/Emotion.html"
     Quiz_template = "_templates/global/Task_templates/Quiz.html"
     Math_template = "_templates/global/Task_templates/Math.html"
-    Spot_template = "_templates/global/Task_templates/Spot_2.html" 
+    Spot_template_3 = "_templates/global/Task_templates/Spot_3.html" 
+    Spot_template_4 = "_templates/global/Task_templates/Spot_4.html" 
     # Task instruction paths
     Math_instructions = "_templates/global/Task_instructions/Math.html"
     Emotion_instructions = "_templates/global/Task_instructions/Emotion.html"
@@ -240,11 +241,29 @@ class Game_1(MyBasePage):
     timeout_seconds, timer_text = C.Round_length, C.Timer_text
 
     @staticmethod
-    def js_vars(player):
-        return dict(field_name = 'Game_1_performance',)
+    def js_vars(player): 
+        
+        # player.participant.Final_bundle = "Spot_2_Spot_2_Spot_2"
+        
+        returnable = dict(field_name = 'Game_1_performance',
+                          trial='trial',)
+        if player.participant.Final_bundle.startswith('Quiz'):
+            returnable['trial'] = 'trial3'
+        elif player.participant.Final_bundle.startswith('Spot'):
+            returnable['trial'] = 'trial3'
+        elif player.participant.Final_bundle.startswith('Emotion'):
+            returnable['trial'] = 'trial3'
+        else:
+            returnable['trial'] = 'trial'
+        return returnable
         
     @staticmethod
     def vars_for_template(player: Player):
+        
+        player.participant.Final_bundle = "Spot_2_Spot_2_Spot_2"
+
+
+        
         variables = MyBasePage.vars_for_template(player)
         
         bundle = clean_split(player.participant.Final_bundle)
@@ -257,13 +276,44 @@ class Game_1(MyBasePage):
         variables['Task']            = task_name
         variables['Difficulty']      = int(bundle[num + 1])  # true level 1-3
         variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
-        variables['GameTemplate']      = getattr(C, f'{task_code}_template')
+        
+        
+        if player.participant.Final_bundle.startswith('Spot'):
+            GameTemplate = getattr(C, f'{task_code}_template_3')
+        else:
+            GameTemplate = getattr(C, f'{task_code}_template')    
+        
+        variables['GameTemplate']      = GameTemplate
+        
 
         return variables
     
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         calculate_bonus(player, 0)
+
+class Game_2_Transition(MyBasePage):
+    @staticmethod
+    def is_displayed(player: Player):
+        Final_bundle = player.participant.Final_bundle
+        bundle = Final_bundle.split('_')
+        return len(bundle) > 2
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
+
+        bundle    = clean_split(player.participant.Final_bundle)
+        num       = 2                       # Game_2 reads the 2nd task (index 2)
+        task_code = bundle[num].strip('"')
+        task_name = readable_task(task_code)
+        variables['Icon'] = PLAIN_ICONS[task_code]
+
+
+        variables['Task']            = task_name
+
+        return variables
+
 
 class Game_2(MyBasePage):
     extra_fields = ['Game_2_performance'] 
@@ -278,9 +328,30 @@ class Game_2(MyBasePage):
     timeout_seconds, timer_text = C.Round_length, C.Timer_text
 
     @staticmethod
-    def js_vars(player):
-        return dict(field_name = 'Game_2_performance',)
+    def js_vars(player): 
         
+        returnable = dict(field_name = 'Game_2_performance',
+                          trial='trial',)
+        Final_bundle = player.participant.Final_bundle
+        bundle_list = Final_bundle.split('_') 
+        
+        if bundle_list[2] == 'Quiz':
+            if bundle_list[0] == 'Quiz':
+                returnable['trial'] = 'trial4'
+            else: 
+                returnable['trial'] = 'trial3'
+        if bundle_list[2] == 'Spot':
+            if bundle_list[0] == 'Spot':
+                returnable['trial'] = 'trial4'
+            else: 
+                returnable['trial'] = 'trial3'
+        if bundle_list[2] == 'Emotion':
+            if bundle_list[0] == 'Emotion':
+                returnable['trial'] = 'trial4'
+            else: 
+                returnable['trial'] = 'trial3'
+        return returnable
+
     @staticmethod
     def vars_for_template(player: Player):
         variables = MyBasePage.vars_for_template(player)
@@ -295,7 +366,13 @@ class Game_2(MyBasePage):
         variables['Task']            = task_name
         variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
         variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
-        variables['GameTemplate']      = getattr(C, f'{task_code}_template')
+        
+        if player.participant.Final_bundle.startswith('Spot'):
+            GameTemplate = getattr(C, f'{task_code}_template_4')
+        else:
+            GameTemplate = getattr(C, f'{task_code}_template')    
+        
+        variables['GameTemplate']      = GameTemplate
 
         return variables
 
@@ -303,7 +380,27 @@ class Game_2(MyBasePage):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         calculate_bonus(player, 2)
+class Game_3_Transition(MyBasePage):
+    @staticmethod
+    def is_displayed(player: Player):
+        Final_bundle = player.participant.Final_bundle
+        bundle = Final_bundle.split('_')
+        return len(bundle) > 4
+    
+    @staticmethod
+    def vars_for_template(player: Player):
+        variables = MyBasePage.vars_for_template(player)
 
+        bundle    = clean_split(player.participant.Final_bundle)
+        num       = 4                       # Game_2 reads the 2nd task (index 2)
+        task_code = bundle[num].strip('"')
+        task_name = readable_task(task_code)
+        variables['Icon'] = PLAIN_ICONS[task_code]
+
+
+        variables['Task']            = task_name
+
+        return variables
 class Game_3(MyBasePage):
     extra_fields = ['Game_3_performance'] 
     form_fields = MyBasePage.form_fields + extra_fields
@@ -316,9 +413,31 @@ class Game_3(MyBasePage):
     
     timeout_seconds, timer_text = C.Round_length, C.Timer_text
 
+    
     @staticmethod
-    def js_vars(player):
-        return dict(field_name = 'Game_3_performance',)
+    def js_vars(player): 
+        
+        returnable = dict(field_name = 'Game_3_performance',)
+        Final_bundle = player.participant.Final_bundle
+        bundle_list = Final_bundle.split('_') 
+        
+        if bundle_list[4] == 'Quiz':
+            if 'Quiz' in (bundle_list[0], bundle_list[2]):
+                returnable['trial'] = 'trial4'
+            else: 
+                returnable['trial'] = 'trial3'
+        if bundle_list[4] == 'Spot':
+            if 'Spot' in (bundle_list[0], bundle_list[2]):
+                returnable['trial'] = 'trial4'
+            else: 
+                returnable['trial'] = 'trial3'
+        if bundle_list[4] == 'Emotion':
+            if 'Emotion' in (bundle_list[0], bundle_list[2]):
+                returnable['trial'] = 'trial4'
+            else: 
+                returnable['trial'] = 'trial3'
+        return returnable
+
         
     @staticmethod
     def vars_for_template(player: Player):
@@ -334,7 +453,13 @@ class Game_3(MyBasePage):
         variables['Task']            = task_name
         variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
         variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
-        variables['GameTemplate']      = getattr(C, f'{task_code}_template')
+        
+        if player.participant.Final_bundle.startswith('Spot'):
+            GameTemplate = getattr(C, f'{task_code}_template_4')
+        else:
+            GameTemplate = getattr(C, f'{task_code}_template')    
+        
+        variables['GameTemplate']      = GameTemplate
 
         return variables
     
@@ -544,5 +669,5 @@ class Demographics(MyBasePage):
 class Study_complete(MyBasePage):
     pass
         
-page_sequence = [Game_1, Game_2, Game_3, Demographics, ResultsWaitPage,
+page_sequence = [Game_1, Game_2_Transition, Game_2, Game_3_Transition, Game_3, Demographics, ResultsWaitPage,
                  Results , Study_complete]
