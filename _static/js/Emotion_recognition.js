@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
     // this is the image element that holds the picture. will change it dynamically
-    const imageElement = document.getElementById('image1');
+    const imageElement = document.getElementById('  ');
     const staticPrefix = '/static/';  // If your static files are served at this path
 
     function setChoiceButtonsDisabled(state) {

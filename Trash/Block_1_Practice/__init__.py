@@ -32,21 +32,14 @@ class C(BaseConstants):
     Quiz_instructions = "_templates/global/Task_instructions/Quiz.html"
     Spot_the_difference_instructions = "_templates/global/Task_instructions/Spot.html"
         
-    Bonus_1 = 0.5 #TODO: adjust the bonus for practice stage. Make sure participant knows about the bonus in the instructions.
-    
+    Bonus_1 = 0.5     
     # Max achievable scores (hardcoded for now)
-    Max_Math = 24         # TODO: Make dynamic based on actual task settings
-    Max_Quiz = 30         # TODO: Make dynamic based on actual task settings
-    Max_Spot = 10         # TODO: Make dynamic based on actual task settings
-    Max_Emotion = 10      # TODO: Make dynamic based on actual task settings
+    Max_Math = 24      
+    Max_Quiz = 30       
+    Max_Spot = 10       
+    Max_Emotion = 10    
 
-    #TODO: no more cutoffs for practice.
-    Bonus_cutoffs = {
-        'Quiz': 1, #TODO: adjust these
-        'Emotion': 1,
-        'Math': 1,
-        'Spot': 1,
-    }
+
 
 class Subsession(BaseSubsession):
     pass

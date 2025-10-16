@@ -11,7 +11,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     
-    Round_length = 120
+    Round_length = 12 
     Timer_text = "Time left to complete this round:" 
     
     # Game instruction path
@@ -123,7 +123,7 @@ class Quiz(Page):
     @staticmethod
     def js_vars(player: Player):
         return {'field_name': 'Quiz',
-                'type': 'trial1'} 
+                'trial': 'trial1'} 
     
 class Emotion(Page):
     form_model = 'player'
@@ -214,7 +214,7 @@ class Quiz_2(Page):
     @staticmethod
     def js_vars(player: Player):
         return {'field_name': 'Quiz_2',
-                'type': 'trial2'} 
+                'trial': 'trial2'} 
     
 class Emotion_2(Page):
     form_model = 'player'
@@ -314,8 +314,8 @@ class Practice_Results(Page):
         player.Practice_bonus = bonus
         player.participant.Bonus_1 = bonus
         player.participant.Bonus_1_task = player.Practice_bonus_task
-        print(f"the randomly selected rond: {player.Practice_bonus_task}")
-        print(f"the bonus is: {bonus}; players score was {score} and the relevant bonus lookup is {bonus_lookup[game]}")
+        # print(f"the randomly selected rond: {player.Practice_bonus_task}")
+        # print(f"the bonus is: {bonus}; players score was {score} and the relevant bonus lookup is {bonus_lookup[game]}")
         
         player.Practice_bonus = bonus
         

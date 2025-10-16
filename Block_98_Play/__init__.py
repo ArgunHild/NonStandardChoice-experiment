@@ -1,6 +1,6 @@
 from otree.api import *
 import random
-
+import numpy as np
 
 doc = """
 Your app description
@@ -243,7 +243,7 @@ class Game_1(MyBasePage):
     @staticmethod
     def js_vars(player): 
         
-        # player.participant.Final_bundle = "Spot_2_Spot_2_Spot_2"
+        # player.participant.Final_bundle = "Emotion_2_Emotion_2_Emotion_2"
         
         returnable = dict(field_name = 'Game_1_performance',
                           trial='trial',)
@@ -260,7 +260,7 @@ class Game_1(MyBasePage):
     @staticmethod
     def vars_for_template(player: Player):
         
-        player.participant.Final_bundle = "Spot_2_Spot_2_Spot_2"
+        # player.participant.Final_bundle = "Emotion_2_Emotion_2_Emotion_2"
 
 
         
@@ -367,7 +367,10 @@ class Game_2(MyBasePage):
         variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
         variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
         
-        if player.participant.Final_bundle.startswith('Spot'):
+        Final_bundle = player.participant.Final_bundle
+        bundle_list = Final_bundle.split('_') 
+        
+        if bundle_list[2] == 'Spot':
             GameTemplate = getattr(C, f'{task_code}_template_4')
         else:
             GameTemplate = getattr(C, f'{task_code}_template')    
@@ -454,7 +457,10 @@ class Game_3(MyBasePage):
         variables['Difficulty']      = int(bundle[num + 1])   # true level (1-3)
         variables['Task_instructions'] = getattr(C, f'{task_code}_instructions')
         
-        if player.participant.Final_bundle.startswith('Spot'):
+        Final_bundle = player.participant.Final_bundle
+        bundle_list = Final_bundle.split('_') 
+        
+        if bundle_list[4] == 'Spot':
             GameTemplate = getattr(C, f'{task_code}_template_4')
         else:
             GameTemplate = getattr(C, f'{task_code}_template')    
@@ -483,23 +489,17 @@ class ResultsWaitPage(WaitPage):
 class Results(MyBasePage):
 
     # ───────────────── bookkeeping AFTER the page ──────────────────
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        # Compute the bundle bonus again for payoff records
-        tokens = clean_split(player.participant.Final_bundle)
-        task_slots = range(0, len(tokens), 2)          # 0, 2, 4 …
+    # @staticmethod
+    # def before_next_page(player: Player, timeout_happened):
+    #     # Compute the bundle bonus again for payoff records
+    #     tokens = clean_split(player.participant.Final_bundle)
+    #     task_slots = range(0, len(tokens), 2)          # 0, 2, 4 …
 
-        passed_every_task = all(
-            getattr(player, f'Bonus_2_{i//2 + 1}') == 1 for i in task_slots
-        )
+    #     passed_every_task = all(
+    #         getattr(player, f'Bonus_2_{i//2 + 1}') == 1 for i in task_slots
+    #     )
 
-        player.Bonus_final_bundle = C.Bonus_max if passed_every_task else 0
 
-        player.participant.payoff = (
-            C.Completion_fee
-            + player.participant.Bonus_1
-            + player.Bonus_final_bundle
-        )
 
     # ───────────── variables FOR the template (shown immediately) ─────────────
     @staticmethod
@@ -515,6 +515,17 @@ class Results(MyBasePage):
         )
         player.Bonus_final_bundle = C.Bonus_max if passed_every_task else 0
 
+        total_pay =  (
+            C.Completion_fee
+            + player.participant.Bonus_1/100
+            + player.Bonus_final_bundle
+        )
+        # Round up to the next 0.5 EUR
+        def ceil_to_half_eur(amount):
+            return np.ceil(amount * 2) / 2
+        total_pay = ceil_to_half_eur(total_pay)
+        player.participant.payoff = cu(total_pay)
+        
         # ---------- build per-task list ----------
         list_items = []
         for i in task_slots:
@@ -548,14 +559,10 @@ class Results(MyBasePage):
         )
 
         # ---------- payment breakdown ----------
-        total_pay = (
-            C.Completion_fee
-            + player.participant.Bonus_1/100
-            + player.Bonus_final_bundle
-        )
+
         
         print(total_pay, player.participant.Bonus_1/100, player.Bonus_final_bundle)
-
+        print('player.payoff:', player.participant.payoff)
         v['Payments'] = (
             f'<ol>'
             f'<li>Participation fee: {C.Completion_fee} €</li>'
@@ -569,88 +576,88 @@ class Results(MyBasePage):
 
 
 # Results2 is just as a safety backup for the moment.
-class Results2(MyBasePage):
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        player.participant.vars['Bonus_2'] = player.Bonus_final_bundle
-        player.participant.vars['Total_Bonus'] = player.participant.Bonus_1 + player.Bonus_final_bundle
-        player.participant.vars['Total_payment'] = player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee
-        player.participant.payoff = player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee
+# class Results2(MyBasePage):
+#     @staticmethod
+#     def before_next_page(player: Player, timeout_happened):
+#         player.participant.vars['Bonus_2'] = player.Bonus_final_bundle
+#         player.participant.vars['Total_Bonus'] = player.participant.Bonus_1 + player.Bonus_final_bundle
+#         player.participant.vars['Total_payment'] = player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee
+#         player.participant.payoff = player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee
     
-    @staticmethod
-    def vars_for_template(player: Player):
-        variables = MyBasePage.vars_for_template(player)
+#     @staticmethod
+#     def vars_for_template(player: Player):
+#         variables = MyBasePage.vars_for_template(player)
         
-        Final_bundle = player.participant.Final_bundle
-        Final_bundle = Final_bundle.strip('"')
+#         Final_bundle = player.participant.Final_bundle
+#         Final_bundle = Final_bundle.strip('"')
         
-        bundle = Final_bundle.split('_')
+#         bundle = Final_bundle.split('_')
         
-        bundle_1 = get_icon(bundle[0], int(bundle[1]))  
-        try: 
-            bundle_2 = get_icon(bundle[2], int(bundle[3]))
-        except:
-            bundle_2 = False
-        try:
-            bundle_3 = get_icon(bundle[4], int(bundle[5]))
-        except:
-            bundle_3 = False
+#         bundle_1 = get_icon(bundle[0], int(bundle[1]))  
+#         try: 
+#             bundle_2 = get_icon(bundle[2], int(bundle[3]))
+#         except:
+#             bundle_2 = False
+#         try:
+#             bundle_3 = get_icon(bundle[4], int(bundle[5]))
+#         except:
+#             bundle_3 = False
             
-        final_bundle = f'{bundle_1}+{bundle_2}+{bundle_3}'
+#         final_bundle = f'{bundle_1}+{bundle_2}+{bundle_3}'
         
-        variables['Final_bundle'] = final_bundle
-        if bundle_2 and bundle_3:
-            Performance_Text = f'''
-            <ol>
-            <li> {bundle_1}: {player.Game_1_performance} points </li>
-            <li> {bundle_2}: {player.Game_2_performance} points </li>
-            <li> {bundle_3}: {player.Game_3_performance} points </li>
-            </ol>
-            '''
-        elif bundle_2:
-            Performance_Text = f'''
-            <ol>
-            <li> {bundle_1}: {player.Game_1_performance} points </li>
-            <li> {bundle_2}: {player.Game_2_performance} points </li>
-            </ol>
-            '''
-        else:
-            Performance_Text = f'''
-            <ol>
-            <li> {bundle_1}: {player.Game_1_performance} points </li>
-            </ol>
-            '''
+#         variables['Final_bundle'] = final_bundle
+#         if bundle_2 and bundle_3:
+#             Performance_Text = f'''
+#             <ol>
+#             <li> {bundle_1}: {player.Game_1_performance} points </li>
+#             <li> {bundle_2}: {player.Game_2_performance} points </li>
+#             <li> {bundle_3}: {player.Game_3_performance} points </li>
+#             </ol>
+#             '''
+#         elif bundle_2:
+#             Performance_Text = f'''
+#             <ol>
+#             <li> {bundle_1}: {player.Game_1_performance} points </li>
+#             <li> {bundle_2}: {player.Game_2_performance} points </li>
+#             </ol>
+#             '''
+#         else:
+#             Performance_Text = f'''
+#             <ol>
+#             <li> {bundle_1}: {player.Game_1_performance} points </li>
+#             </ol>
+#             '''
         
-        if player.Bonus_final_bundle >0:
-            results_text = f'''
-            <strong>Congratulations!</strong> You have successfully completed the tasks in your bundle and earned a bonus of <strong>{player.Bonus_final_bundle}€</strong>.
-            '''
-        else:
-            results_text = f'''
-            <strong>Unfortunately, you did not meet the required minimum scores in all tasks.</strong> Therefore, you will not receive a bonus for this bundle.
-            '''
+#         if player.Bonus_final_bundle >0:
+#             results_text = f'''
+#             <strong>Congratulations!</strong> You have successfully completed the tasks in your bundle and earned a bonus of <strong>{player.Bonus_final_bundle}€</strong>.
+#             '''
+#         else:
+#             results_text = f'''
+#             <strong>Unfortunately, you did not meet the required minimum scores in all tasks.</strong> Therefore, you will not receive a bonus for this bundle.
+#             '''
             
-        payments =  f'''
-            <ol>
-            <li> Participation payment: {C.Completion_fee}€ </li>
-            <li> Bonus from practice stage: {player.participant.Bonus_1}€ </li>
-            <li> Bonus from bundle performance: {player.Bonus_final_bundle}€ </li>
-            </ol>
-            <strong>Total payment: {player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee}€</strong>
+#         payments =  f'''
+#             <ol>
+#             <li> Participation payment: {C.Completion_fee}€ </li>
+#             <li> Bonus from practice stage: {player.participant.Bonus_1}€ </li>
+#             <li> Bonus from bundle performance: {player.Bonus_final_bundle}€ </li>
+#             </ol>
+#             <strong>Total payment: {player.participant.Bonus_1 + player.Bonus_final_bundle + C.Completion_fee}€</strong>
             
-            <br><br>
-            Thank you for participating in this experiment! Your total payment will be processed shortly.
+#             <br><br>
+#             Thank you for participating in this experiment! Your total payment will be processed shortly.
              
-            '''
+#             '''
         
-        variables['Performance_Text'] = Performance_Text
-        variables['ResultsText'] = results_text
+#         variables['Performance_Text'] = Performance_Text
+#         variables['ResultsText'] = results_text
         
-        variables['Payments'] = payments
+#         variables['Payments'] = payments
         
 
 
-        return variables
+#         return variables
     
     
 class Demographics(MyBasePage):

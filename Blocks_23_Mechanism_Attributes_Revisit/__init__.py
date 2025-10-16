@@ -569,11 +569,11 @@ class Player(BasePlayer):
     
     ## Dimension scores. 
     ### Cardinalities are between 1 and 10
-    ranking_order = models.StringField(blank=False)  #TODO: remove blank 
-    cardinality_Dimension_1 = models.IntegerField(blank=False)  #Cognitive Ease  #TODO: remove blank 
-    cardinality_Dimension_2 = models.IntegerField(blank=False) # engagement  #TODO: remove blank 
-    cardinality_Dimension_3 = models.IntegerField(blank=False) # confidence #TODO: remove blank 
-    cardinality_Dimension_4 = models.IntegerField(blank=False) # time efficiency #TODO: remove blank    
+    ranking_order = models.StringField(blank=True)  
+    cardinality_Dimension_1 = models.IntegerField(blank=True)  #Cognitive Ease 
+    cardinality_Dimension_2 = models.IntegerField(blank=True) # engagement  
+    cardinality_Dimension_3 = models.IntegerField(blank=True) # confidence 
+    cardinality_Dimension_4 = models.IntegerField(blank=True) # time efficiency 
     
     taste_variety = models.FloatField(
         # initial=1,
@@ -599,30 +599,30 @@ class Player(BasePlayer):
     4. Time Efficiency: How quick and smooth the task felt—how long it took and how many clicks it needed.
         - Higher score -> better i.e., Fewest mouse-clicks gets top score
     '''
-    ranking_order_CognitiveEase = models.StringField(blank=False) # TODO: remove all blank trues
-    ranking_order_Engagement = models.StringField(blank=False) #
-    ranking_order_Confidence = models.StringField(blank=False) #
-    ranking_order_TimeEfficiency = models.StringField(blank=False) #
+    ranking_order_CognitiveEase = models.StringField(blank=True) # 
+    ranking_order_Engagement = models.StringField(blank=True) #
+    ranking_order_Confidence = models.StringField(blank=True) #
+    ranking_order_TimeEfficiency = models.StringField(blank=True) #
     
-    cardinality_Dimension_CognitiveEase_SpotTheDifference =  models.IntegerField(blank=False)   #TODO: remove all blank true
-    cardinality_Dimension_Engagement_SpotTheDifference =      models.IntegerField(blank=False) 
-    cardinality_Dimension_Confidence_SpotTheDifference =    models.IntegerField(blank=False) 
-    cardinality_Dimension_TimeEfficiency_SpotTheDifference = models.IntegerField(blank=False) 
+    cardinality_Dimension_CognitiveEase_SpotTheDifference =  models.IntegerField(blank=True)   
+    cardinality_Dimension_Engagement_SpotTheDifference =      models.IntegerField(blank=True) 
+    cardinality_Dimension_Confidence_SpotTheDifference =    models.IntegerField(blank=True) 
+    cardinality_Dimension_TimeEfficiency_SpotTheDifference = models.IntegerField(blank=True) 
      
-    cardinality_Dimension_CognitiveEase_Quiz =  models.IntegerField(blank=False)    #TODO: remove all blank true
-    cardinality_Dimension_Engagement_Quiz =      models.IntegerField(blank=False)
-    cardinality_Dimension_Confidence_Quiz =    models.IntegerField(blank=False)
-    cardinality_Dimension_TimeEfficiency_Quiz = models.IntegerField(blank=False)
+    cardinality_Dimension_CognitiveEase_Quiz =  models.IntegerField(blank=True)    #
+    cardinality_Dimension_Engagement_Quiz =      models.IntegerField(blank=True)
+    cardinality_Dimension_Confidence_Quiz =    models.IntegerField(blank=True)
+    cardinality_Dimension_TimeEfficiency_Quiz = models.IntegerField(blank=True)
     
-    cardinality_Dimension_CognitiveEase_MathMemory =  models.IntegerField(blank=False)   #TODO: remove all blank true
-    cardinality_Dimension_Engagement_MathMemory =      models.IntegerField(blank=False)
-    cardinality_Dimension_Confidence_MathMemory =    models.IntegerField(blank=False)
-    cardinality_Dimension_TimeEfficiency_MathMemory = models.IntegerField(blank=False)
+    cardinality_Dimension_CognitiveEase_MathMemory =  models.IntegerField(blank=True)   
+    cardinality_Dimension_Engagement_MathMemory =      models.IntegerField(blank=True)
+    cardinality_Dimension_Confidence_MathMemory =    models.IntegerField(blank=True)
+    cardinality_Dimension_TimeEfficiency_MathMemory = models.IntegerField(blank=True)
     
-    cardinality_Dimension_CognitiveEase_EmotionRecognition =  models.IntegerField(blank=False)  #TODO: remove all blank true
-    cardinality_Dimension_Engagement_EmotionRecognition =      models.IntegerField(blank=False)
-    cardinality_Dimension_Confidence_EmotionRecognition =    models.IntegerField(blank=False)
-    cardinality_Dimension_TimeEfficiency_EmotionRecognition = models.IntegerField(blank=False)
+    cardinality_Dimension_CognitiveEase_EmotionRecognition =  models.IntegerField(blank=True)  
+    cardinality_Dimension_Engagement_EmotionRecognition =      models.IntegerField(blank=True)
+    cardinality_Dimension_Confidence_EmotionRecognition =    models.IntegerField(blank=True)
+    cardinality_Dimension_TimeEfficiency_EmotionRecognition = models.IntegerField(blank=True)
     
     ## Task scores
     score_Quiz = models.FloatField()
@@ -632,23 +632,23 @@ class Player(BasePlayer):
     
     
     ## Mechanism
-    Easy_rank1_choice = models.StringField(blank=False) #TODO: remove all blank true
-    Easy_rank2_choice = models.StringField(blank=False)
-    Easy_rank3_choice = models.StringField(blank=False)
-    Easy_rank4_choice = models.StringField(blank=False)
-    Easy_rank5_choice = models.StringField(blank=False)
+    Easy_rank1_choice = models.StringField(blank=True) 
+    Easy_rank2_choice = models.StringField(blank=True)
+    Easy_rank3_choice = models.StringField(blank=True)
+    Easy_rank4_choice = models.StringField(blank=True)
+    Easy_rank5_choice = models.StringField(blank=True)
     
-    Medium_rank1_choice = models.StringField(blank=False)
-    Medium_rank2_choice = models.StringField(blank=False)
-    Medium_rank3_choice = models.StringField(blank=False)
-    Medium_rank4_choice = models.StringField(blank=False)
-    Medium_rank5_choice = models.StringField(blank=False)
+    Medium_rank1_choice = models.StringField(blank=True)
+    Medium_rank2_choice = models.StringField(blank=True)
+    Medium_rank3_choice = models.StringField(blank=True)
+    Medium_rank4_choice = models.StringField(blank=True)
+    Medium_rank5_choice = models.StringField(blank=True)
     
-    Difficult_rank1_choice = models.StringField(blank=False)
-    Difficult_rank2_choice = models.StringField(blank=False)
-    Difficult_rank3_choice = models.StringField(blank=False)
-    Difficult_rank4_choice = models.StringField(blank=False)
-    Difficult_rank5_choice = models.StringField(blank=False)
+    Difficult_rank1_choice = models.StringField(blank=True)
+    Difficult_rank2_choice = models.StringField(blank=True)
+    Difficult_rank3_choice = models.StringField(blank=True)
+    Difficult_rank4_choice = models.StringField(blank=True)
+    Difficult_rank5_choice = models.StringField(blank=True)
     
     # these are the bundles that are available to the player. it is a dictionary i.e. rank_1: bundles, etc
     Available_bundles_Easy_rank1 = models.StringField(initial='')
@@ -728,7 +728,7 @@ class Player(BasePlayer):
             'I receive the bonus just for completing all tasks, regardless of score.'],
         ],
         # initial=True, 
-        label='What must happen for you to receive the bonus of 20 EUR?', #TODO: Adjust if changing bonus
+        label='What must happen for you to receive the bonus of 20 EUR?', 
         widget=widgets.RadioSelect,
     )
 
@@ -738,16 +738,18 @@ class Player(BasePlayer):
             [False, '≥ 50 % correct'],
             [True,  '≥ 80 % correct'],   # ✅ correct
         ],
-        # initial=True, #TODO: remove initial true
-        label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?', #TODO: adjust if percentages have changed.
+        # initial=True, 
+        label='If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right?', 
         widget=widgets.RadioSelect,
     )
     # -----------------------------------------------------------------
-    How_confident = models.IntegerField( choices = [1,2,3,4,5,6,7],
-        label = 'How confident are you in the 15 choices you just made?',
-        widget=widgets.RadioSelectHorizontal)
+    How_confident = models.IntegerField(
+        choices=[1, 2, 3, 4, 5, 6, 7],
+        label='How confident are you in the 15 choices you just made? <span style="color:grey; font-size:smaller;">(1 = Not at all, 7 = Very confident)</span>',
+        widget=widgets.RadioSelectHorizontal
+    )
     How_happy = models.IntegerField( choices = [1,2,3,4,5,6,7],
-        label = 'How satisfied are you with these choices?',
+        label = 'How satisfied are you with these choices? <span style="color:grey; font-size:smaller;">(1 = Not at all, 7 = Very satisfied)</span>',
         widget=widgets.RadioSelectHorizontal)
  
  
@@ -792,11 +794,11 @@ class Attributes_rank(MyBasePage):
             field_name = 'ranking_order',
         )
         
-    @staticmethod   
-    def before_next_page(player: Player, timeout_happened):
-        'FOR DEBUG ONLY: choose a random ranking order'
-        #TODO: delete these to remove the bug.
-        player.ranking_order = json.dumps(["Cognitive Ease", "Engagement", "Confidence", "Time Efficiency"])
+    # @staticmethod   
+    # def before_next_page(player: Player, timeout_happened):
+    #     'FOR DEBUG ONLY: choose a random ranking order'
+    #     #delete these to remove the bug.
+    #     player.ranking_order = json.dumps(["Cognitive Ease", "Engagement", "Confidence", "Time Efficiency"])
     
 class Attributes_rank_cardinality(MyBasePage):
     extra_fields = ['cardinality_Dimension_1', 'cardinality_Dimension_2', 
@@ -855,9 +857,9 @@ class Attributes_tasks_Dimension_1_cardinality(MyBasePage):
         variables['DimensionAtHand'] = "Cognitive Ease"
         variables['DimensionText'] = C.CognitiveEase_text_2
         
-        # # TODO: remove the next 2 lines (DEBUG ONLY)
-        if not ranking_order:
-            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        # #remove the next 2 lines (DEBUG ONLY)
+        # if not ranking_order:
+        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order) 
         return variables
@@ -903,9 +905,9 @@ class Attributes_tasks_Dimension_2_cardinality(MyBasePage):
         
         variables['DimensionAtHand'] = "Engagement"
         variables['DimensionText'] = C.Engagement_text_2
-        # # TODO: remove the next 2 lines (DEBUG ONLY)
-        if not ranking_order:
-            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        # remove the next 2 lines (DEBUG ONLY)
+        # if not ranking_order:
+        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -951,9 +953,9 @@ class Attributes_tasks_Dimension_3_cardinality(MyBasePage):
         
         variables['DimensionAtHand'] = "Confidence"
         variables['DimensionText'] = C.Confidence_text_2
-                # TODO: remove the next 2 lines (DEBUG ONLY)
-        if not ranking_order:
-            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+                #  remove the next 2 lines (DEBUG ONLY)
+        # if not ranking_order:
+        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -999,9 +1001,9 @@ class Attributes_tasks_Dimension_4_cardinality(MyBasePage):
         
         variables['DimensionAtHand'] = "Time Efficiency"
         variables['DimensionText'] = C.TimeEfficiency_text_2
-        # TODO: remove the next 2 lines (DEBUG ONLY)
-        if not ranking_order:
-            ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
+        #  remove the next 2 lines (DEBUG ONLY)
+        # if not ranking_order:
+        #     ranking_order = json.dumps(random.sample(["SpotTheDifference", "Quiz", "MathMemory", "EmotionRecognition"], 4))
     
         variables['ranked_items'] = json.loads(ranking_order)
         return variables
@@ -1507,21 +1509,19 @@ class Revisit_explanation(MyBasePage):
         for each player and each choice, we check if it is empty,
             if empty we assign a random available bundle.
         This is for debug only!
-        # TODO: remove these codes, replace with pass
         '''
         'setting random bundles for the player'
-        for rank in range(1, 6):
-            for difficulty in ['Easy', 'Medium', 'Difficult']:
-                choice_field = f"{difficulty}_rank{rank}_choice"
-                if not getattr(player, choice_field):
-                    available_bundles = return_available_bundles(player, rank, difficulty)[0]
-                    random_choice = random.choice(list(available_bundles.keys()))
-                    setattr(player, choice_field, random_choice)
-        # pass
+        #  remove these codes, replace with pass (debug only)
+        # for rank in range(1, 6):
+        #     for difficulty in ['Easy', 'Medium', 'Difficult']:
+        #         choice_field = f"{difficulty}_rank{rank}_choice"
+        #         if not getattr(player, choice_field):
+        #             available_bundles = return_available_bundles(player, rank, difficulty)[0]
+        #             random_choice = random.choice(list(available_bundles.keys()))
+        #             setattr(player, choice_field, random_choice)
         
         
-        
-        calculate_task_scores(player)
+        # calculate_task_scores(player)
         for rank in range(1, 6): 
             for difficulty in ['Easy', 'Medium', 'Difficult']:
                 calculate_bundle_scores(player, difficulty, rank)

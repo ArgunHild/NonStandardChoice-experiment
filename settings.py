@@ -45,7 +45,7 @@ ROOMS = [
 
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc="", use_browser_bots=False,
+    real_world_currency_per_point=0.5, participation_fee=0.00, doc="", use_browser_bots=False,
 )
 
 PARTICIPANT_FIELDS = [
@@ -54,7 +54,7 @@ PARTICIPANT_FIELDS = [
     'Treatment', 'Group', 'ID_in_Group', 'ID_in_Treatment',
     'Random_bundle', 'Final_bundle',
     'Bonus_1','Bonus_1_task',  'Bonus_2',
-    'Total_bonus', 'Total_payment',
+    'Total_bonus', 
 ]
 
 SESSION_FIELDS = {
@@ -66,8 +66,8 @@ SESSION_FIELDS = {
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
-USE_POINTS = True
+REAL_WORLD_CURRENCY_CODE = 'EUR'
+USE_POINTS = False
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

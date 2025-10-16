@@ -10,9 +10,6 @@ class C(BaseConstants):
     NUM_ROUNDS = 1
     
     # Prolific links, gotten from the study page on prolific
-    Completion_redirect = 'https://www.wikipedia.org/' #TODO: adjust redirect
-    Reject_redirect = 'https://www.wikipedia.org/' #TODO: adjust redirect
-    Return_redirect = 'https://www.wikipedia.org/' #TODO: adjust redirect
 
     Instructions_general_path = "_templates/global/Instructions.html"
 
@@ -26,7 +23,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    blur_event_counts = models.StringField(initial=0, blank=True) # logs how often user clicked out of the page #TODO: ensure that this is added to all the pages
+    blur_event_counts = models.StringField(initial=0, blank=True) # logs how often user clicked out of the page 
 
 
 

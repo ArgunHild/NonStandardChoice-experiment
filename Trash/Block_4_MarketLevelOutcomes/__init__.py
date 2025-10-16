@@ -31,7 +31,6 @@ class C(BaseConstants):
     
     Instructions_general_path = "_templates/global/Instructions.html"
 
-    Return_redirect = "https://www.wikipedia.org/" #TODO: adjust return redirect
     
     
 
