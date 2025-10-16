@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Preference Survey</title>
+    <title>Task Preference Survey</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,7 +32,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Game Preference Survey</h2>
+        <h2>Task Preference Survey</h2>
         
         <!-- Rank Dimensions -->
         <div class="section">
@@ -81,10 +81,10 @@
             <input type="number" min="1" max="10" placeholder="Intrinsic Motivation Score">
         </div>
 
-        <!-- Rank Games for Each Dimension -->
+        <!-- Rank Tasks for Each Dimension -->
         <div class="section">
-            <h3>Rank Games for a Dimension</h3>
-            <label>Select a dimension and rank the Games from 1 (best) to 4 (worst).</label>
+            <h3>Rank Tasks for a Dimension</h3>
+            <label>Select a dimension and rank the Tasks from 1 (best) to 4 (worst).</label>
             <select>
                 <option value="">Select Dimension</option>
                 <option value="payoff">Payoff</option>
@@ -92,14 +92,14 @@
                 <option value="intrinsicMotivation">Intrinsic Motivation</option>
             </select>
             <select>
-                <option value="">Game 1</option>
+                <option value="">Task 1</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
             </select>
             <select>
-                <option value="">Game 2</option>
+                <option value="">Task 2</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -107,14 +107,14 @@
             </select>
         </div>
 
-        <!-- Assign Scores to Games -->
+        <!-- Assign Scores to Tasks -->
         <div class="section">
-            <h3>Assign Scores to Games</h3>
-            <label>Assign scores from 1 to 10 to each Game, ensuring consistency with rankings.</label>
-            <input type="number" min="1" max="10" placeholder="Game 1 Score">
-            <input type="number" min="1" max="10" placeholder="Game 2 Score">
-            <input type="number" min="1" max="10" placeholder="Game 3 Score">
-            <input type="number" min="1" max="10" placeholder="Game 4 Score">
+            <h3>Assign Scores to Tasks</h3>
+            <label>Assign scores from 1 to 10 to each Task, ensuring consistency with rankings.</label>
+            <input type="number" min="1" max="10" placeholder="Task 1 Score">
+            <input type="number" min="1" max="10" placeholder="Task 2 Score">
+            <input type="number" min="1" max="10" placeholder="Task 3 Score">
+            <input type="number" min="1" max="10" placeholder="Task 4 Score">
         </div>
 
         <button type="submit">Submit</button>

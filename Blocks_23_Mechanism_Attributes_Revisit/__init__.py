@@ -577,11 +577,11 @@ class Player(BasePlayer):
     taste_variety = models.FloatField(
         # initial=1,
         label = '',
-        choices = [[1.2, 'I strongly prefer a bundle with different games'],
-                   [1.1, 'I mildly prefer a bundle with different games'],  
+        choices = [[1.2, 'I strongly prefer a bundle with different tasks'],
+                   [1.1, 'I mildly prefer a bundle with different tasks'],  
                    [1, 'I am indifferent'],
-                   [0.9, 'I mildly prefer a bundle with the same games'],  
-                   [0.8, 'I strongly prefer a bundle with the same games'],
+                   [0.9, 'I mildly prefer a bundle with the same tasks'],  
+                   [0.8, 'I strongly prefer a bundle with the same tasks'],
                      ],
         widget=widgets.RadioSelect
     )
@@ -589,13 +589,13 @@ class Player(BasePlayer):
     ## Task_dimension scores
     ### Cardinalities are between 1 and 10
     '''
-    1. Cognitive Ease: How effortless the game felt—how little mental effort, memory load, or switching between steps it required.
+    1. Cognitive Ease: How effortless the task felt—how little mental effort, memory load, or switching between steps it required.
         - Higher score -> better i.e., Least mentally exhausting gets top score
-    2. Engagement: How enjoyable or stimulating the game felt—whether it was fun or kept your interest.
+    2. Engagement: How enjoyable or stimulating the task felt—whether it was fun or kept your interest.
         - Higher score -> better i.e., Most engaging gets top score
-    3. Confidence: How sure you felt that you could do the game well.
+    3. Confidence: How sure you felt that you could do the task well.
         - Higher score -> better i.e., Most confident gets top score
-    4. Time Efficiency: How quick and smooth the game felt—how long it took and how many clicks it needed.
+    4. Time Efficiency: How quick and smooth the task felt—how long it took and how many clicks it needed.
         - Higher score -> better i.e., Fewest mouse-clicks gets top score
     '''
     ranking_order_CognitiveEase = models.StringField(blank=False) # TODO: remove all blank trues
@@ -719,7 +719,7 @@ class Player(BasePlayer):
     Comprehension_question_2 = models.BooleanField(
         choices=[
             [True,
-            'I must reach the required score on every game in the selected '
+            'I must reach the required score on every task in the selected '
             'bundle.'],                               # ✅ correct
             [False,
             'I must reach the required score on at least one task in the bundle.'],
