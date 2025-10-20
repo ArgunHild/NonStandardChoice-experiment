@@ -1,0 +1,24 @@
+
+{{ block title }}{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+<div class="content-box box-neutral">
+    <h2 class="section-title">Learning Stage – Spot the Difference</h2>
+    <hr class="section-divider">
+
+ 
+
+    
+    {{include C.Spot_the_difference_instructions}}
+
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <button id="NextButton" class="btn btn-primary">Start task</button>
+    </div>
+</div>
+
+{{ endblock }}
+

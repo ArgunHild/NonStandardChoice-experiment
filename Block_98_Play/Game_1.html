@@ -1,0 +1,208 @@
+{{ block title }}
+
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+<script>
+    let ImgSource1 = [
+        "{{static 'mathmemory/Box1/3black_part_1.png' }}",
+        "{{static 'mathmemory/Box1/3red_part_1.png' }}",
+        "{{static 'mathmemory/Box1/3black_part_2.png' }}",
+        "{{static 'mathmemory/Box1/3red_part_2.png' }}",
+        
+        "{{static 'mathmemory/Box1/4black_part_1.png' }}",
+        "{{static 'mathmemory/Box1/4red_part_1.png' }}",
+        "{{static 'mathmemory/Box1/4black_part_2.png' }}",
+        "{{static 'mathmemory/Box1/4red_part_2.png' }}",
+        
+        "{{static 'mathmemory/Box1/5black_part_1.png' }}",
+        "{{static 'mathmemory/Box1/5red_part_1.png' }}",
+        "{{static 'mathmemory/Box1/5black_part_2.png' }}",
+        "{{static 'mathmemory/Box1/5red_part_2.png' }}",
+        
+        "{{static 'mathmemory/Box1/7black_part_1.png' }}",
+        "{{static 'mathmemory/Box1/7red_part_1.png' }}",
+        "{{static 'mathmemory/Box1/7black_part_2.png' }}",
+        "{{static 'mathmemory/Box1/7red_part_2.png' }}"];
+
+    let ImgSource2 = [
+        "{{ static 'mathmemory/Box2/3red_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/3black_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/3red_part_2.png' }}",
+        "{{ static 'mathmemory/Box2/3black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box2/4red_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/4black_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/4red_part_2.png' }}",
+        "{{ static 'mathmemory/Box2/4black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box2/11red_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/11black_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/11red_part_2.png' }}",
+        "{{ static 'mathmemory/Box2/11black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box2/7red_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/7black_part_1.png' }}",
+        "{{ static 'mathmemory/Box2/7red_part_2.png' }}",
+        "{{ static 'mathmemory/Box2/7black_part_2.png' }}"];
+        let ImgSource3 = [
+        "{{ static 'mathmemory/Box3/5red_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/5black_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/5red_part_2.png' }}",
+        "{{ static 'mathmemory/Box3/5black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box3/6red_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/6black_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/6red_part_2.png' }}",
+        "{{ static 'mathmemory/Box3/6black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box3/10red_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/10black_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/10red_part_2.png' }}",
+        "{{ static 'mathmemory/Box3/10black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box3/11red_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/11black_part_1.png' }}",
+        "{{ static 'mathmemory/Box3/11red_part_2.png' }}",
+        "{{ static 'mathmemory/Box3/11black_part_2.png' }}" ];
+        let ImgSource4 = [
+        "{{ static 'mathmemory/Box4/6red_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/6black_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/6red_part_2.png' }}",
+        "{{ static 'mathmemory/Box4/6black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box4/7red_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/7black_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/7red_part_2.png' }}",
+        "{{ static 'mathmemory/Box4/7black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box4/8red_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/8black_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/8red_part_2.png' }}",
+        "{{ static 'mathmemory/Box4/8black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box4/9red_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/9black_part_1.png' }}",
+        "{{ static 'mathmemory/Box4/9red_part_2.png' }}",
+        "{{ static 'mathmemory/Box4/9black_part_2.png' }}"    ];
+        let ImgSource5 = [
+        "{{static 'mathmemory/Box5/10red_part_1.png' }}",
+        "{{static 'mathmemory/Box5/10black_part_1.png' }}",
+        "{{static 'mathmemory/Box5/10red_part_2.png' }}",
+        "{{static 'mathmemory/Box5/10black_part_2.png' }}",
+        
+        "{{static 'mathmemory/Box5/11red_part_1.png' }}",
+        "{{static 'mathmemory/Box5/11black_part_1.png' }}",
+        "{{static 'mathmemory/Box5/11red_part_2.png' }}",
+        "{{static 'mathmemory/Box5/11black_part_2.png' }}",
+        
+        "{{static 'mathmemory/Box5/14red_part_1.png' }}",
+        "{{static 'mathmemory/Box5/14black_part_1.png' }}",
+        "{{static 'mathmemory/Box5/14red_part_2.png' }}",
+        "{{static 'mathmemory/Box5/14black_part_2.png' }}",
+        
+        "{{static 'mathmemory/Box5/16red_part_1.png' }}",
+        "{{static 'mathmemory/Box5/16black_part_1.png' }}",
+        "{{static 'mathmemory/Box5/16red_part_2.png' }}",
+        "{{static 'mathmemory/Box5/16black_part_2.png' }}"    ];
+        let ImgSource6 = [
+        "{{ static 'mathmemory/Box6/11red_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/11black_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/11red_part_2.png' }}",
+        "{{ static 'mathmemory/Box6/11black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box6/12red_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/12black_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/12red_part_2.png' }}",
+        "{{ static 'mathmemory/Box6/12black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box6/15red_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/15black_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/15red_part_2.png' }}",
+        "{{ static 'mathmemory/Box6/15black_part_2.png' }}",
+        
+        "{{ static 'mathmemory/Box6/3red_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/3black_part_1.png' }}",
+        "{{ static 'mathmemory/Box6/3red_part_2.png' }}",
+        "{{ static 'mathmemory/Box6/3black_part_2.png' }}"];
+</script> 
+<div class="content-box box-neutral">
+  <h2 class="section-title">{{ Task }} Task. Difficulty: {{ Difficulty }}</h2>
+  <hr class="section-divider">
+
+  <!-- warning / timer -->
+  <!-- <div class="section-box box-calm">
+    <div class="section-header">
+      <span class="icon">⚠️</span>
+      <h3>Please pay attention</h3>
+    </div>
+    <p>
+      <strong>Do not refresh your browser.</strong>
+      Doing so will not stop the timer but may reset your score.
+    </p>
+    <p id="timer" style="font-weight:bold;"></p>
+  </div> -->
+
+      
+    <div class="otree-timer_2" style="margin-top: 10px;">
+        Time remaining: <span id="time-left"></span> seconds
+    </div>
+
+  <!-- Task intro + game board -->
+  <div class="section-box box-info">
+    <div class="section-header">
+      <span class="icon">{{ Icon }}</span>
+      <h3>{{ Task }}</h3>
+    </div>
+
+
+
+
+    <!-- actual game HTML / JS -->
+    {{ include GameTemplate }}
+  </div>
+
+    <div style="display:none">
+    {% for field in form %}
+      {% if field.name not in hidden_fields %}
+        {{ formfield field.name }}
+      {% endif %}
+    {% endfor %}
+   </div>
+
+  <!-- hidden fields -->
+  <div style="display:none">
+    {% for field in form %}
+      {% if field.name in hidden_fields %}
+        {{ formfield field.name }}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- buttons -->
+  <div class="buttons-container" style="justify-content:center;margin-top:30px;">
+    <button id="NextButton" class="btn btn-primary">Submit answers and continue</button>
+  </div>
+</div>
+
+
+    
+    <script>
+        let customTimerEle = document.getElementById('time-left');
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            $('.otree-timer__time-left').on('update.countdown', function (event) {
+                customTimerEle.innerText = event.offset.totalSeconds;
+            });
+        });
+
+    </script>
+
+
+
+{{ endblock }}
+
+

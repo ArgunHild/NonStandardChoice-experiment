@@ -1,0 +1,137 @@
+<style>
+    .bundle-entry {
+        border: 2px solid var(--primary);
+        border-radius: 8px;
+        padding: 12px;
+        min-width: 160px;
+        background-color: #f9f9f9;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .bundle-entry:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+
+    .emoji-legend {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    gap: 24px;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+  }
+  .emoji-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+</style>
+
+<div class="content-box">
+
+    <!-- Optional: Remove this debug block once no longer needed -->
+    <div class="section-box box-info-debug">
+        <strong>Debug Info</strong><br>
+        Group ID: {{ player_Group_id }}<br>
+        Mechanism: {{ Mechanism }}<br>
+        Menu: {{ Menu }}<br>
+        Available Bundles (Raw): {{ AvailableBundles }}<br>
+        Unavaulable Bundles (Raw): {{ UnavailableBundles }}<br>
+        Note: {{ Note }}<br>
+    </div>
+
+    <!-- <div class="section-box box-contrast" style="text-align: center;">
+        <h4>Your current rank</h4>
+        <p>{{ rank_sentence|safe }}</p>
+    </div>
+     -->
+    
+
+
+    <!-- <div class="section-box box-calm" style="text-align: center; padding: 20px;">
+        <h4 style="margin-bottom: 20px;">Available Bundles</h4>
+        <div class="bundle-table" style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+            {% for bundle in AvailableBundles %}
+                <div class="bundle-entry" style="padding: 15px 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; min-width: 180px;">
+                    <strong style="display: block; margin-bottom: 10px;">Bundle {{ forloop.counter }}</strong>
+                    <span style="font-size: 1.5em; display: inline-block;">{{ bundle }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div> -->
+
+
+
+<div class="text-center">
+    <button type="button" id="NextButton" class="otree-btn-next btn btn-primary">
+        Make your choice
+    </button>
+</div>
+
+
+<div class="buttons-container">
+        <div class="Instructions">
+            <a id="myBtn" onclick="open_modal(1)"  class="otree-btn-next btn btn-info">Open Instructions (Bundle choice)</a>
+            <a id="myBtn" onclick="open_modal(2)" class="btn btn-info">Reminder of Tasks</a>
+        </div>
+</div>
+
+</div>
+
+<div style="display: none;">
+    <button id="HiddenNextButton" class="otree-btn-next btn btn-primary">Next</button>
+</div>
+
+
+        <div id="myModal2" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Reminder for the tasks</h2>
+                        <span class="close" onclick="span_click(2)">&times;</span>
+                    </div>
+                    <p style="padding: 0px">
+                        {{ include C.Instructions_Example_Games_path}}
+                    </p>
+            </div>
+        </div>
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+              <h2><span class="icon">📘</span>Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
+        </div>
+    </div>
+
+
+
+<style>
+    #progressContainer {
+      background-color: #ddd;
+      border-radius: 8px;
+      height: 16px;
+      width: 100%;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+  
+    #progressBar {
+      background-color: #4caf50;
+      height: 100%;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+  </style>
+

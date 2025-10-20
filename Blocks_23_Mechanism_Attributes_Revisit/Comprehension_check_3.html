@@ -1,0 +1,94 @@
+{{ block title }}{{ endblock }}
+
+{{ block content }}
+
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+<script type="text/javascript" src="{{ static 'js/js.js' }}"></script>
+
+<div class="content-box box-neutral">
+    <h2 class="section-title">Comprehension Check</h2>
+    <hr class="section-divider">
+
+    <div class="section-box box-info">
+        <div class="section-header">
+            <div class="icon">⚠️</div>
+            <h3>Second Attempt Failed</h3>
+        </div>
+        <p>
+            You answered the following question(s) incorrectly:
+            <strong>{{ Comprehension_wrong_answers }}</strong>.
+        </p>
+        <p>
+            You have failed the comprehension questions twice. Please read below the correct answers carefully before proceeding to the next part of the experiment.
+        </p>
+    </div>
+
+        <div class="section-box box-warn">
+        <div class="section-header">
+            <div class="icon">✅</div>
+            <h3>                       <strong>Correct answers:</strong></h3>
+        </div>
+
+            <ul>
+                <li>Question 1. At the end you will work on a bundle. How is this bundle selected? <br>
+                    <strong>Correct answer:</strong>The computer will randomly pick and implement one of the choices I faced and the bundle I chose in that menu.
+                </li> <br>
+                <li>Question 2.  What must happen for you to receive the bonus of 20 EUR? ? <br>
+                    <strong>Correct answer:</strong>I must reach the required score on every task in the selected bundle.
+                </li> <br>
+                <li>Question 3.  If a task is labelled with the subscript “3” (hard), what percentage of answers must you get right? <br>
+                    <strong>Correct answer:</strong>≥ 80 % correct (At least 80%).
+                </li>
+    </div>
+
+
+
+
+
+    <!-- Comprehension form fields (readonly for review or fallback handling) -->
+    <!-- <div class="section-box box-info">
+        <div class="section-header">
+            <div class="icon">🧪</div>
+            <h3>Comprehension Questions</h3>
+        </div>
+
+        {% for field in form %}
+            {% if field.name not in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div> -->
+
+    <div style="display:none">
+        {% for field in form %}
+            {% if field.name in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+    </div>
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Bundle choice)</a>
+        <a id="myBtn"  onclick="next_button_comprehension()"  class="otree-btn-next btn btn-primary">Next</a>
+        <button id="submit_button" style="display: none"></button>
+    </div>
+
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+                <h2>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_mechanism_path }}
+            </p>
+        </div>
+    </div>
+
+{{ endblock }}

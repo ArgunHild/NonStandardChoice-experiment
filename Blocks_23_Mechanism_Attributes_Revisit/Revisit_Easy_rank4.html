@@ -1,0 +1,81 @@
+{{ block title }}
+
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+    <div class="section-box box-info-debug">
+    <p>
+        <strong>FOR DEBUG</strong>
+        <br>
+        Rank:{{rank}}; Difficulty:{{difficulty}} <br>
+        Mechanism outcome: {{MechanismOutcome}} <br>
+        Scores: {{Scores_bundles}} <br>
+        Offered bundle: {{OfferedBundle}} <br>
+    </p>
+    </div>
+
+       <div class="section-box box-neutral">
+            <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+                <span class="icon">🎯</span> Choice: 4/15
+            </h3>
+            <div class="section-divider"></div>
+
+            <div class="section-box box-info">
+                <div style="display: flex; gap: 30px; justify-content: center; align-items: flex-start; margin-top: 20px;">
+                    <div class="highlight-bundle" style="text-align: center;">
+                        <p style="margin-bottom: 8px;"><strong>Left bundle</strong></p>
+                        <span style="font-size: 2.2em;">{{ OfferedBundle }}</span>
+
+                    </div>
+                    <div class="highlight-bundle" style="text-align: center;">
+                        <p style="margin-bottom: 8px;"><strong>Right bundle</strong></p>
+                        <span style="font-size: 2.2em;">{{ MechanismOutcome }}</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+<!-- Form -->
+{{ formfields }}
+
+
+<!-- Navigation -->
+    <div class="buttons-container">
+        <div class="Instructions">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Instructions (Revisit choice)</a>
+        <a id="myBtn" onclick="open_modal(2)" class="btn btn-info">Reminder of Tasks</a>
+        </div>
+            <button id="NextButton" class="otree-btn-next btn btn-primary">Next</button>
+    </div>
+
+<!-- Modal -->
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reminder for the tasks</h2>
+                <span class="close" onclick="span_click(2)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_Example_Games_path}}
+            </p>
+        </div>
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📘</span> Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_revisit_path }}
+            </p>
+        </div>
+    </div>
+
+{{ endblock }}

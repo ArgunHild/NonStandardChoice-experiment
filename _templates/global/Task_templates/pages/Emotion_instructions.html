@@ -1,0 +1,53 @@
+{{ block title }}{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+<div class="content-box box-neutral">
+    <h2 class="section-title">Learning Stage – Emotion Recognition</h2>
+    <hr class="section-divider">
+
+
+    <!-- Task content (fully styled in included file) -->
+    {{ include C.Emotion_instructions }}
+
+    <!-- Hidden fields -->
+    {% for field in form %}
+        {% if field.name not in hidden_fields %}
+            <div style="display: none;"> 
+                {{ formfield field.name }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <div style="display: none;">
+        {% for field in form %}
+            {% if field.name in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
+        <button id="NextButton" class="btn btn-primary">Start task</button>
+    </div>
+</div>
+
+<!-- Modal popup -->
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><span class="icon">📘</span> Instructions</h2>
+            <span class="close" onclick="span_click(1)">&times;</span>
+        </div>
+        <div class="modal-body">
+            {{ include C.Instructions_general_path }}
+        </div>
+    </div>
+</div>
+
+{{ endblock }}

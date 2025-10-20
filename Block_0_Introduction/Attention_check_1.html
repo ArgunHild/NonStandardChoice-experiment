@@ -1,0 +1,66 @@
+{{ block title }}
+
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+
+<div class="content-box box-neutral">
+    <h2 class="section-title">Attention Check</h2>
+    <hr class="section-divider">
+
+    <div class="section-box box-calm">
+        <div class="section-header">
+            <div class="icon">🚨</div>
+            <h3>Please read carefully</h3>
+        </div>
+        <p>
+            It is important for us to ensure that you are paying attention to the questions. To do so, we use a so-called <strong>"attention check"</strong>.
+            Below is a list of animals. Please select the one that is <strong>not a real animal</strong>.
+        </p>
+    </div>
+
+<!-- Attention check question in its own box -->
+<div class="section-box box-info">
+    <div class="section-header">
+        <div class="icon">🐾</div>
+        <h3>Select the correct animal</h3>
+    </div>
+
+    {% for field in form %}
+        {% if field.name not in hidden_fields %}
+            {{ formfield field.name }}
+        {% endif %}
+    {% endfor %}
+</div>
+
+    <div style="display:none">
+        {% for field in form %}
+            {% if field.name in hidden_fields %}
+                {{ formfield field.name }}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions</a>
+        <button id="NextButton" class="btn btn-primary">Next</button>
+    </div>
+</div>
+
+<!-- Modal popup -->
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><span class="icon">📘</span> Instructions</h2>
+            <span class="close" onclick="span_click(1)">&times;</span>
+        </div>
+        <div class="modal-body">
+            {{ include C.Instructions_general_path }}
+        </div>
+    </div>
+</div>
+
+{{ endblock }}

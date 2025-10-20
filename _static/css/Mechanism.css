@@ -1,0 +1,91 @@
+/* Popup styling */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 2;
+}
+
+/* Popup content */
+.popup-content {
+    text-align: center;
+}
+
+/* Comparison section */
+.comparison {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 15px 0;
+}
+
+/* Bundle buttons */
+.bundle-option {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.bundle-option:hover {
+    background-color: #d1e7fd;
+}
+
+
+
+.next-button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.next-button:hover {
+    background: #4cae4c;
+}
+
+
+/* progress bar for binary */
+#progressContainer {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#progressBar {
+    height: 10px;
+    width: 0%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease-in-out;
+}
+
+
+/* Bundle emojis */
+
+.bundle-option {
+    font-size: 2rem;  /* Increase emoji size (adjust as needed) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.bundle-option:hover {
+    background-color: #d1e7fd;
+    font-weight: bold;
+}

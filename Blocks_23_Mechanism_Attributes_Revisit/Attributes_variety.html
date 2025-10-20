@@ -1,0 +1,71 @@
+{{ block title }}
+    
+{{ endblock }}
+
+{% block content %}
+    <link rel="stylesheet" href="{{static 'css/css.css'}}">
+    <link rel="stylesheet" href="{{static 'css/modal.css'}}">
+    
+    <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+    <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
+
+   <div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+        Your Preference for Variety  <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 11/11)</span></h3>
+    </h3>
+    <div class="section-divider"></div>
+
+    <p>
+        Later on, you will be presented with bundles of tasks to choose from.
+        Some task bundles contain different Tasks, while others include the same Task more than once. 
+        We would like to know your preference when choosing between these types of bundles.
+    </p>
+
+    <p>
+        <strong>Example:</strong>
+        <div class="example-bundles" style="display: flex; gap: 30px; justify-content: center; margin-top: 20px;">
+            <div class="highlight-bundle" style="text-align: center;">
+                <p style="margin-bottom: 8px;"><strong>Mixed-Task bundle</strong></p>
+                <span style="font-size: 2em;">🔢 + 😊</span>
+            </div>
+            <div class="highlight-bundle" style="text-align: center;">
+                <p style="margin-bottom: 8px;"><strong>Same-Task bundle</strong></p>
+                <span style="font-size: 2em;">🔢 + 🔢</span>
+            </div>
+</div>
+
+    </p>
+
+    <p>
+        Please indicate which type of bundle you would generally prefer.
+    </p>
+
+    {{ formfields }}
+
+<br><br>
+
+    
+    <div class="buttons-container">
+        <button id="submit-btn" class="otree-btn-next btn btn-primary">Submit</button>
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📘</span>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_general_path }}
+            </p>
+        </div>
+    </div>
+</div>
+    
+    
+
+   
+
+
+    <br><br>
+{% endblock %}

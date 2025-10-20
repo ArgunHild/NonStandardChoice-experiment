@@ -1,0 +1,85 @@
+{{ block title }}
+
+{{ endblock }}
+
+{% block content %}
+    <link rel="stylesheet" href="{{static 'css/css.css'}}">
+    <link rel="stylesheet" href="{{static 'css/modal.css'}}">
+    <link rel="stylesheet" href="{{static 'css/cardinality_page.css'}}">
+
+    <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+    <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">Rank the Task Attributes <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 9/11)</span></h3>
+    <div class="section-divider"></div>
+
+    <p>
+        Please rank the following <strong>four attributes</strong> based on how important they are to you when choosing between Tasks or bundles. 
+        <strong>Rank 1</strong> means most important, and <strong>Rank 4</strong> means least important.
+        Drag each item from the list on the left into a rank slot on the right.
+    </p>
+
+    <p>
+        You may continue once all attributes have been ranked.
+    </p>
+
+    <!-- Optional: Insert your attribute explanation table here again, if you want to reinforce meanings -->
+
+    <div class="boxes-container" style="margin-top: 30px;">
+        <!-- Left List (Unsorted Items) -->
+        <div class="box">
+            <h4 style="margin-bottom: 10px;">Attributes to Rank</h4>
+            <ul id="left-list" class="sortable">
+                {% for item in items %}
+                    <li class="sortable-item" data-value="{{ item }}">{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Right List (Rank Slots) -->
+        <div class="box">
+            <h4 style="margin-bottom: 10px;">To rank, drag and drop here</h4>
+            <ul id="right-list">
+                {% for i in range(1, 5) %}
+                    <li class="sortable-slot" data-rank="{{ i }}">Rank {{ i }}: <span class="placeholder">[Drag & Drop here]</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+    </div>
+
+
+    </div>
+
+
+
+
+    
+    <br><br>
+
+    <div class="buttons-container">
+        <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>       
+        <!-- <button id="submit-btn" class="otree-btn-next btn btn-primary" >DEBUG NEXT</button>  -->
+        <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+    </div>
+
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📘</span>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_attributes_path}}
+            </p>
+        </div>
+    </div>
+    <!-- Hidden input to store the ranking order -->
+    <input type="hidden" name="ranking_order" id="ranking_order">
+
+
+
+    <br><br>
+{% endblock %}

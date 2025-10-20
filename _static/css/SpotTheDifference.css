@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+#gameArea {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Adjust the gap between the images as needed */
+}
+
+.imageContainer {
+    border: 2px solid #000; /* Adds a border around the images */
+    display: inline-block;
+    position: relative; /* Allows us to position elements inside this container absolutely */
+}
+
+.imageContainer canvas {
+    width: 100%; /* Make canvas the same width as the image */
+    height: auto; /* Adjust height automatically */
+    position: absolute; /* Position canvas over the image */
+    top: 0;
+    left: 0;
+}
+
+#score {
+    font-size: 24px;
+    font-weight: bold;
+}

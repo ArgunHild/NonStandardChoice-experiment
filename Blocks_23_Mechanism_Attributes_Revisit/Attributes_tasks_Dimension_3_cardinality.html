@@ -1,0 +1,104 @@
+{{ block title }}
+
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<link rel="stylesheet" href="{{static 'css/cardinality_page.css'}}">
+
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+<script type="text/javascript" src="{{ static 'js/Script_cardinality.js' }}"></script>
+
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+        Score Tasks by {{ DimensionAtHand }}  <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 6/11)</span></h3>
+    </h3>
+    <div class="section-divider"></div>
+
+    <p>
+        Based on your experience, please assign each task a score from <strong>1 to 10</strong> 
+        reflecting how well it aligns with the attribute <strong>{{ DimensionAtHand }}</strong>.
+    </p>
+
+    <p><em>{{ DimensionText }}</em></p>
+
+    <p>
+        These scores should reflect your personal view of how strongly each task expresses this attribute —
+        not just in comparison to each other, but in absolute terms.
+    </p>
+
+
+    <div class="section-box box-info" style="margin-top: 25px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Score (1–10)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ranked_items %}
+                <tr>
+                    <td>{{ item }}</td>
+                    <td>
+                        <select class="likert-scale" name="cardinality_Dimension_Confidence_{{ item }}" required>
+                            <option value="">Select</option>
+                            {% for i in range(1, 11) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    
+
+
+
+
+
+    <div class="buttons-container">
+        <div class="Instructions">
+            <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>
+            <a id="myBtn" onclick="open_modal(2)" class="btn btn-info">Reminder of Tasks</a>
+        </div>
+        <!-- <button id="submit-btn" class="otree-btn-next btn btn-primary" >DEBUG Next</button> -->
+        <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+    </div>
+
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reminder for the tasks</h2>
+                <span class="close" onclick="span_click(2)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_Example_Games_path}}
+            </p>
+        </div>
+    </div>
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📘</span>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_attributes_path}}
+            </p>
+        </div>
+    </div>
+
+    
+</div>
+
+   
+
+
+    <br><br>
+{% endblock %}

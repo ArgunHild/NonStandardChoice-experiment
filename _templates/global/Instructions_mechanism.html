@@ -1,0 +1,99 @@
+<div class="content-box box-neutral">
+  <h2 class="section-title">How This Part Works</h2>
+  <hr class="section-divider">
+
+  <!-- ────────── What to expect ────────── -->
+  <div class="section-box box-neutral">
+    <div class="section-header">
+      <span class="icon">👀</span>
+      <h3 class="instructions-title">What to Expect</h3>
+    </div>
+    <p>
+      In the next few pages you will see several <strong>menus of task bundles</strong>.  
+      Each menu shows <strong>3&nbsp;–&nbsp;7 bundles</strong>, and you will pick <em>one</em> bundle from every menu.
+    </p>
+    <p>
+      After you finish the study, the computer will <strong>randomly choose one of your menus</strong> and then randomly pick <strong>one of your chosen bundles</strong>.  
+      You will work on that bundle, and most of your <strong>bonus payment</strong> will depend on how well you do.  
+      Therefore, please choose each bundle carefully.
+    </p>
+  </div>
+
+  <!-- ────────── Mechanism explanation ────────── -->
+  <div class="section-box box-info">
+    <div class="section-header">
+      <span class="icon">⚙️</span>
+      <h3 class="instructions-title">Making a Selection</h3>
+    </div>
+
+    {% if mechanism == 'binary' %}
+      <p>
+        First you will see the <strong>whole menu</strong>; nothing is clickable yet.  
+        Click <em>Start&nbsp;the&nbsp;mechanism</em> when you are ready.
+      </p>
+      <p>
+        You will then be shown <strong>two bundles at a time</strong>.  In each round click the bundle you prefer.  
+        After a few quick rounds the system will identify your favorite bundle automatically.
+      </p>
+    {% else %}
+      <p>
+        First you will see the <strong>whole menu</strong>; nothing is clickable yet.  
+        When you are ready, click <em>Start&nbsp;the&nbsp;mechanism</em>.
+      </p>
+      <p>
+        The same menu will re‑appear and you can now click the <strong>single bundle you prefer</strong>.
+      </p>
+    {% endif %}
+  </div>
+
+  <!-- ────────── Bundle complexity ────────── -->
+  <div class="section-box box-calm">
+    <div class="section-header">
+      <span class="icon">🧩</span>
+      <h3 class="instructions-title">Bundle Complexity</h3>
+    </div>
+    <p>
+      You will face <strong>three blocks</strong> of menus one after another:
+      <em>Low</em> → <em>Medium</em> → <em>High</em>.  
+      With each new block, <strong>one extra task</strong> is added to every bundle, so your choices become richer.
+    </p>
+    <table class="performance-table">
+      <thead>
+        <tr><th>Complexity Level</th><th>tasks per Bundle</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Low</td><td>1 task</td></tr>
+        <tr><td>Medium</td><td>2 tasks</td></tr>
+        <tr><td>High</td><td>3 tasks</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ────────── Task difficulty ────────── -->
+  <div class="section-box box-warn">
+    <div class="section-header">
+      <span class="icon">🎯</span>
+      <h3 class="instructions-title">Task Difficulty</h3>
+    </div>
+    <p>
+      Every task can appear in <strong>three difficulty levels</strong>.  The level number is shown as a sub‑script next to the task icon.
+    </p>
+    <table class="performance-table">
+      <thead>
+        <tr><th>Level Number</th><th>Difficulty Label</th><th>Score Needed</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Easy</td><td>≥ 30 % correct</td></tr>
+        <tr><td>2</td><td>Medium</td><td>≥ 50 % correct</td></tr>
+        <tr><td>3</td><td>Hard</td><td>≥ 80 % correct</td></tr>
+      </tbody>
+    </table>
+    <p class="mt-2"><em>Example:</em> <strong>Quiz₂</strong> (Quiz at medium difficulty) contains 30 questions, and you must answer at least <strong>15</strong> correctly.</p>
+    <p>
+      You earn the bundle’s bonus only if you meet the required score for <em>every task</em> inside that bundle.
+    </p>
+    <p class="mt-2">
+      Difficulty is <strong>independent</strong> of bundle complexity: even a <em>Low</em> bundle can hold a hard task.
+    </p>
+  </div>
+</div>

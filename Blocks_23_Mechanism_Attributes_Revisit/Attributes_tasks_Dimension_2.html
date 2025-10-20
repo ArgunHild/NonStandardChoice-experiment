@@ -1,0 +1,103 @@
+{{ block title }}
+
+{{ endblock }}
+
+{% block content %}
+    <link rel="stylesheet" href="{{static 'css/css.css'}}">
+    <link rel="stylesheet" href="{{static 'css/modal.css'}}">
+    <link rel="stylesheet" href="{{static 'css/cardinality_page.css'}}">
+    
+    <script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+    <script type="text/javascript" src="{{ static 'js/Script_ordinality.js' }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">
+        Rank the Tasks by {{ DimensionAtHand }}  <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 3/11)</span></h3>
+    </h3>
+    <div class="section-divider"></div>
+
+    <p>
+        Please rank the four tasks below based on how well they reflect the attribute of <strong>{{ DimensionAtHand }} </strong>. This ranking is based on your own experience with each task.
+    </p>
+
+    <p><em>{{ DimensionText }}</em></p>
+
+    <p>
+        Drag each task from the left into a ranking slot on the right. <strong>Rank 1</strong> should reflect the task that best fits this attribute, and <strong>Rank 4</strong> the one that fits least.
+    </p>
+
+    <p>You may continue once all tasks have been ranked.</p>
+
+
+
+    <div class="boxes-container">
+        <!-- Left List (Unsorted Items) -->
+        <div class="box">
+            <h4>Tasks to Rank</h4>
+            <ul id="left-list" class="sortable">
+                {% for item in items %}
+                    <li class="sortable-item" data-value="{{ item }}">{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Right Box (Ranked Items with Fixed Slots) -->
+        <div class="box">
+            <h4>To rank, drag and drop here</h4>
+            <ul id="right-list">
+                {% for i in range(1, 5) %}
+                    <li class="sortable-slot" data-rank="{{ i }}">Rank {{ i }}: <span class="placeholder">[Drag&Drop here]</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+<br><br>
+
+    <!-- Hidden input to store the ranking order -->
+    <input type='hidden' name=ranking_order_Engagement id=ranking_order_Engagement>
+
+
+
+    <div class="buttons-container">
+        <div class="Instructions">
+            <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>
+            <a id="myBtn" onclick="open_modal(2)" class="btn btn-info">Reminder of Tasks</a>
+        </div>
+        <!-- <button id="submit-btn" class="otree-btn-next btn btn-primary" >DEBUG Next</button> -->
+        <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+    </div>
+
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reminder for the tasks</h2>
+                <span class="close" onclick="span_click(2)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_Example_Games_path}}
+            </p>
+        </div>
+    </div>
+    
+    <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon">📘</span>Instructions</h2>
+                <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+            <p style="padding: 0px">
+                {{ include C.Instructions_attributes_path}}
+            </p>
+        </div>
+    </div>
+
+    
+</div>
+
+   
+
+
+    <br><br>
+{% endblock %}

@@ -1,0 +1,70 @@
+{{ block title }}
+{{ endblock }}
+{{ block content }}
+<link rel="stylesheet" href="{{ static 'css/css.css' }}">
+<link rel="stylesheet" href="{{ static 'css/modal.css' }}">
+
+<div class="content-box box-info">
+    <h2 class="section-title">Your Learning Stage Results</h2>
+    <hr class="section-divider">
+
+    <!-- Performance Summary -->
+    <div class="section-box box-neutral">
+        <div class="section-header">
+            <div class="icon">📊</div>
+            <h3>Your Performance</h3>
+        </div>
+        <p>
+            Below you can see how many points you earned in each task during the learning stage.
+        </p>
+        <ul>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🧮</span> <strong>MathMemory:</strong> {{ Math }} / {{ Max_Math }} points</li>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🧩</span> <strong>Quiz:</strong> {{ Quiz }} / {{ Max_Quiz }} points</li>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🔍</span> <strong>Spot the Difference:</strong> {{ Spot }} / {{ Max_Spot }} points</li>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">😊</span> <strong>Emotion Recognition:</strong> {{ Emotion }} / {{ Max_Emotion }} points</li>
+        </ul>
+    </div>
+
+    <!-- Bonus Summary -->
+    <div class="section-box box-warn">
+        <div class="section-header">
+            <div class="icon">💰</div>
+            <h3>Your Bonus Earnings</h3>
+        </div>
+        <p>
+            Based on your performance, you have earned a total bonus of <strong>{{ Bonus_1 }} EUR</strong>.
+        </p>
+        <ul>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🧮</span> <strong>MathMemory:</strong> {{ MathBonus }} EUR</li>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🧩</span> <strong>Quiz:</strong> {{ QuizBonus }} EUR</li>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">🔍</span> <strong>Spot the Difference:</strong> {{ SpotBonus }} EUR</li>
+            <li><span class="icon" style="font-size: 1.2rem; margin-right: 10px;">😊</span> <strong>Emotion Recognition:</strong> {{ EmotionBonus }} EUR</li>
+        </ul>
+    </div>
+
+
+
+    <!-- Next Steps -->
+    <div class="section-box box-calm">
+        <div class="section-header">
+            <div class="icon">👉</div>
+            <h3>Next Steps</h3>
+        </div>
+        <p>
+            You have completed the learning stage. Next, you will move on to the main stage where you will choose from different Task combinations.
+        </p>
+        <p>
+            Click the "Continue" button below to proceed.
+        </p>
+    </div>
+
+
+
+
+
+
+    <div class="buttons-container" style="text-align: center; margin-top: 30px;">
+        <button id="NextButton" class="btn btn-primary">Continue</button>
+    </div>
+</div>
+{{ endblock }}

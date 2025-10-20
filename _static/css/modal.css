@@ -1,0 +1,86 @@
+/* === Modal Base === */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* === Modal Content === */
+.modal-content {
+  background-color: var(--neutral);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 30px;
+  width: 80%;
+  max-width: 800px;
+  margin: 100px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  color: var(--text-dark);
+}
+
+/* === Wide Modal Content === */
+.modal-content-wide {
+  background-color: var(--neutral);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 30px;
+  width: 95%;              /* wider than the 80% default */
+  max-width: 1000px;       /* allow more space on large screens */
+  margin: 100px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: inherit;
+  color: var(--text-dark);
+}
+
+
+/* === Modal Header === */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 15px;
+}
+
+/* .modal-header-wide {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 2px solid #bbb;
+  margin-bottom: 15px;
+  font-size: 1.6rem;
+} */
+
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* === Modal Body === */
+.modal-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* === Close Button === */
+.modal-header .close {
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 10px;
+  color: #555;
+}
+
+.modal-header .close:hover {
+  color: black;
+}

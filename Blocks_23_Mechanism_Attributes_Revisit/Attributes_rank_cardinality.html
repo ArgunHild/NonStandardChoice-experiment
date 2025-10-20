@@ -1,0 +1,87 @@
+{{ block title }}
+{{ endblock }}
+
+{{ block content }}
+<link rel="stylesheet" href="{{static 'css/css.css'}}">
+<link rel="stylesheet" href="{{static 'css/modal.css'}}">
+<link rel="stylesheet" href="{{static 'css/cardinality_page.css'}}">
+
+<script type="text/javascript" src="{{ static 'js/Script_modal.js' }}"></script>
+<script type="text/javascript" src="{{ static 'js/Script_cardinality.js' }}"></script>
+
+<div class="section-box box-neutral">
+    <h3 class="section-title" style="font-size: 1.6em; text-align: center;">Assign Importance Scores  <span style= "font-size: 0.5em; text-align: right; margin: 0;">(Page 10/11)</span></h3></h3>
+    <div class="section-divider"></div>
+
+    <p>
+        On the previous page, you ranked the four attributes in order of importance to you when comparing Tasks or bundles.
+    </p>
+
+    <p>
+        Now, we’d like you to assign each attribute a <strong>importance score from 1 to 10</strong>, based on how important it feels to you — not just relative to each other, but in absolute terms.
+    </p>
+
+    <p>
+        To ensure consistency with your previous ranking, some scores may be capped — this prevents contradictions where, for example, a less important attribute is scored higher than one ranked above it.
+    </p>
+
+    <p>
+        Please review the list of attributes below (ordered by your ranking), and <strong>assign an importance score</strong> to each one. Remember that 1 means "not important at all" and 10 means "extremely important."
+    </p>
+
+    <div class="section-box box-info" style="margin-top: 15px;">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Importance Score (1–10)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ranked_items %}
+                <tr>
+                    <td>{{ item }}</td>
+                    <td>
+                        <select class="likert-scale" name="cardinality_Dimension_{{ forloop.counter }}" required>
+                            <option value="">Select</option>
+                            {% for i in range(1, 11) %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+    <br><br>
+
+    <div class="buttons-container">
+            <a id="myBtn" onclick="open_modal(1)" class="btn btn-info">Open Instructions (Attributes)</a>
+            <button id="submit-btn" class="otree-btn-next btn btn-primary" disabled>Submit</button>
+    </div>
+    
+    
+
+
+ <div id="myModal1" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h2><span class="icon">📘</span>Instructions</h2>
+              <span class="close" onclick="span_click(1)">&times;</span>
+            </div>
+          <p style="padding: 0px">
+         {{include C.Instructions_attributes_path}}
+          </p>
+        </div>
+    </div>
+    
+{{ endblock }}
+
+
